@@ -1,0 +1,48 @@
+---
+import type { Lang } from '@/i18n/locales';
+import { t } from '@/i18n/t';
+import { PHASE_IDS, type PhaseId, type Prescription } from '@/content/schemas';
+import { formatPrescription } from '@/lib/program';
+
+interface Props {
+  lang: Lang;
+  prescriptions: Record<PhaseId, Prescription>;
+}
+const { lang, prescriptions } = Astro.props;
+---
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th scope="col">{t(lang, 'day.phase')}</th>
+        <th scope="col">Объём</th>
+        <th scope="col">Ступень и нагрузка</th>
+      </tr>
+    </thead>
+    <tbody>
+      {PHASE_IDS.map((phase) => {
+        const p = prescriptions[phase];
+        return (
+          <tr data-phase={phase}>
+            <th scope="row">{t(lang, `phase.${phase}`)}</th>
+            <td class="num">{formatPrescription(p, lang)}</td>
+            <td>
+              {t(lang, `exercise.step.${p.step}`)}
+              {p.load && <span class="load">, {p.load}</span>}
+              {p.note && <span class="note-inline">. {p.note}</span>}
+            </td>
+          </tr>
+        );
+      })}
+    </tbody>
+  </table>
+</div>
+
+<style>
+  .num {
+    font-variant-numeric: tabular-nums;
+    white-space: nowrap;
+    font-weight: 700;
+  }
+</style>
