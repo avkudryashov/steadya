@@ -29,6 +29,7 @@ const days = program.data.days.map((d) => ({
   title: d.title,
   durationMin: d.durationMin,
   kind: d.kind,
+  hasBlocks: d.blocks.length > 0,
 }));
 ---
 

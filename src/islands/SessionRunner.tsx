@@ -2,6 +2,7 @@ import { useEffect, useState } from 'preact/hooks';
 import type { PhaseId, Prescription, Weekday } from '@/content/schemas';
 import { todayIso } from '@/lib/date';
 import { resolvePhase, type ProgramMeta } from '@/lib/phase';
+import { formatPrescription } from '@/lib/program';
 import { plannedTopReps, shouldProgress } from '@/lib/progression';
 import { getSettings } from '@/lib/storage/settings';
 import {
@@ -16,16 +17,20 @@ import RestTimer from '@/islands/RestTimer';
 import { t } from '@/i18n/t';
 import type { Lang } from '@/i18n/locales';
 
-export interface SessionStep {
-  exerciseId: string;
-  title: string;
-  imageSrc: string;
-  imageAlt: string;
-  cue: string;
-  technique: string[];
-  stopSigns: string[];
-  prescriptions: Record<PhaseId, Prescription>;
-}
+export type SessionStep =
+  | {
+      kind: 'exercise';
+      exerciseId: string;
+      title: string;
+      imageSrc: string;
+      imageAlt: string;
+      cue: string;
+      technique: string[];
+      stopSigns: string[];
+      prescriptions: Record<PhaseId, Prescription>;
+    }
+  | { kind: 'routine'; title: string; items: Array<{ text: string; minutes?: number }> }
+  | { kind: 'text'; title: string; text: string; byPhase?: Partial<Record<PhaseId, string>> };
 
 interface Props {
   lang: Lang;
@@ -36,11 +41,22 @@ interface Props {
   now?: Date;
 }
 
+/** On a deload week every exercise plans one set fewer, never below one. */
+function plannedSets(prescription: Prescription, deload: boolean): number {
+  return deload ? Math.max(1, prescription.sets - 1) : prescription.sets;
+}
+
+/** Same composition as the day sheet's prescription table: step, load, note. */
+function prescriptionDetails(lang: Lang, p: Prescription): string {
+  return [t(lang, `exercise.step.${p.step}`), p.load, p.note].filter(Boolean).join(', ');
+}
+
 export default function SessionRunner({ lang, weekday, program, steps, dayLink, now }: Props) {
   const dateIso = todayIso(now ?? new Date());
   const id = sessionId(dateIso, weekday);
   const [session, setSession] = useState<Session | null>(null);
   const [phaseId, setPhaseId] = useState<PhaseId | null>(null);
+  const [deload, setDeload] = useState(false);
   const [index, setIndex] = useState(0);
   const [resting, setResting] = useState(false);
   const [sound, setSound] = useState(true);
@@ -53,30 +69,38 @@ export default function SessionRunner({ lang, weekday, program, steps, dayLink, 
     let alive = true;
     void (async () => {
       const settings = await getSettings().catch(() => null);
-      const phase = settings
+      const resolved = settings
         ? resolvePhase(program, {
             startDate: settings.startDate,
             phaseOverride: settings.phaseOverride,
             dateIso,
-          }).phase
-        : program.phases[0]!.id;
+          })
+        : null;
+      const phase = resolved ? resolved.phase : program.phases[0]!.id;
+      const isDeload = resolved ? resolved.deload : false;
       if (!alive) return;
       if (settings) setSound(settings.sound);
+      const exerciseSteps = steps.filter((s) => s.kind === 'exercise');
       try {
         const created = await getOrCreateSession({
           dateIso,
           weekday,
           programId: program.id,
           phaseId: phase,
-          plan: steps.map((s) => ({ exerciseId: s.exerciseId, sets: s.prescriptions[phase].sets })),
+          plan: exerciseSteps.map((s) => ({
+            exerciseId: s.exerciseId,
+            sets: plannedSets(s.prescriptions[phase], isDeload),
+          })),
         });
         if (!alive) return;
         // Set together so the step and its session-derived state render in one pass.
         setPhaseId(phase);
+        setDeload(isDeload);
         setSession(created);
       } catch (err) {
         if (!alive) return;
         setPhaseId(phase);
+        setDeload(isDeload);
         if (err instanceof StorageUnavailableError) setStorageUnavailable(true);
       }
     })();
@@ -107,13 +131,20 @@ export default function SessionRunner({ lang, weekday, program, steps, dayLink, 
     setLoad('');
   }, [index]);
 
-  const step = steps[index];
-  const prescription = step && phaseId ? step.prescriptions[phaseId] : undefined;
-  const item = session?.items.find((i) => i.exerciseId === step?.exerciseId);
+  const step = steps[index] as SessionStep | undefined;
+  const prescription =
+    step && step.kind === 'exercise' && phaseId ? step.prescriptions[phaseId] : undefined;
+  const item =
+    step && step.kind === 'exercise'
+      ? session?.items.find((i) => i.exerciseId === step.exerciseId)
+      : undefined;
   const nextSetIndex = item?.sets.findIndex((s) => !s.done) ?? -1;
 
   useEffect(() => {
-    if (!step || !prescription) return;
+    if (!step || step.kind !== 'exercise' || !prescription) {
+      setHint(false);
+      return;
+    }
     let alive = true;
     void topSetsFor(step.exerciseId, 2)
       .then((last) => {
@@ -125,10 +156,14 @@ export default function SessionRunner({ lang, weekday, program, steps, dayLink, 
     };
   }, [index, session?.id, phaseId]);
 
-  if (!step || !prescription) return null;
+  if (!step) return null;
+  // Exercise steps need phaseId (and, alongside it, the session) to render a
+  // consistent prescription/set count in one pass; routine and text steps do
+  // not depend on either and can show immediately.
+  if (step.kind === 'exercise' && !phaseId) return null;
 
   async function doSet() {
-    if (!session || nextSetIndex < 0 || !prescription) return;
+    if (!step || step.kind !== 'exercise' || !session || nextSetIndex < 0 || !prescription) return;
     const patch: { done: true; reps?: number; load?: string } = { done: true };
     const parsed = Number(reps);
     if (reps.trim() !== '' && Number.isFinite(parsed)) patch.reps = parsed;
@@ -146,47 +181,71 @@ export default function SessionRunner({ lang, weekday, program, steps, dayLink, 
     setSession({ ...done });
   }
 
-  const volume =
-    prescription.seconds !== undefined
-      ? t(lang, 'exercise.sets_seconds', { sets: prescription.sets, seconds: prescription.seconds })
-      : t(lang, 'exercise.sets_reps', { sets: prescription.sets, reps: prescription.reps ?? '' });
-
   return (
     <div class="runner">
       <p class="runner-progress">
         {t(lang, 'session.step', { index: index + 1, total: steps.length })}
       </p>
       <h1>{step.title}</h1>
-      <img src={step.imageSrc} alt={step.imageAlt} width="640" height="640" />
-      <p class="runner-cue">{step.cue}</p>
-      <p class="runner-prescription">
-        {volume}
-        {prescription.load ? `, ${prescription.load}` : ''}
-        {prescription.note ? `, ${prescription.note}` : ''}
-      </p>
 
-      <div class="runner-technique">
-        <h2>{t(lang, 'exercise.technique')}</h2>
-        <ol>
-          {step.technique.map((line) => (
-            <li key={line}>{line}</li>
+      {step.kind === 'exercise' && (
+        <>
+          <img src={step.imageSrc} alt={step.imageAlt} width="640" height="640" />
+          <p class="runner-cue">{step.cue}</p>
+          {prescription && (
+            <>
+              <p class="runner-prescription">{formatPrescription(prescription, lang)}</p>
+              {prescriptionDetails(lang, prescription) && (
+                <p class="runner-details">{prescriptionDetails(lang, prescription)}</p>
+              )}
+            </>
+          )}
+
+          <div class="runner-technique">
+            <h2>{t(lang, 'exercise.technique')}</h2>
+            <ol>
+              {step.technique.map((line) => (
+                <li key={line}>{line}</li>
+              ))}
+            </ol>
+          </div>
+
+          {!session?.finishedAt && nextSetIndex >= 0 && prescription && (
+            <p class="runner-set">
+              {t(lang, 'session.set_of', { index: nextSetIndex + 1, total: prescription.sets })}
+            </p>
+          )}
+        </>
+      )}
+
+      {step.kind === 'routine' && (
+        <ol class="runner-routine">
+          {step.items.map((line) => (
+            <li key={line.text}>
+              {line.text}
+              {line.minutes ? ` · ${t(lang, 'day.duration', { min: line.minutes })}` : ''}
+            </li>
           ))}
         </ol>
-      </div>
+      )}
 
-      {!session?.finishedAt && nextSetIndex >= 0 && (
-        <p class="runner-set">
-          {t(lang, 'session.set_of', { index: nextSetIndex + 1, total: prescription.sets })}
-        </p>
+      {step.kind === 'text' && (
+        <>
+          <p class="runner-text">{step.text}</p>
+          {phaseId && step.byPhase?.[phaseId] && <p class="note">{step.byPhase[phaseId]}</p>}
+        </>
       )}
 
       <div role="status">
-        {hint && <p class="note warn">{t(lang, 'session.progress_hint')}</p>}
+        {deload && <p class="note">{t(lang, 'today.deload')}</p>}
+        {step.kind === 'exercise' && hint && (
+          <p class="note warn">{t(lang, 'session.progress_hint')}</p>
+        )}
         {session?.finishedAt && <p class="note">{t(lang, 'session.finished')}</p>}
         {storageUnavailable && <p class="note warn">{t(lang, 'storage.unavailable')}</p>}
       </div>
 
-      {resting ? (
+      {step.kind === 'exercise' && resting && prescription ? (
         <RestTimer
           key={`${step.exerciseId}-${nextSetIndex}`}
           lang={lang}
@@ -195,6 +254,7 @@ export default function SessionRunner({ lang, weekday, program, steps, dayLink, 
           onDone={() => setResting(false)}
         />
       ) : (
+        step.kind === 'exercise' &&
         !storageUnavailable && (
           <div class="runner-inputs">
             <label>
@@ -220,7 +280,7 @@ export default function SessionRunner({ lang, weekday, program, steps, dayLink, 
       )}
 
       <div class="runner-actions">
-        {nextSetIndex >= 0 && !resting && !session?.finishedAt && (
+        {step.kind === 'exercise' && nextSetIndex >= 0 && !resting && !session?.finishedAt && (
           <button type="button" class="btn" onClick={() => void doSet()}>
             {t(lang, 'session.set_done')}
           </button>
@@ -247,14 +307,16 @@ export default function SessionRunner({ lang, weekday, program, steps, dayLink, 
         </a>
       </div>
 
-      <details class="runner-stop">
-        <summary>{t(lang, 'session.stop_signs')}</summary>
-        <ul>
-          {step.stopSigns.map((s) => (
-            <li key={s}>{s}</li>
-          ))}
-        </ul>
-      </details>
+      {step.kind === 'exercise' && (
+        <details class="runner-stop">
+          <summary>{t(lang, 'session.stop_signs')}</summary>
+          <ul>
+            {step.stopSigns.map((s) => (
+              <li key={s}>{s}</li>
+            ))}
+          </ul>
+        </details>
+      )}
     </div>
   );
 }
