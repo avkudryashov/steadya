@@ -90,12 +90,18 @@ const textItemSchema = z.object({
   minutes: z.number().min(0).optional(),
   byPhase: z.partialRecord(z.enum(PHASE_IDS), z.string()).optional(),
 });
-export const programItemSchema = z.union([exerciseItemSchema, textItemSchema]);
+const refItemSchema = z.object({ ref: z.enum(['warmup', 'cooldown']) });
+export const programItemSchema = z.union([exerciseItemSchema, textItemSchema, refItemSchema]);
 export type ProgramItem = z.infer<typeof programItemSchema>;
 export type ExerciseItem = z.infer<typeof exerciseItemSchema>;
+export type RefItem = z.infer<typeof refItemSchema>;
 
 export function isExerciseItem(item: ProgramItem): item is ExerciseItem {
   return 'exercise' in item;
+}
+
+export function isRefItem(item: ProgramItem): item is RefItem {
+  return 'ref' in item;
 }
 
 export const programBlockSchema = z.object({

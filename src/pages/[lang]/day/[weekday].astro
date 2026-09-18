@@ -23,6 +23,7 @@ const exercises = new Map(all.map((e) => [e.data.slug, e]));
 for (const slug of exerciseSlugsOfDay(day))
   if (!exercises.has(slug)) throw new Error(`no exercise ${slug} for ${lang}`);
 const daily = program.data.daily.filter((d) => !d.exceptWeekdays.includes(weekday));
+const routines = { warmup: program.data.warmup, cooldown: program.data.cooldown };
 let eagerBlock = -1;
 let eagerItem = -1;
 for (const [bi, block] of day.blocks.entries()) {
@@ -61,6 +62,7 @@ const title = `${t(lang, `weekday.${weekday}`)}: ${day.title}`;
       lang={lang}
       block={block}
       exercises={exercises}
+      routines={routines}
       eagerItemIndex={index === eagerBlock ? eagerItem : undefined}
     />
   ))}

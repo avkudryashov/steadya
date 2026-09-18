@@ -36,6 +36,7 @@ const program: Program = {
           minutesFrom: 0,
           minutesTo: 10,
           items: [
+            { ref: 'warmup' },
             { exercise: 'x', prescriptions: presc() },
             { text: 'walk', minutes: 2 },
             { exercise: 'y', prescriptions: presc() },
@@ -68,7 +69,7 @@ describe('program helpers', () => {
     expect(sixDays.days).toHaveLength(6);
     expect(() => findDay(sixDays, 'friday')).toThrow(/has no day friday/);
   });
-  it('exerciseSlugsOfDay keeps order and dedupes', () => {
+  it('exerciseSlugsOfDay keeps order, dedupes and ignores text and ref items', () => {
     expect(exerciseSlugsOfDay(findDay(program, 'monday'))).toEqual(['x', 'y']);
   });
   it('exerciseSlugsOfProgram and daysUsingExercise', () => {

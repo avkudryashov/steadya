@@ -139,4 +139,9 @@ describe('programItemSchema', () => {
   it('rejects a byPhase key that is not a valid phase', () => {
     expect(() => programItemSchema.parse({ text: 'x'.repeat(5), byPhase: { p9: 'no' } })).toThrow();
   });
+  it('accepts a ref item and rejects an unknown ref', () => {
+    expect(programItemSchema.parse({ ref: 'warmup' })).toEqual({ ref: 'warmup' });
+    expect(programItemSchema.parse({ ref: 'cooldown' })).toEqual({ ref: 'cooldown' });
+    expect(() => programItemSchema.parse({ ref: 'stretch' })).toThrow();
+  });
 });
