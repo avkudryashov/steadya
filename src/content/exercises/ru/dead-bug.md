@@ -5,7 +5,7 @@ shortCue: Поясница прижата к полу, руки и ноги дв
 image: ../../../assets/exercises/e2-dead-bug.png
 imageAlt: Женщина лежит на спине на коврике, одна рука и противоположная нога вытянуты, поясница прижата к полу
 category: core
-muscles: [глубокие мышцы живота, поясница]
+muscles: [глубокие мышцы живота]
 equipment: [mat]
 steps:
   base:

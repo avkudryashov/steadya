@@ -3,7 +3,7 @@ slug: step-up
 title: Шаг на платформу
 shortCue: Взойти всей стопой, спускаться медленно
 image: ../../../assets/exercises/b1-step-up.png
-imageAlt: Женщина ставит стопу на низкую платформу, рука лёгко касается спинки стула для опоры
+imageAlt: Женщина ставит стопу на низкую платформу, рука легко касается спинки стула для опоры
 category: strength
 muscles: [квадрицепс, ягодицы]
 equipment: [step, chair, dumbbells]
