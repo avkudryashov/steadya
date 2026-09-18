@@ -1,0 +1,82 @@
+import { readFileSync, readdirSync } from 'node:fs';
+import { basename, join, resolve } from 'node:path';
+import { fileURLToPath } from 'node:url';
+import { parse } from 'yaml';
+import { z } from 'astro/zod';
+import { exerciseBaseSchema, programSchema, type Program } from '../src/content/schemas.ts';
+import { blockMinutesTotal, exerciseSlugsOfProgram } from '../src/lib/program.ts';
+import { parseFrontmatter } from '../src/lib/frontmatter.ts';
+
+export interface ValidateInput {
+  program: Program;
+  exerciseSlugs: Set<string>;
+  imageFiles: Set<string>;
+  exerciseImages: Map<string, string>;
+}
+
+export function validateContent(input: ValidateInput): string[] {
+  const errors: string[] = [];
+  const used = new Set(exerciseSlugsOfProgram(input.program));
+
+  for (const slug of used) {
+    if (!input.exerciseSlugs.has(slug))
+      errors.push(`program references unknown exercise "${slug}"`);
+  }
+  for (const slug of input.exerciseSlugs) {
+    if (!used.has(slug)) errors.push(`unused exercise "${slug}" (not referenced by any day)`);
+  }
+  for (const [slug, image] of input.exerciseImages) {
+    if (!input.imageFiles.has(image))
+      errors.push(`exercise "${slug}" points to missing image "${image}"`);
+  }
+  for (const day of input.program.days) {
+    if (day.blocks.length === 0) continue;
+    const total = blockMinutesTotal(day);
+    if (Math.abs(total - day.durationMin) > 5) {
+      errors.push(
+        `${day.weekday}: blocks total ${total} min but durationMin is ${day.durationMin} (duration mismatch)`,
+      );
+    }
+    for (const block of day.blocks) {
+      if (block.minutesTo <= block.minutesFrom)
+        errors.push(`${day.weekday}: block "${block.title}" has non-positive length`);
+    }
+  }
+  return errors;
+}
+
+function loadFromDisk(root: string): ValidateInput {
+  const programText = readFileSync(join(root, 'src/content/programs/women-70-plus.yaml'), 'utf8');
+  const program = programSchema.parse(parse(programText));
+
+  const exDir = join(root, 'src/content/exercises/ru');
+  const exerciseSlugs = new Set<string>();
+  const exerciseImages = new Map<string, string>();
+  for (const file of readdirSync(exDir).filter((f) => f.endsWith('.md'))) {
+    const { data } = parseFrontmatter(readFileSync(join(exDir, file), 'utf8'));
+    const parsed = exerciseBaseSchema.extend({ image: z.string().min(1) }).parse(data);
+    exerciseSlugs.add(parsed.slug);
+    exerciseImages.set(parsed.slug, basename(parsed.image));
+    if (parsed.slug !== file.replace(/\.md$/, '')) {
+      throw new Error(`exercise file ${file} has slug "${parsed.slug}" that differs from filename`);
+    }
+  }
+  const imageFiles = new Set(readdirSync(join(root, 'src/assets/exercises')));
+  return { program, exerciseSlugs, imageFiles, exerciseImages };
+}
+
+export function main(): number {
+  const root = resolve(fileURLToPath(new URL('..', import.meta.url)));
+  const errors = validateContent(loadFromDisk(root));
+  if (errors.length) {
+    console.error(`Content validation failed with ${errors.length} error(s):`);
+    for (const e of errors) console.error(` - ${e}`);
+    return 1;
+  }
+  console.log('Content OK');
+  return 0;
+}
+
+if (process.argv[1] && resolve(process.argv[1]) === fileURLToPath(import.meta.url)) {
+  process.exitCode = main();
+}
