@@ -1,5 +1,11 @@
-import { beforeEach, describe, expect, it } from 'vitest';
-import { clearAll, DB_VERSION, openDb } from '@/lib/storage/db';
+import { afterEach, beforeEach, describe, expect, it } from 'vitest';
+import {
+  clearAll,
+  DB_VERSION,
+  isStorageAvailable,
+  openDb,
+  StorageUnavailableError,
+} from '@/lib/storage/db';
 import { DEFAULT_SETTINGS, getSettings, saveSettings } from '@/lib/storage/settings';
 
 beforeEach(async () => {
@@ -33,5 +39,21 @@ describe('settings', () => {
   });
   it('rejects an unknown phase override', async () => {
     await expect(saveSettings({ phaseOverride: 'p9' as never })).rejects.toThrow(/phaseOverride/);
+  });
+});
+
+describe('storage unavailable', () => {
+  const realIndexedDB = globalThis.indexedDB;
+  afterEach(() => {
+    Object.defineProperty(globalThis, 'indexedDB', { value: realIndexedDB, configurable: true });
+  });
+  it('reports missing storage', () => {
+    Object.defineProperty(globalThis, 'indexedDB', { value: undefined, configurable: true });
+    expect(isStorageAvailable()).toBe(false);
+  });
+  it('rejects reads and writes with StorageUnavailableError', async () => {
+    Object.defineProperty(globalThis, 'indexedDB', { value: undefined, configurable: true });
+    await expect(getSettings()).rejects.toBeInstanceOf(StorageUnavailableError);
+    await expect(saveSettings({ sound: false })).rejects.toBeInstanceOf(StorageUnavailableError);
   });
 });
