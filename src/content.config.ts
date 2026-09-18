@@ -3,7 +3,11 @@ import { file, glob } from 'astro/loaders';
 import { exerciseBaseSchema, pageSchema, programSchema, testSchema } from './content/schemas';
 
 const exercises = defineCollection({
-  loader: glob({ pattern: '**/*.md', base: './src/content/exercises' }),
+  loader: glob({
+    pattern: '**/*.md',
+    base: './src/content/exercises',
+    generateId: ({ entry }) => entry.replace(/\.(md|mdx)$/, ''),
+  }),
   schema: ({ image }) => exerciseBaseSchema.extend({ image: image() }),
 });
 
