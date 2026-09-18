@@ -1,0 +1,53 @@
+---
+import { render } from 'astro:content';
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import ExerciseCard from '@/components/ExerciseCard.astro';
+import { BUILT_LOCALES, type Lang } from '@/i18n/locales';
+import { t } from '@/i18n/t';
+import { getExercisesByLang, getProgram } from '@/lib/content';
+import { daysUsingExercise } from '@/lib/program';
+import { localeUrl } from '@/lib/urls';
+
+export async function getStaticPaths() {
+  const paths = [];
+  for (const lang of BUILT_LOCALES) {
+    for (const exercise of await getExercisesByLang(lang)) {
+      paths.push({ params: { lang, slug: exercise.data.slug }, props: { exercise } });
+    }
+  }
+  return paths;
+}
+
+const lang = Astro.params.lang as Lang;
+const { exercise } = Astro.props;
+const program = await getProgram(lang);
+const days = daysUsingExercise(program.data, exercise.data.slug);
+const { Content } = await render(exercise);
+---
+
+<BaseLayout
+  lang={lang}
+  title={exercise.data.title}
+  description={exercise.data.shortCue}
+  current="exercises"
+>
+  <h1>{exercise.data.title}</h1>
+  <ExerciseCard lang={lang} exercise={exercise} variant="full" headingLevel={2} loading="eager" />
+  <div class="prose">
+    <Content />
+  </div>
+  {days.length > 0 && (
+    <section>
+      <h2>{t(lang, 'exercise.used_in')}</h2>
+      <ul>
+        {days.map((w) => (
+          <li>
+            <a href={`${localeUrl(lang, `day/${w}`)}#ex-${exercise.data.slug}`}>
+              {t(lang, `weekday.${w}`)}
+            </a>
+          </li>
+        ))}
+      </ul>
+    </section>
+  )}
+</BaseLayout>

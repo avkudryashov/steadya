@@ -1,0 +1,24 @@
+---
+import type { Lang } from '@/i18n/locales';
+import { t } from '@/i18n/t';
+import { localeUrl } from '@/lib/urls';
+interface Props {
+  lang: Lang;
+}
+const { lang } = Astro.props;
+---
+
+<footer class="container">
+  <p class="disclaimer">{t(lang, 'site.disclaimer')}</p>
+  <p>
+    <a href={localeUrl(lang, 'about')}>{t(lang, 'footer.sources')}</a>
+  </p>
+</footer>
+
+<style>
+  footer {
+    padding-block: var(--space-8);
+    color: var(--muted);
+    font-size: var(--fs-small);
+  }
+</style>

@@ -1,0 +1,86 @@
+---
+import type { Lang } from '@/i18n/locales';
+import { t } from '@/i18n/t';
+import { PHASE_IDS, type PhaseId, type Prescription } from '@/content/schemas';
+import { formatPrescription } from '@/lib/program';
+
+interface Props {
+  lang: Lang;
+  prescriptions: Record<PhaseId, Prescription>;
+}
+const { lang, prescriptions } = Astro.props;
+
+function details(p: Prescription, lang: Lang): string {
+  return [t(lang, `exercise.step.${p.step}`), p.load, p.note].filter(Boolean).join(', ');
+}
+---
+
+<ul class="phases">
+  {PHASE_IDS.map((phase) => (
+    <li class="phase" data-phase={phase}>
+      <span class="ph-label">{t(lang, `phase.${phase}`)}</span>
+      <span class="ph-volume">{formatPrescription(prescriptions[phase], lang)}</span>
+      <span class="ph-details">{details(prescriptions[phase], lang)}</span>
+    </li>
+  ))}
+</ul>
+
+<style>
+  .phases {
+    list-style: none;
+    margin: 0 0 var(--space-4);
+    padding: 0;
+    max-width: none;
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    overflow: hidden;
+  }
+  .phase {
+    max-width: none;
+    margin: 0;
+    display: grid;
+    grid-template-columns: minmax(6.5rem, max-content) minmax(0, 1fr);
+    align-items: baseline;
+    column-gap: var(--space-3);
+    row-gap: 2px;
+    padding: var(--space-2) var(--space-3);
+    border-top: 1px solid var(--line);
+  }
+  .phase:first-child {
+    border-top: 0;
+  }
+  .ph-label {
+    grid-column: 1;
+    grid-row: 1 / span 2;
+    align-self: center;
+    font-size: var(--fs-small);
+    font-weight: 700;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+  }
+  .ph-volume {
+    grid-column: 2;
+    font-weight: 700;
+    font-variant-numeric: tabular-nums;
+    overflow-wrap: anywhere;
+  }
+  .ph-details {
+    grid-column: 2;
+    color: var(--muted);
+    font-size: var(--fs-small);
+    overflow-wrap: anywhere;
+  }
+  @media (max-width: 26rem) {
+    .phase {
+      grid-template-columns: minmax(0, 1fr);
+    }
+    .ph-label,
+    .ph-volume,
+    .ph-details {
+      grid-column: 1;
+      grid-row: auto;
+    }
+  }
+</style>

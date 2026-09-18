@@ -1,0 +1,276 @@
+---
+import { Picture } from 'astro:assets';
+import type { CollectionEntry } from 'astro:content';
+import type { Lang } from '@/i18n/locales';
+import { t } from '@/i18n/t';
+import { localeUrl } from '@/lib/urls';
+import { STEP_IDS, type PhaseId, type Prescription } from '@/content/schemas';
+import PrescriptionTable from './PrescriptionTable.astro';
+
+interface Props {
+  lang: Lang;
+  exercise: CollectionEntry<'exercises'>;
+  prescriptions?: Record<PhaseId, Prescription>;
+  variant: 'compact' | 'inline' | 'full';
+  headingLevel?: 2 | 3;
+  loading?: 'lazy' | 'eager';
+}
+const { lang, exercise, prescriptions, variant, headingLevel = 3, loading = 'lazy' } = Astro.props;
+const d = exercise.data;
+const href = localeUrl(lang, `exercise/${d.slug}`);
+const Heading = headingLevel === 2 ? 'h2' : 'h3';
+const Section = headingLevel === 2 ? 'h2' : 'h4';
+const widths = variant === 'compact' ? [320, 640] : [320, 640, 960];
+const sizes =
+  variant === 'compact' ? '(max-width: 600px) 45vw, 240px' : '(max-width: 900px) 100vw, 400px';
+---
+
+<article
+  class={`card exercise exercise--${variant}`}
+  id={variant === 'inline' ? `ex-${d.slug}` : undefined}
+>
+  <div class="media">
+    <Picture
+      src={d.image}
+      alt={d.imageAlt}
+      widths={widths}
+      sizes={sizes}
+      formats={['avif', 'webp']}
+      fallbackFormat="webp"
+      loading={loading}
+      fetchpriority={loading === 'eager' ? 'high' : undefined}
+      decoding="async"
+    />
+  </div>
+  <div class="body">
+    {variant !== 'full' && (
+      <Heading class="title">
+        {variant === 'compact' ? <a href={href}>{d.title}</a> : d.title}
+      </Heading>
+    )}
+    <p class="cue">{d.shortCue}</p>
+
+    {variant !== 'compact' && prescriptions && (
+      <PrescriptionTable lang={lang} prescriptions={prescriptions} />
+    )}
+
+    {variant !== 'compact' && (
+      <div class="technique">
+        <Section>{t(lang, 'exercise.technique')}</Section>
+        <ol>
+          {d.technique.map((line) => (
+            <li>{line}</li>
+          ))}
+        </ol>
+      </div>
+    )}
+
+    {variant === 'full' && (
+      <>
+        <Section>{t(lang, 'exercise.steps')}</Section>
+        <dl class="steps-list">
+          {STEP_IDS.map((id) => (
+            <>
+              <dt>{t(lang, `exercise.step.${id}`)}</dt>
+              <dd>
+                {d.steps[id].description}
+                {d.steps[id].load && (
+                  <span class="load">
+                    <strong>{t(lang, 'exercise.load')}:</strong> {d.steps[id].load}
+                  </span>
+                )}
+              </dd>
+            </>
+          ))}
+        </dl>
+      </>
+    )}
+
+    {variant === 'inline' && (
+      <>
+        <div class="note warn">
+          <Section>{t(lang, 'exercise.stop')}</Section>
+          <ul>
+            {d.stopSigns.map((s) => (
+              <li>{s}</li>
+            ))}
+          </ul>
+          {d.osteoporosisNote && (
+            <p>
+              <strong>{t(lang, 'exercise.osteoporosis')}:</strong> {d.osteoporosisNote}
+            </p>
+          )}
+        </div>
+        <details>
+          <summary>{t(lang, 'exercise.mistakes')}</summary>
+          <ul>
+            {d.mistakes.map((m) => (
+              <li>{m}</li>
+            ))}
+          </ul>
+          <p>
+            <a href={href}>{t(lang, 'exercise.open')}</a>
+          </p>
+        </details>
+      </>
+    )}
+
+    {variant === 'full' && (
+      <>
+        <Section>{t(lang, 'exercise.mistakes')}</Section>
+        <ul>
+          {d.mistakes.map((m) => (
+            <li>{m}</li>
+          ))}
+        </ul>
+        <Section>{t(lang, 'exercise.stop')}</Section>
+        <ul>
+          {d.stopSigns.map((s) => (
+            <li>{s}</li>
+          ))}
+        </ul>
+        {d.osteoporosisNote && (
+          <p class="note warn">
+            <strong>{t(lang, 'exercise.osteoporosis')}:</strong> {d.osteoporosisNote}
+          </p>
+        )}
+        <p class="muscles">
+          <strong>{t(lang, 'exercise.muscles')}:</strong> {d.muscles.join(', ')}
+        </p>
+        <p class="equipment">
+          <strong>{t(lang, 'exercise.equipment')}:</strong>{' '}
+          {d.equipment.map((e) => t(lang, `equipment.${e}`)).join(', ')}
+        </p>
+      </>
+    )}
+  </div>
+</article>
+
+<style>
+  .exercise {
+    display: grid;
+    gap: var(--space-4);
+    max-width: none;
+  }
+  .exercise--compact {
+    position: relative;
+    padding: 0;
+    overflow: hidden;
+  }
+  .exercise--compact:focus-within {
+    outline: 3px solid var(--focus);
+    outline-offset: 2px;
+  }
+  .exercise--compact .body {
+    padding: var(--space-3) var(--space-4) var(--space-4);
+  }
+  .exercise--compact .title {
+    font-family: var(--font-body);
+    font-size: var(--fs-0);
+    margin: 0 0 var(--space-1);
+  }
+  .exercise--compact .title a {
+    text-decoration: none;
+    color: var(--ink);
+  }
+  .exercise--compact .title a::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+  }
+  .exercise--compact .cue {
+    color: var(--muted);
+    font-size: var(--fs-small);
+    margin: 0;
+  }
+  .media :global(img) {
+    width: 100%;
+    aspect-ratio: 1;
+    object-fit: cover;
+    background: var(--image-bg);
+    border-radius: var(--radius);
+  }
+  .body {
+    min-width: 0;
+  }
+  @media (min-width: 900px) {
+    .exercise--inline,
+    .exercise--full {
+      grid-template-columns: 280px minmax(0, 1fr);
+      align-items: start;
+    }
+    .exercise--inline .media,
+    .exercise--full .media {
+      position: sticky;
+      top: calc(var(--tap) + var(--space-4));
+    }
+  }
+  @media (min-width: 1100px) {
+    .exercise--inline,
+    .exercise--full {
+      grid-template-columns: 320px minmax(0, 1fr);
+    }
+  }
+  .cue {
+    font-family: var(--font-body);
+    font-size: var(--fs-0);
+    font-weight: 600;
+    color: var(--ink);
+  }
+  .exercise--compact .cue {
+    font-weight: 400;
+  }
+  .body :global(h2) {
+    margin-top: var(--space-6);
+  }
+  .body :global(h4) {
+    margin: var(--space-4) 0 var(--space-2);
+    font-size: var(--fs-0);
+  }
+  .note.warn :global(h2),
+  .note.warn :global(h4) {
+    margin-top: 0;
+  }
+  .note.warn ul,
+  .note.warn p:last-child {
+    margin-bottom: 0;
+  }
+  .load {
+    display: block;
+  }
+  .steps-list {
+    margin: 0 0 var(--space-4);
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    overflow: hidden;
+  }
+  .steps-list dt {
+    padding: var(--space-2) var(--space-3) 0;
+    font-weight: 700;
+    color: var(--muted);
+    font-size: var(--fs-small);
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    border-top: 1px solid var(--line);
+  }
+  .steps-list dt:first-child {
+    border-top: 0;
+  }
+  .steps-list dd {
+    margin: 0;
+    padding: 0 var(--space-3) var(--space-2);
+    overflow-wrap: anywhere;
+  }
+  details {
+    margin-top: var(--space-3);
+  }
+  summary {
+    min-height: var(--tap);
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    font-weight: 700;
+    color: var(--accent);
+  }
+</style>

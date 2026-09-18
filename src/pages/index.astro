@@ -1,0 +1,45 @@
+---
+import { parseBuiltLocales } from '@/i18n/locales';
+
+const base = import.meta.env.BASE_URL.endsWith('/')
+  ? import.meta.env.BASE_URL
+  : `${import.meta.env.BASE_URL}/`;
+const built = parseBuiltLocales(import.meta.env.PUBLIC_LOCALES);
+---
+
+<!doctype html>
+<html lang="ru">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="robots" content="noindex" />
+    <title>Steadya</title>
+    <script is:inline define:vars={{ base, built }}>
+      (function () {
+        let saved = null;
+        try {
+          saved = localStorage.getItem('steadya.lang');
+        } catch {
+          saved = null;
+        }
+        let pick = saved && built.indexOf(saved) >= 0 ? saved : null;
+        if (!pick) {
+          const langs = navigator.languages || [navigator.language || 'ru'];
+          for (let i = 0; i < langs.length && !pick; i++) {
+            const code = String(langs[i]).slice(0, 2).toLowerCase();
+            if (built.indexOf(code) >= 0) pick = code;
+          }
+        }
+        location.replace(base + (pick || 'ru') + '/');
+      })();
+    </script>
+    <noscript>
+      <meta http-equiv="refresh" content={`0; url=${base}ru/`} />
+    </noscript>
+  </head>
+  <body>
+    <p>
+      <a href={`${base}ru/`}>Русская версия</a>
+    </p>
+  </body>
+</html>
