@@ -59,7 +59,14 @@ function presc() {
 describe('program helpers', () => {
   it('findDay', () => {
     expect(findDay(program, 'monday').title).toBe('A');
-    expect(() => findDay(program, 'friday' as never)).not.toThrow();
+  });
+  it('findDay throws when the program has no such weekday', () => {
+    const sixDays = {
+      ...program,
+      days: program.days.filter((d) => d.weekday !== 'friday'),
+    } as Program;
+    expect(sixDays.days).toHaveLength(6);
+    expect(() => findDay(sixDays, 'friday')).toThrow(/has no day friday/);
   });
   it('exerciseSlugsOfDay keeps order and dedupes', () => {
     expect(exerciseSlugsOfDay(findDay(program, 'monday'))).toEqual(['x', 'y']);
