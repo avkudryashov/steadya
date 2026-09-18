@@ -1,0 +1,72 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import ExerciseCard from '@/components/ExerciseCard.astro';
+import { BUILT_LOCALES, type Lang } from '@/i18n/locales';
+import { t } from '@/i18n/t';
+import { CATEGORIES } from '@/content/schemas';
+import { getExercisesByLang } from '@/lib/content';
+
+export function getStaticPaths() {
+  return BUILT_LOCALES.map((lang) => ({ params: { lang } }));
+}
+const lang = Astro.params.lang as Lang;
+const exercises = await getExercisesByLang(lang);
+const groups = CATEGORIES.map((c) => ({
+  c,
+  items: exercises.filter((e) => e.data.category === c),
+})).filter((g) => g.items.length);
+---
+
+<BaseLayout
+  lang={lang}
+  title={t(lang, 'exercises.title')}
+  description={t(lang, 'exercises.lead')}
+  current="exercises"
+>
+  <h1>{t(lang, 'exercises.title')}</h1>
+  <p>{t(lang, 'exercises.lead')}</p>
+  <nav aria-label="Категории" class="chips">
+    {groups.map((g) => (
+      <a class="chip" href={`#cat-${g.c}`}>
+        {t(lang, `category.${g.c}`)} ({g.items.length})
+      </a>
+    ))}
+  </nav>
+  {groups.map((g) => (
+    <section aria-labelledby={`cat-${g.c}`}>
+      <h2 id={`cat-${g.c}`}>{t(lang, `category.${g.c}`)}</h2>
+      <div class="grid">
+        {g.items.map((e) => (
+          <ExerciseCard lang={lang} exercise={e} variant="compact" />
+        ))}
+      </div>
+    </section>
+  ))}
+</BaseLayout>
+
+<style>
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+    gap: var(--space-4);
+    margin-bottom: var(--space-8);
+  }
+  .chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2);
+    margin-bottom: var(--space-6);
+  }
+  .chip {
+    display: inline-flex;
+    align-items: center;
+    min-height: var(--tap);
+    padding: 0 var(--space-4);
+    border-radius: 999px;
+    background: var(--accent-soft);
+    color: var(--ink);
+    border: 2px solid var(--accent);
+    text-decoration: none;
+    font-weight: 600;
+  }
+</style>
