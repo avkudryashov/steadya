@@ -155,6 +155,7 @@ img {
 table {
   border-collapse: collapse;
   width: 100%;
+  table-layout: auto;
   font-size: var(--fs-small);
 }
 th,
@@ -163,6 +164,7 @@ td {
   vertical-align: top;
   padding: var(--space-2) var(--space-3);
   border-bottom: 1px solid var(--line);
+  overflow-wrap: anywhere;
 }
 th {
   color: var(--muted);
