@@ -2,11 +2,14 @@
 import BaseLayout from '@/layouts/BaseLayout.astro';
 import { BUILT_LOCALES, type Lang } from '@/i18n/locales';
 import { t } from '@/i18n/t';
+import { getProgram } from '@/lib/content';
+import { localeUrl } from '@/lib/urls';
 
 export function getStaticPaths() {
   return BUILT_LOCALES.map((lang) => ({ params: { lang } }));
 }
 const lang = Astro.params.lang as Lang;
+const program = await getProgram();
 ---
 
 <BaseLayout
@@ -17,4 +20,58 @@ const lang = Astro.params.lang as Lang;
 >
   <h1>{t(lang, 'home.title')}</h1>
   <p>{t(lang, 'home.lead')}</p>
+  <ol class="week">
+    {program.data.days.map((d) => (
+      <li class={`card day day--${d.kind}`}>
+        <p class="weekday">{t(lang, `weekday.${d.weekday}`)}</p>
+        <h2>{d.title}</h2>
+        {d.durationMin > 0 && <p class="dur">{t(lang, 'day.duration', { min: d.durationMin })}</p>}
+        <a class="btn" href={localeUrl(lang, `day/${d.weekday}`)}>
+          {t(lang, 'home.open_day')}
+        </a>
+      </li>
+    ))}
+  </ol>
+  <section class="card">
+    <h2>{t(lang, 'day.daily')}</h2>
+    <ul>
+      {program.data.daily.map((d) => (
+        <li>{d.text}</li>
+      ))}
+    </ul>
+  </section>
 </BaseLayout>
+
+<style>
+  .week {
+    list-style: none;
+    padding: 0;
+    display: grid;
+    gap: var(--space-4);
+    margin-bottom: var(--space-6);
+  }
+  @media (min-width: 700px) {
+    .week {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+  .day h2 {
+    font-size: var(--fs-1);
+  }
+  .weekday {
+    margin: 0;
+    color: var(--accent);
+    font-weight: 700;
+    text-transform: uppercase;
+    font-size: var(--fs-small);
+    letter-spacing: 0.04em;
+  }
+  .dur {
+    color: var(--muted);
+  }
+  .day--rest,
+  .day--walk,
+  .day--optional {
+    background: transparent;
+  }
+</style>
