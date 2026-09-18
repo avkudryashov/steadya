@@ -102,7 +102,7 @@ const { data: program } = await getProgram(lang);
 <style>
   .rules {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(17rem, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(min(17rem, 100%), 1fr));
     gap: var(--space-3);
     margin-block: var(--space-4);
   }
@@ -112,7 +112,7 @@ const { data: program } = await getProgram(lang);
   }
   .routines {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(20rem, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(min(20rem, 100%), 1fr));
     gap: var(--space-4) var(--space-8);
   }
   .routine h3 {
