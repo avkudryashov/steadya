@@ -87,4 +87,18 @@ describe('program helpers', () => {
       '2 × 30 с',
     );
   });
+  it('formatPrescription renders whole minutes as minutes', () => {
+    expect(formatPrescription({ sets: 1, seconds: 300, step: 'base', restSec: 0 }, 'ru')).toBe(
+      '1 × 5 мин',
+    );
+    expect(formatPrescription({ sets: 1, seconds: 60, step: 'base', restSec: 0 }, 'ru')).toBe(
+      '1 × 1 мин',
+    );
+    expect(formatPrescription({ sets: 1, seconds: 90, step: 'base', restSec: 0 }, 'ru')).toBe(
+      '1 × 90 с',
+    );
+    expect(formatPrescription({ sets: 2, seconds: 30, step: 'base', restSec: 0 }, 'ru')).toBe(
+      '2 × 30 с',
+    );
+  });
 });

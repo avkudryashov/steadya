@@ -39,7 +39,10 @@ export function blockMinutesTotal(day: ProgramDay): number {
 }
 
 export function formatPrescription(p: Prescription, lang: Lang): string {
-  if (p.seconds !== undefined)
+  if (p.seconds !== undefined) {
+    if (p.seconds >= 60 && p.seconds % 60 === 0)
+      return t(lang, 'exercise.sets_minutes', { sets: p.sets, min: p.seconds / 60 });
     return t(lang, 'exercise.sets_seconds', { sets: p.sets, seconds: p.seconds });
+  }
   return t(lang, 'exercise.sets_reps', { sets: p.sets, reps: p.reps ?? '' });
 }

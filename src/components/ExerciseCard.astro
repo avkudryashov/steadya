@@ -198,16 +198,30 @@ const sizes =
     background: var(--image-bg);
     border-radius: var(--radius);
   }
-  @media (min-width: 700px) {
+  .body {
+    min-width: 0;
+  }
+  @media (min-width: 900px) {
     .exercise--inline,
     .exercise--full {
-      grid-template-columns: minmax(200px, 320px) 1fr;
+      grid-template-columns: 280px minmax(0, 1fr);
       align-items: start;
     }
   }
+  @media (min-width: 1100px) {
+    .exercise--inline,
+    .exercise--full {
+      grid-template-columns: 320px minmax(0, 1fr);
+    }
+  }
   .cue {
-    font-size: var(--fs-1);
-    font-family: var(--font-display);
+    font-family: var(--font-body);
+    font-size: var(--fs-0);
+    font-weight: 600;
+    color: var(--ink);
+  }
+  .exercise--compact .cue {
+    font-weight: 400;
   }
   .body :global(h2) {
     margin-top: var(--space-6);
