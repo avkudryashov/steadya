@@ -54,13 +54,13 @@ afterEach(() => {
   cleanup();
 });
 
-function renderRunner() {
+function renderRunner(customSteps: SessionStep[] = steps) {
   return render(
     <SessionRunner
       lang="ru"
       weekday="monday"
       program={program}
-      steps={steps}
+      steps={customSteps}
       dayLink="/ru/day/monday/"
       now={new Date(2026, 8, 14)}
     />,
@@ -128,5 +128,56 @@ describe('SessionRunner', () => {
     } finally {
       globalThis.indexedDB = originalIndexedDB;
     }
+  });
+
+  // F1: a value typed for one exercise must not be recorded against the next one.
+  it('does not leak typed reps and load into the next exercise', async () => {
+    renderRunner();
+    await screen.findByRole('button', { name: 'Сделала подход' });
+    fireEvent.input(screen.getByLabelText('Сколько повторений получилось'), {
+      target: { value: '12' },
+    });
+    fireEvent.input(screen.getByLabelText('Вес или лента'), {
+      target: { value: 'лента красная' },
+    });
+    fireEvent.click(screen.getByRole('button', { name: 'Дальше' }));
+    await waitFor(() => expect(screen.getByText('Подъём на носки')).toBeTruthy());
+    fireEvent.click(await screen.findByRole('button', { name: 'Сделала подход' }));
+    await waitFor(async () => {
+      const s = await getSession('2026-09-14:monday');
+      const item = s?.items.find((i) => i.exerciseId === 'calf-raise');
+      expect(item?.sets[0]?.done).toBe(true);
+    });
+    const session = await getSession('2026-09-14:monday');
+    const item = session?.items.find((i) => i.exerciseId === 'calf-raise');
+    expect(item?.sets[0]?.reps).toBeUndefined();
+    expect(item?.sets[0]?.load).toBeUndefined();
+  });
+
+  // F2: the set button is unavailable during rest, and each rest starts from
+  // the full duration rather than continuing a previous countdown.
+  it('hides the set button during rest and gives every rest its full duration', async () => {
+    const restValue = () => document.querySelector('.rest-value')?.textContent;
+    const shortRest: SessionStep[] = [
+      {
+        exerciseId: 'chair-squat',
+        title: 'Приседание на стул',
+        imageSrc: '/img/a.webp',
+        imageAlt: 'Женщина приседает',
+        cue: 'Таз назад и вниз',
+        technique: ['Ноги чуть шире таза'],
+        stopSigns: ['Боль в колене выше 3 из 10'],
+        prescriptions: four({ sets: 2, reps: '10', step: 'base', restSec: 2 }),
+      },
+    ];
+    renderRunner(shortRest);
+    fireEvent.click(await screen.findByRole('button', { name: 'Сделала подход' }));
+    expect(await screen.findByText('2')).toBeTruthy();
+    expect(screen.queryByRole('button', { name: 'Сделала подход' })).toBeNull();
+    await new Promise((resolve) => setTimeout(resolve, 1200));
+    expect(Number(restValue())).toBeLessThan(2);
+    fireEvent.click(screen.getByRole('button', { name: 'Пропустить отдых' }));
+    fireEvent.click(await screen.findByRole('button', { name: 'Сделала подход' }));
+    expect(await screen.findByText('2')).toBeTruthy();
   });
 });
