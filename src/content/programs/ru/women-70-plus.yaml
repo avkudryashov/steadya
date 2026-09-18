@@ -188,13 +188,13 @@ days:
               p4: Полный блок с усложнениями
           - exercise: fast-sit-to-stand
             prescriptions:
-              p1: { sets: 1, reps: '6 в спокойном темпе', step: base, restSec: 60 }
+              p1: { sets: 1, reps: '6', step: base, note: 'в спокойном темпе', restSec: 60 }
               p2: { sets: 2, reps: '6', step: working, restSec: 60 }
               p3: { sets: 3, reps: '8', step: working, restSec: 60 }
               p4: { sets: 3, reps: '8', step: advanced, restSec: 60 }
           - exercise: step-up
             prescriptions:
-              p1: { sets: 1, reps: '6 на ногу в спокойном темпе', step: base, restSec: 45 }
+              p1: { sets: 1, reps: '6 на ногу', step: base, note: 'в спокойном темпе', restSec: 45 }
               p2: { sets: 2, reps: '6 на ногу быстро', step: base, restSec: 45 }
               p3: { sets: 3, reps: '6 на ногу быстро', step: working, restSec: 60 }
               p4:
@@ -210,8 +210,9 @@ days:
               p1:
                 {
                   sets: 1,
-                  reps: '10 без удара, только подъём и мягкое опускание',
+                  reps: '10',
                   step: base,
+                  note: 'без удара, только подъём и мягкое опускание',
                   restSec: 30,
                 }
               p2: { sets: 2, reps: '10', step: base, restSec: 30 }
@@ -262,8 +263,22 @@ days:
             prescriptions:
               p1: { sets: 1, reps: '4 назад', step: base, restSec: 20 }
               p2: { sets: 1, reps: '6 назад', step: base, restSec: 20 }
-              p3: { sets: 1, reps: '6 назад, 6 вперёд, 6 в стороны', step: working, restSec: 20 }
-              p4: { sets: 2, reps: '6 назад, 6 вперёд, 6 в стороны', step: advanced, restSec: 20 }
+              p3:
+                {
+                  sets: 1,
+                  reps: '6 в каждом направлении',
+                  step: working,
+                  note: 'назад, вперёд и в стороны',
+                  restSec: 20,
+                }
+              p4:
+                {
+                  sets: 2,
+                  reps: '6 в каждом направлении',
+                  step: advanced,
+                  note: 'назад, вперёд и в стороны',
+                  restSec: 20,
+                }
           - { text: 'Подъём предмета с пола из приседа или шага, 8 раз', minutes: 2 }
       - title: Заминка
         minutesFrom: 44
@@ -357,8 +372,9 @@ days:
             prescriptions:
               p1: { sets: 2, reps: '12 лёжа на боку', step: base, restSec: 30 }
               p2: { sets: 2, reps: '15 лёжа на боку', step: base, restSec: 30 }
-              p3: { sets: 2, reps: '12–15 стоя с лентой', step: working, restSec: 30 }
-              p4: { sets: 2, reps: '15 шагов в каждую сторону', step: advanced, restSec: 30 }
+              p3: { sets: 2, reps: '12–15', step: working, note: 'стоя с лентой', restSec: 30 }
+              p4:
+                { sets: 2, reps: '15 шагов', step: advanced, note: 'в каждую сторону', restSec: 30 }
           - exercise: prone-y-raise
             prescriptions:
               p1: { sets: 2, reps: '10', step: base, restSec: 30 }
@@ -468,10 +484,10 @@ days:
             }
           - exercise: cat-cow
             prescriptions:
-              p1: { sets: 1, reps: '10 медленных циклов', step: base, restSec: 0 }
-              p2: { sets: 1, reps: '10 медленных циклов', step: base, restSec: 0 }
-              p3: { sets: 1, reps: '10 медленных циклов', step: working, restSec: 0 }
-              p4: { sets: 1, reps: '10 медленных циклов', step: working, restSec: 0 }
+              p1: { sets: 1, reps: '10 циклов', step: base, note: медленно, restSec: 0 }
+              p2: { sets: 1, reps: '10 циклов', step: base, note: медленно, restSec: 0 }
+              p3: { sets: 1, reps: '10 циклов', step: working, note: медленно, restSec: 0 }
+              p4: { sets: 1, reps: '10 циклов', step: working, note: медленно, restSec: 0 }
       - title: Дыхание
         minutesFrom: 38
         minutesTo: 45
