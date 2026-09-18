@@ -21,6 +21,7 @@ function validate(patch: Partial<Settings>): void {
   }
 }
 
+/** Rejects with {@link StorageUnavailableError} when the browser has no usable IndexedDB. */
 export async function getSettings(): Promise<Settings> {
   const db = await openDb();
   const stored = await db.get('settings', SETTINGS_KEY);
@@ -28,6 +29,7 @@ export async function getSettings(): Promise<Settings> {
   return { ...DEFAULT_SETTINGS, ...(stored ?? {}) };
 }
 
+/** Rejects with {@link StorageUnavailableError} when the browser has no usable IndexedDB. */
 export async function saveSettings(patch: Partial<Settings>): Promise<Settings> {
   validate(patch);
   const current = await getSettings();

@@ -58,24 +58,45 @@ export function isStorageAvailable(): boolean {
   }
 }
 
-export function openDb(): Promise<IDBPDatabase<SteadyaSchema>> {
-  return openDB<SteadyaSchema>(DB_NAME, DB_VERSION, {
-    upgrade(db) {
-      if (!db.objectStoreNames.contains('settings')) {
-        db.createObjectStore('settings');
-      }
-      if (!db.objectStoreNames.contains('sessions')) {
-        const store = db.createObjectStore('sessions', { keyPath: 'id' });
-        store.createIndex('by-date', 'date');
-      }
-      if (!db.objectStoreNames.contains('testResults')) {
-        const store = db.createObjectStore('testResults', { keyPath: 'id' });
-        store.createIndex('by-test', 'testId');
-      }
-    },
-  });
+/** Thrown by any storage helper when IndexedDB is unavailable or fails to open. */
+export class StorageUnavailableError extends Error {
+  constructor(cause?: unknown) {
+    super('storage unavailable');
+    this.name = 'StorageUnavailableError';
+    this.cause = cause;
+  }
 }
 
+/**
+ * Rejects with {@link StorageUnavailableError} when the browser has no usable
+ * IndexedDB, or when opening it fails for any other reason.
+ */
+export async function openDb(): Promise<IDBPDatabase<SteadyaSchema>> {
+  if (!isStorageAvailable()) {
+    throw new StorageUnavailableError();
+  }
+  try {
+    return await openDB<SteadyaSchema>(DB_NAME, DB_VERSION, {
+      upgrade(db) {
+        if (!db.objectStoreNames.contains('settings')) {
+          db.createObjectStore('settings');
+        }
+        if (!db.objectStoreNames.contains('sessions')) {
+          const store = db.createObjectStore('sessions', { keyPath: 'id' });
+          store.createIndex('by-date', 'date');
+        }
+        if (!db.objectStoreNames.contains('testResults')) {
+          const store = db.createObjectStore('testResults', { keyPath: 'id' });
+          store.createIndex('by-test', 'testId');
+        }
+      },
+    });
+  } catch (err) {
+    throw new StorageUnavailableError(err);
+  }
+}
+
+/** Rejects with {@link StorageUnavailableError} when the browser has no usable IndexedDB. */
 export async function clearAll(): Promise<void> {
   const db = await openDb();
   const tx = db.transaction(['settings', 'sessions', 'testResults'], 'readwrite');
