@@ -24,6 +24,7 @@ const four = (p: Prescription) => ({ p1: p, p2: p, p3: p, p4: p });
 
 const steps: SessionStep[] = [
   {
+    kind: 'exercise',
     exerciseId: 'chair-squat',
     title: 'Приседание на стул',
     imageSrc: '/img/a.webp',
@@ -34,6 +35,7 @@ const steps: SessionStep[] = [
     prescriptions: four({ sets: 2, reps: '10', step: 'base', restSec: 60 }),
   },
   {
+    kind: 'exercise',
     exerciseId: 'calf-raise',
     title: 'Подъём на носки',
     imageSrc: '/img/b.webp',
@@ -160,6 +162,7 @@ describe('SessionRunner', () => {
     const restValue = () => document.querySelector('.rest-value')?.textContent;
     const shortRest: SessionStep[] = [
       {
+        kind: 'exercise',
         exerciseId: 'chair-squat',
         title: 'Приседание на стул',
         imageSrc: '/img/a.webp',
@@ -179,5 +182,57 @@ describe('SessionRunner', () => {
     fireEvent.click(screen.getByRole('button', { name: 'Пропустить отдых' }));
     fireEvent.click(await screen.findByRole('button', { name: 'Сделала подход' }));
     expect(await screen.findByText('2')).toBeTruthy();
+  });
+
+  // F3: the session must carry warm-up/cool-down routines and text steps too,
+  // in order, numbered alongside the exercises, without any set controls.
+  it('includes routine and text steps, numbered, with no set controls', async () => {
+    const mixed: SessionStep[] = [
+      { kind: 'routine', title: 'Разминка', items: [{ text: 'Ходьба на месте', minutes: 2 }] },
+      steps[0]!,
+      {
+        kind: 'text',
+        title: 'Блок мощности',
+        text: 'Как выполнять блок мощности в вашей фазе',
+        byPhase: { p1: 'Только знакомство с движениями' },
+      },
+    ];
+    renderRunner(mixed);
+    await waitFor(() => expect(screen.getByText('Разминка')).toBeTruthy());
+    expect(screen.getByText(/Шаг 1 из 3/)).toBeTruthy();
+    expect(screen.getByText((text) => text.startsWith('Ходьба на месте'))).toBeTruthy();
+    expect(screen.queryByRole('button', { name: 'Сделала подход' })).toBeNull();
+    fireEvent.click(screen.getByRole('button', { name: 'Дальше' }));
+    await waitFor(() => expect(screen.getByText('Приседание на стул')).toBeTruthy());
+    expect(screen.getByText(/Шаг 2 из 3/)).toBeTruthy();
+    fireEvent.click(screen.getByRole('button', { name: 'Дальше' }));
+    await waitFor(() => expect(screen.getByText('Блок мощности')).toBeTruthy());
+    expect(screen.getByText(/Шаг 3 из 3/)).toBeTruthy();
+    expect(screen.getByText('Как выполнять блок мощности в вашей фазе')).toBeTruthy();
+    expect(screen.getByText('Только знакомство с движениями')).toBeTruthy();
+    expect(screen.queryByRole('button', { name: 'Сделала подход' })).toBeNull();
+  });
+
+  // F5: a deload week plans one set fewer for every exercise and announces it.
+  it('plans one set fewer on a deload week and announces it', async () => {
+    // 2026-10-05 is 21 days after the 2026-09-14 start: week 4, a deload week.
+    render(
+      <SessionRunner
+        lang="ru"
+        weekday="monday"
+        program={program}
+        steps={steps}
+        dayLink="/ru/day/monday/"
+        now={new Date(2026, 9, 5)}
+      />,
+    );
+    await waitFor(() =>
+      expect(screen.getByText('Лёгкая неделя: на один подход меньше')).toBeTruthy(),
+    );
+    await waitFor(async () => {
+      const s = await getSession('2026-10-05:monday');
+      const item = s?.items.find((i) => i.exerciseId === 'chair-squat');
+      expect(item?.sets.length).toBe(1);
+    });
   });
 });

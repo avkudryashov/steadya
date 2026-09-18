@@ -19,13 +19,31 @@ const program = {
   ],
 } satisfies ProgramMeta;
 const days = [
-  { weekday: 'monday' as Weekday, title: 'Силовая A', durationMin: 60, kind: 'strength' },
-  { weekday: 'sunday' as Weekday, title: 'Отдых', durationMin: 0, kind: 'rest' },
+  {
+    weekday: 'monday' as Weekday,
+    title: 'Силовая A',
+    durationMin: 60,
+    kind: 'strength',
+    hasBlocks: true,
+  },
+  { weekday: 'sunday' as Weekday, title: 'Отдых', durationMin: 0, kind: 'rest', hasBlocks: false },
+  {
+    weekday: 'wednesday' as Weekday,
+    title: 'Ходьба',
+    durationMin: 45,
+    kind: 'walk',
+    hasBlocks: false,
+  },
 ];
-const links = { monday: '/ru/day/monday/', sunday: '/ru/day/sunday/' } as Record<Weekday, string>;
+const links = {
+  monday: '/ru/day/monday/',
+  sunday: '/ru/day/sunday/',
+  wednesday: '/ru/day/wednesday/',
+} as Record<Weekday, string>;
 const sessions = {
   monday: '/ru/day/monday/session/',
   sunday: '/ru/day/sunday/session/',
+  wednesday: '/ru/day/wednesday/session/',
 } as Record<Weekday, string>;
 
 beforeEach(async () => {
@@ -85,6 +103,23 @@ describe('TodayCard', () => {
       />,
     );
     await waitFor(() => expect(screen.getByText(/Лёгкая неделя/)).toBeTruthy());
+  });
+
+  it('shows no start button on a day with no session', async () => {
+    await saveSettings({ startDate: '2026-09-14' });
+    render(
+      <TodayCard
+        lang="ru"
+        program={program}
+        days={days}
+        dayLinks={links}
+        sessionLinks={sessions}
+        now={new Date(2026, 8, 16)}
+      />,
+    );
+    await waitFor(() => expect(screen.getByText('Ходьба')).toBeTruthy());
+    expect(screen.queryByRole('link', { name: 'Начать занятие' })).toBeNull();
+    expect(screen.getByRole('link', { name: 'Открыть день' })).toBeTruthy();
   });
 
   it('shows a notice instead of week/phase when storage is unavailable', async () => {

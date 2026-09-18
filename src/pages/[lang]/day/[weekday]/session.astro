@@ -4,10 +4,11 @@ import BaseLayout from '@/layouts/BaseLayout.astro';
 import SessionRunner from '@/islands/SessionRunner';
 import { BUILT_LOCALES, type Lang } from '@/i18n/locales';
 import { t } from '@/i18n/t';
-import { isExerciseItem, WEEKDAYS, type Weekday } from '@/content/schemas';
+import { isExerciseItem, isRefItem, WEEKDAYS, type Weekday } from '@/content/schemas';
 import { getExercisesByLang, getProgram } from '@/lib/content';
 import { findDay } from '@/lib/program';
 import { localeUrl } from '@/lib/urls';
+import type { SessionStep } from '@/islands/SessionRunner';
 
 export async function getStaticPaths() {
   const paths = [];
@@ -28,23 +29,38 @@ const program = await getProgram(lang);
 const day = findDay(program.data, weekday);
 const exercises = new Map((await getExercisesByLang(lang)).map((e) => [e.data.slug, e]));
 
-const steps = [];
+const steps: SessionStep[] = [];
 for (const block of day.blocks) {
   for (const item of block.items) {
-    if (!isExerciseItem(item)) continue;
-    const entry = exercises.get(item.exercise);
-    if (!entry) throw new Error(`no exercise ${item.exercise} for ${lang}`);
-    const picture = await getImage({ src: entry.data.image, width: 640, format: 'webp' });
-    steps.push({
-      exerciseId: entry.data.slug,
-      title: entry.data.title,
-      imageSrc: picture.src,
-      imageAlt: entry.data.imageAlt,
-      cue: entry.data.shortCue,
-      technique: entry.data.technique,
-      stopSigns: entry.data.stopSigns,
-      prescriptions: item.prescriptions,
-    });
+    if (isExerciseItem(item)) {
+      const entry = exercises.get(item.exercise);
+      if (!entry) throw new Error(`no exercise ${item.exercise} for ${lang}`);
+      const picture = await getImage({ src: entry.data.image, width: 640, format: 'webp' });
+      steps.push({
+        kind: 'exercise',
+        exerciseId: entry.data.slug,
+        title: entry.data.title,
+        imageSrc: picture.src,
+        imageAlt: entry.data.imageAlt,
+        cue: entry.data.shortCue,
+        technique: entry.data.technique,
+        stopSigns: entry.data.stopSigns,
+        prescriptions: item.prescriptions,
+      });
+    } else if (isRefItem(item)) {
+      steps.push({
+        kind: 'routine',
+        title: block.title,
+        items: program.data[item.ref],
+      });
+    } else {
+      steps.push({
+        kind: 'text',
+        title: block.title,
+        text: item.text,
+        byPhase: item.byPhase,
+      });
+    }
   }
 }
 ---
@@ -93,6 +109,18 @@ for (const block of day.blocks) {
   }
   .runner-set {
     font-size: var(--fs-1);
+  }
+  .runner-details {
+    color: var(--muted);
+    font-size: var(--fs-small);
+    margin-top: calc(var(--space-1) * -1);
+  }
+  .runner-routine {
+    margin: 0 0 var(--space-4);
+    padding-inline-start: var(--space-6);
+  }
+  .runner-routine li {
+    margin-bottom: var(--space-1);
   }
   .runner-inputs {
     display: grid;

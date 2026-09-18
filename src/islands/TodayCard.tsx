@@ -12,6 +12,7 @@ export interface DayMeta {
   title: string;
   durationMin: number;
   kind: string;
+  hasBlocks: boolean;
 }
 
 interface Props {
@@ -89,7 +90,7 @@ export default function TodayCard({
         </p>
       )}
       <p class="today-actions">
-        {!isRest && (
+        {!isRest && day.hasBlocks && (
           <a class="btn" href={sessionLinks[weekday]}>
             {t(lang, 'today.start')}
           </a>
