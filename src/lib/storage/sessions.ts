@@ -1,6 +1,7 @@
 import type { PhaseId, Weekday } from '@/content/schemas';
 import { openDb, type Session, type SetRecord } from '@/lib/storage/db';
 
+/** Builds the session id from the date and the weekday. */
 export function sessionId(dateIso: string, weekday: Weekday): string {
   return `${dateIso}:${weekday}`;
 }
@@ -46,15 +47,21 @@ export async function getOrCreateSession(input: SessionPlan): Promise<Session> {
 
 async function update(id: string, mutate: (s: Session) => void): Promise<Session> {
   const db = await openDb();
-  const session = await db.get('sessions', id);
-  if (!session) {
+  try {
+    const tx = db.transaction('sessions', 'readwrite');
+    const store = tx.objectStore('sessions');
+    const session = await store.get(id);
+    if (!session) {
+      void tx.done.catch(() => undefined);
+      throw new Error(`session ${id} not found`);
+    }
+    mutate(session);
+    await store.put(session);
+    await tx.done;
+    return session;
+  } finally {
     db.close();
-    throw new Error(`session ${id} not found`);
   }
-  mutate(session);
-  await db.put('sessions', session);
-  db.close();
-  return session;
 }
 
 /** Rejects with {@link StorageUnavailableError} when the browser has no usable IndexedDB. */
