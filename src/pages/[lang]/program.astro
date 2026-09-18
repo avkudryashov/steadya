@@ -68,25 +68,58 @@ const { data: program } = await getProgram(lang);
         </tbody>
       </table>
     </div>
-    <p class="note">{t(lang, 'program.rule22')}</p>
-    <p class="note">{t(lang, 'phase.deload')}</p>
-    <p>{t(lang, 'program.missed_week')}</p>
+    <div class="rules">
+      <p class="note">{t(lang, 'program.rule22')}</p>
+      <p class="note">{t(lang, 'phase.deload')}</p>
+      <p class="note">{t(lang, 'program.missed_week')}</p>
+    </div>
   </section>
   <section>
     <h2>
       {t(lang, 'day.warmup')} и {t(lang, 'day.cooldown').toLowerCase()}
     </h2>
-    <h3>{t(lang, 'day.warmup')}</h3>
-    <ol class="measure">
-      {program.warmup.map((s) => (
-        <li>{s.text}</li>
-      ))}
-    </ol>
-    <h3>{t(lang, 'day.cooldown')}</h3>
-    <ol class="measure">
-      {program.cooldown.map((s) => (
-        <li>{s.text}</li>
-      ))}
-    </ol>
+    <div class="routines">
+      <div class="routine">
+        <h3>{t(lang, 'day.warmup')}</h3>
+        <ol>
+          {program.warmup.map((s) => (
+            <li>{s.text}</li>
+          ))}
+        </ol>
+      </div>
+      <div class="routine">
+        <h3>{t(lang, 'day.cooldown')}</h3>
+        <ol>
+          {program.cooldown.map((s) => (
+            <li>{s.text}</li>
+          ))}
+        </ol>
+      </div>
+    </div>
   </section>
 </BaseLayout>
+
+<style>
+  .rules {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(17rem, 1fr));
+    gap: var(--space-3);
+    margin-block: var(--space-4);
+  }
+  .rules p {
+    margin: 0;
+    max-width: none;
+  }
+  .routines {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(20rem, 1fr));
+    gap: var(--space-4) var(--space-8);
+  }
+  .routine h3 {
+    margin-top: 0;
+  }
+  .routine ol {
+    max-width: none;
+    margin-bottom: 0;
+  }
+</style>
