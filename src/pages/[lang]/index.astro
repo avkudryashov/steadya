@@ -1,5 +1,7 @@
 ---
 import BaseLayout from '@/layouts/BaseLayout.astro';
+import TodayCard from '@/islands/TodayCard';
+import { WEEKDAYS, type Weekday } from '@/content/schemas';
 import { BUILT_LOCALES, type Lang } from '@/i18n/locales';
 import { t } from '@/i18n/t';
 import { getProgram } from '@/lib/content';
@@ -10,6 +12,24 @@ export function getStaticPaths() {
 }
 const lang = Astro.params.lang as Lang;
 const program = await getProgram(lang);
+const dayLinks = Object.fromEntries(
+  WEEKDAYS.map((w) => [w, localeUrl(lang, `day/${w}`)]),
+) as Record<Weekday, string>;
+const sessionLinks = Object.fromEntries(
+  WEEKDAYS.map((w) => [w, localeUrl(lang, `day/${w}/session`)]),
+) as Record<Weekday, string>;
+const meta = {
+  id: program.data.id,
+  weeks: program.data.weeks,
+  deloadWeeks: program.data.deloadWeeks,
+  phases: program.data.phases,
+};
+const days = program.data.days.map((d) => ({
+  weekday: d.weekday,
+  title: d.title,
+  durationMin: d.durationMin,
+  kind: d.kind,
+}));
 ---
 
 <BaseLayout
@@ -23,6 +43,15 @@ const program = await getProgram(lang);
   <p class="note warn">
     {t(lang, 'site.disclaimer')} <a href={localeUrl(lang, 'safety')}>{t(lang, 'more.safety')}</a>
   </p>
+  <TodayCard
+    client:load
+    lang={lang}
+    program={meta}
+    days={days}
+    dayLinks={dayLinks}
+    sessionLinks={sessionLinks}
+    settingsLink={localeUrl(lang, 'settings')}
+  />
   <ol class="week">
     {program.data.days.map((d) => (
       <li class={`card day day--${d.kind}`}>
@@ -46,6 +75,24 @@ const program = await getProgram(lang);
 </BaseLayout>
 
 <style>
+  .today {
+    margin-bottom: var(--space-6);
+  }
+  .today-day {
+    font-family: var(--font-display);
+    font-size: var(--fs-2);
+    margin: 0 0 var(--space-1);
+  }
+  .today-meta {
+    color: var(--muted);
+    margin: 0 0 var(--space-3);
+  }
+  .today-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2);
+    margin: 0;
+  }
   .week {
     list-style: none;
     padding: 0;
