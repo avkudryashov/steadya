@@ -106,5 +106,21 @@
   "today.open": "Открыть день",
   "today.no_start": "Укажите дату старта в настройках",
   "today.settings": "Настройки",
-  "storage.unavailable": "Записи не сохраняются на этом устройстве"
+  "storage.unavailable": "Записи не сохраняются на этом устройстве",
+  "session.title": "Занятие",
+  "session.step": "Шаг {index} из {total}",
+  "session.set_done": "Сделала подход",
+  "session.set_of": "Подход {index} из {total}",
+  "session.next": "Дальше",
+  "session.prev": "Назад",
+  "session.finish": "Завершить занятие",
+  "session.finished": "Занятие завершено",
+  "session.rest": "Отдых",
+  "session.rest_skip": "Пропустить отдых",
+  "session.reps": "Сколько повторений получилось",
+  "session.load": "Вес или лента",
+  "session.progress_hint": "Два занятия подряд выше плана: пора добавить нагрузку",
+  "session.exit": "Выйти к листу дня",
+  "session.stop_signs": "Когда остановиться",
+  "session.keep_awake": "Экран может гаснуть: не блокируйте телефон во время занятия"
 }
