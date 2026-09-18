@@ -7,11 +7,21 @@ import { exerciseBaseSchema, programSchema, type Program } from '../src/content/
 import { blockMinutesTotal, exerciseSlugsOfProgram } from '../src/lib/program.ts';
 import { parseFrontmatter } from '../src/lib/frontmatter.ts';
 
+export const RESERVED_PAGE_SLUGS = [
+  'program',
+  'tests',
+  'more',
+  'exercises',
+  'day',
+  'exercise',
+] as const;
+
 export interface ValidateInput {
   program: Program;
   exerciseSlugs: Set<string>;
   imageFiles: Set<string>;
   exerciseImages: Map<string, string>;
+  pageSlugs: Set<string>;
 }
 
 export function validateContent(input: ValidateInput): string[] {
@@ -37,13 +47,25 @@ export function validateContent(input: ValidateInput): string[] {
         `${day.weekday}: blocks total ${total} min but durationMin is ${day.durationMin} (duration mismatch)`,
       );
     }
+    const starts = new Set<number>();
     for (const block of day.blocks) {
       if (block.minutesTo <= block.minutesFrom)
         errors.push(`${day.weekday}: block "${block.title}" has non-positive length`);
+      if (starts.has(block.minutesFrom))
+        errors.push(
+          `${day.weekday}: block "${block.title}" repeats minutesFrom ${block.minutesFrom} (anchor ids collide)`,
+        );
+      starts.add(block.minutesFrom);
     }
+  }
+  for (const slug of input.pageSlugs) {
+    if ((RESERVED_PAGE_SLUGS as readonly string[]).includes(slug))
+      errors.push(`page slug "${slug}" collides with a reserved route`);
   }
   return errors;
 }
+
+const EXERCISE_FILE = /^[a-z0-9-]+\.md$/;
 
 function localeDirs(dir: string): string[] {
   return readdirSync(dir, { withFileTypes: true })
@@ -65,6 +87,9 @@ function loadFromDisk(root: string): ValidateInput {
   for (const lang of localeDirs(exRoot)) {
     const exDir = join(exRoot, lang);
     for (const file of readdirSync(exDir).filter((f) => f.endsWith('.md'))) {
+      if (!EXERCISE_FILE.test(file)) {
+        throw new Error(`exercise file ${lang}/${file} is not named [a-z0-9-]+.md`);
+      }
       const { data } = parseFrontmatter(readFileSync(join(exDir, file), 'utf8'));
       const parsed = exerciseBaseSchema.extend({ image: z.string().min(1) }).parse(data);
       if (parsed.slug !== file.replace(/\.md$/, '')) {
@@ -77,8 +102,16 @@ function loadFromDisk(root: string): ValidateInput {
     }
   }
 
+  const pagesRoot = join(root, 'src/content/pages');
+  const pageSlugs = new Set<string>();
+  for (const lang of localeDirs(pagesRoot)) {
+    for (const file of readdirSync(join(pagesRoot, lang)).filter((f) => f.endsWith('.md'))) {
+      pageSlugs.add(file.replace(/\.md$/, ''));
+    }
+  }
+
   const imageFiles = new Set(readdirSync(join(root, 'src/assets/exercises')));
-  return { program, exerciseSlugs, imageFiles, exerciseImages };
+  return { program, exerciseSlugs, imageFiles, exerciseImages, pageSlugs };
 }
 
 export function main(): number {

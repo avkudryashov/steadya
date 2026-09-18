@@ -48,6 +48,7 @@ describe('validateContent', () => {
       exerciseSlugs: new Set(['x']),
       imageFiles: new Set(['a.png']),
       exerciseImages: new Map([['x', 'a.png']]),
+      pageSlugs: new Set(['safety']),
     });
     expect(errors).toEqual([]);
   });
@@ -59,10 +60,40 @@ describe('validateContent', () => {
       exerciseSlugs: new Set(['x']),
       imageFiles: new Set([]),
       exerciseImages: new Map([['x', 'missing.png']]),
+      pageSlugs: new Set(['safety']),
     });
     expect(errors.join('\n')).toMatch(/ghost/);
     expect(errors.join('\n')).toMatch(/missing\.png/);
     expect(errors.join('\n')).toMatch(/unused.*x/);
     expect(errors.join('\n')).toMatch(/monday.*duration/);
+  });
+  it('reports two blocks of one day that share minutesFrom', () => {
+    const p = program([{ exercise: 'x', prescriptions: presc() }]);
+    p.days[0]!.blocks.push({
+      title: 'twin',
+      minutesFrom: p.days[0]!.blocks[0]!.minutesFrom,
+      minutesTo: 20,
+      items: [{ text: 'walk' }],
+    });
+    p.days[0]!.durationMin = 20;
+    const errors = validateContent({
+      program: p,
+      exerciseSlugs: new Set(['x']),
+      imageFiles: new Set(['a.png']),
+      exerciseImages: new Map([['x', 'a.png']]),
+      pageSlugs: new Set(['safety']),
+    });
+    expect(errors.join('\n')).toMatch(/repeats minutesFrom 0/);
+  });
+  it('reports a page slug that collides with a reserved route', () => {
+    const errors = validateContent({
+      program: program([{ exercise: 'x', prescriptions: presc() }]),
+      exerciseSlugs: new Set(['x']),
+      imageFiles: new Set(['a.png']),
+      exerciseImages: new Map([['x', 'a.png']]),
+      pageSlugs: new Set(['safety', 'program']),
+    });
+    expect(errors.join('\n')).toMatch(/"program" collides with a reserved route/);
+    expect(errors.filter((e) => e.includes('safety'))).toEqual([]);
   });
 });
