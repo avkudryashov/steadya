@@ -39,9 +39,11 @@ const sizes =
     />
   </div>
   <div class="body">
-    <Heading class="title">
-      {variant === 'compact' ? <a href={href}>{d.title}</a> : d.title}
-    </Heading>
+    {variant !== 'full' && (
+      <Heading class="title">
+        {variant === 'compact' ? <a href={href}>{d.title}</a> : d.title}
+      </Heading>
+    )}
     <p class="cue">{d.shortCue}</p>
 
     {variant !== 'compact' && prescriptions && (
