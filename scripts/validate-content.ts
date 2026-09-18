@@ -45,22 +45,38 @@ export function validateContent(input: ValidateInput): string[] {
   return errors;
 }
 
+function localeDirs(dir: string): string[] {
+  return readdirSync(dir, { withFileTypes: true })
+    .filter((e) => e.isDirectory())
+    .map((e) => e.name)
+    .sort();
+}
+
 function loadFromDisk(root: string): ValidateInput {
-  const programText = readFileSync(join(root, 'src/content/programs/women-70-plus.yaml'), 'utf8');
+  const programText = readFileSync(
+    join(root, 'src/content/programs/ru/women-70-plus.yaml'),
+    'utf8',
+  );
   const program = programSchema.parse(parse(programText));
 
-  const exDir = join(root, 'src/content/exercises/ru');
+  const exRoot = join(root, 'src/content/exercises');
   const exerciseSlugs = new Set<string>();
   const exerciseImages = new Map<string, string>();
-  for (const file of readdirSync(exDir).filter((f) => f.endsWith('.md'))) {
-    const { data } = parseFrontmatter(readFileSync(join(exDir, file), 'utf8'));
-    const parsed = exerciseBaseSchema.extend({ image: z.string().min(1) }).parse(data);
-    exerciseSlugs.add(parsed.slug);
-    exerciseImages.set(parsed.slug, basename(parsed.image));
-    if (parsed.slug !== file.replace(/\.md$/, '')) {
-      throw new Error(`exercise file ${file} has slug "${parsed.slug}" that differs from filename`);
+  for (const lang of localeDirs(exRoot)) {
+    const exDir = join(exRoot, lang);
+    for (const file of readdirSync(exDir).filter((f) => f.endsWith('.md'))) {
+      const { data } = parseFrontmatter(readFileSync(join(exDir, file), 'utf8'));
+      const parsed = exerciseBaseSchema.extend({ image: z.string().min(1) }).parse(data);
+      if (parsed.slug !== file.replace(/\.md$/, '')) {
+        throw new Error(
+          `exercise file ${lang}/${file} has slug "${parsed.slug}" that differs from filename`,
+        );
+      }
+      exerciseSlugs.add(parsed.slug);
+      exerciseImages.set(parsed.slug, basename(parsed.image));
     }
   }
+
   const imageFiles = new Set(readdirSync(join(root, 'src/assets/exercises')));
   return { program, exerciseSlugs, imageFiles, exerciseImages };
 }

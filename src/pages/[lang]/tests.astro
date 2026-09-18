@@ -8,7 +8,7 @@ export function getStaticPaths() {
   return BUILT_LOCALES.map((lang) => ({ params: { lang } }));
 }
 const lang = Astro.params.lang as Lang;
-const tests = await getTests();
+const tests = await getTests(lang);
 ---
 
 <BaseLayout
@@ -22,23 +22,20 @@ const tests = await getTests();
   <div class="list">
     {tests.map((test) => (
       <article class="card" id={test.id}>
-        <h2>{test.data.title}</h2>
+        <h2>{test.title}</h2>
         <p>
-          <strong>{t(lang, 'tests.how')}:</strong> {test.data.howTo}
+          <strong>{t(lang, 'tests.how')}:</strong> {test.howTo}
         </p>
         <p>
-          <strong>{t(lang, 'tests.threshold')}:</strong> {test.data.thresholdNote}
+          <strong>{t(lang, 'tests.threshold')}:</strong> {test.thresholdNote}
         </p>
         <p>
-          <strong>{t(lang, 'tests.meaning')}:</strong> {test.data.meaning}
+          <strong>{t(lang, 'tests.meaning')}:</strong> {test.meaning}
         </p>
       </article>
     ))}
   </div>
-  <p>
-    Цель первого блока: плюс 2–3 вставания, минус 1–2 секунды в Timed Up and Go, плюс 5 секунд
-    стойки на одной ноге.
-  </p>
+  <p>{t(lang, 'tests.goal')}</p>
 </BaseLayout>
 
 <style>
