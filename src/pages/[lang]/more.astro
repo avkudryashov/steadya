@@ -1,0 +1,56 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import { BUILT_LOCALES, type Lang } from '@/i18n/locales';
+import { t } from '@/i18n/t';
+import { getPagesByLang } from '@/lib/content';
+import { localeUrl } from '@/lib/urls';
+
+export function getStaticPaths() {
+  return BUILT_LOCALES.map((lang) => ({ params: { lang } }));
+}
+const lang = Astro.params.lang as Lang;
+const pages = await getPagesByLang(lang);
+const links = [
+  { href: localeUrl(lang, 'tests'), label: t(lang, 'more.tests') },
+  ...pages.map((p) => ({ href: localeUrl(lang, p.id.split('/')[1]!), label: p.data.title })),
+];
+---
+
+<BaseLayout
+  lang={lang}
+  title={t(lang, 'nav.more')}
+  description={t(lang, 'site.tagline')}
+  current="more"
+>
+  <h1>{t(lang, 'nav.more')}</h1>
+  <ul class="links">
+    {links.map((l) => (
+      <li>
+        <a class="row" href={l.href}>
+          {l.label}
+        </a>
+      </li>
+    ))}
+  </ul>
+</BaseLayout>
+
+<style>
+  .links {
+    list-style: none;
+    padding: 0;
+    display: grid;
+    gap: var(--space-2);
+  }
+  .row {
+    display: flex;
+    align-items: center;
+    min-height: calc(var(--tap) + var(--space-2));
+    padding: 0 var(--space-4);
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: var(--radius-lg);
+    text-decoration: none;
+    font-weight: 600;
+    color: var(--ink);
+  }
+</style>

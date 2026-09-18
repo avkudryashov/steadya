@@ -1,0 +1,85 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import DayBlock from '@/components/DayBlock.astro';
+import { BUILT_LOCALES, type Lang } from '@/i18n/locales';
+import { t } from '@/i18n/t';
+import { isExerciseItem, WEEKDAYS, type Weekday } from '@/content/schemas';
+import { getExercisesByLang, getProgram } from '@/lib/content';
+import { exerciseSlugsOfDay, findDay } from '@/lib/program';
+import { localeUrl } from '@/lib/urls';
+
+export function getStaticPaths() {
+  return BUILT_LOCALES.flatMap((lang) =>
+    WEEKDAYS.map((weekday) => ({ params: { lang, weekday } })),
+  );
+}
+
+const lang = Astro.params.lang as Lang;
+const weekday = Astro.params.weekday as Weekday;
+const program = await getProgram(lang);
+const day = findDay(program.data, weekday);
+const all = await getExercisesByLang(lang);
+const exercises = new Map(all.map((e) => [e.data.slug, e]));
+for (const slug of exerciseSlugsOfDay(day))
+  if (!exercises.has(slug)) throw new Error(`no exercise ${slug} for ${lang}`);
+const daily = program.data.daily.filter((d) => !d.exceptWeekdays.includes(weekday));
+const routines = { warmup: program.data.warmup, cooldown: program.data.cooldown };
+let eagerBlock = -1;
+let eagerItem = -1;
+for (const [bi, block] of day.blocks.entries()) {
+  const ii = block.items.findIndex(isExerciseItem);
+  if (ii >= 0) {
+    eagerBlock = bi;
+    eagerItem = ii;
+    break;
+  }
+}
+const title = `${t(lang, `weekday.${weekday}`)}: ${day.title}`;
+---
+
+<BaseLayout lang={lang} title={title} description={day.note ?? day.title} current="today">
+  <p class="eyebrow">
+    {t(lang, `weekday.${weekday}`)}
+    {day.durationMin > 0 && ` · ${t(lang, 'day.duration', { min: day.durationMin })}`}
+  </p>
+  <h1>{day.title}</h1>
+  {day.note && <p class="note">{day.note}</p>}
+
+  {day.blocks.map((block, index) => (
+    <DayBlock
+      lang={lang}
+      block={block}
+      exercises={exercises}
+      routines={routines}
+      eagerItemIndex={index === eagerBlock ? eagerItem : undefined}
+    />
+  ))}
+
+  {day.blocks.length > 0 && <p class="note">{t(lang, 'phase.deload')}</p>}
+
+  <section class="card">
+    <h2>{t(lang, 'day.daily')}</h2>
+    <ul class="measure">
+      {daily.map((d) => (
+        <li>{d.text}</li>
+      ))}
+    </ul>
+  </section>
+
+  <p>
+    <a class="btn secondary" href={localeUrl(lang, 'program')}>
+      {t(lang, 'nav.program')}
+    </a>
+  </p>
+</BaseLayout>
+
+<style>
+  .eyebrow {
+    color: var(--accent);
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    font-size: var(--fs-small);
+    margin-bottom: var(--space-1);
+  }
+</style>

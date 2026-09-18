@@ -1,0 +1,125 @@
+---
+import type { CollectionEntry } from 'astro:content';
+import type { Lang } from '@/i18n/locales';
+import { t } from '@/i18n/t';
+import {
+  isExerciseItem,
+  isRefItem,
+  PHASE_IDS,
+  type Program,
+  type ProgramBlock,
+} from '@/content/schemas';
+import ExerciseCard from './ExerciseCard.astro';
+
+interface Props {
+  lang: Lang;
+  block: ProgramBlock;
+  exercises: Map<string, CollectionEntry<'exercises'>>;
+  routines: { warmup: Program['warmup']; cooldown: Program['cooldown'] };
+  eagerItemIndex?: number;
+}
+const { lang, block, exercises, routines, eagerItemIndex } = Astro.props;
+---
+
+<section class="block" aria-labelledby={`block-${block.minutesFrom}`}>
+  <header class="block-head">
+    <p class="minutes">
+      {t(lang, 'day.minutes', { from: block.minutesFrom, to: block.minutesTo })}
+    </p>
+    <h2 id={`block-${block.minutesFrom}`}>{block.title}</h2>
+  </header>
+  <ol class="items">
+    {block.items.map((item, index) => {
+      if (isExerciseItem(item)) {
+        const ex = exercises.get(item.exercise);
+        if (!ex) throw new Error(`exercise ${item.exercise} missing in map`);
+        return (
+          <li>
+            <ExerciseCard
+              lang={lang}
+              exercise={ex}
+              prescriptions={item.prescriptions}
+              variant="inline"
+              loading={index === eagerItemIndex ? 'eager' : 'lazy'}
+            />
+          </li>
+        );
+      }
+      if (isRefItem(item)) {
+        return (
+          <li class="card">
+            <ol class="steps measure">
+              {routines[item.ref].map((step) => (
+                <li>
+                  {step.text}
+                  {step.minutes > 0 && (
+                    <span class="step-min">
+                      {' '}
+                      · {t(lang, 'day.duration', { min: step.minutes })}
+                    </span>
+                  )}
+                </li>
+              ))}
+            </ol>
+          </li>
+        );
+      }
+      return (
+        <li class="card text-item">
+          <p>{item.text}</p>
+          {item.byPhase && (
+            <ul class="by-phase">
+              {PHASE_IDS.map(
+                (p) =>
+                  item.byPhase?.[p] && (
+                    <li>
+                      <strong>{t(lang, `phase.${p}`)}:</strong> {item.byPhase[p]}
+                    </li>
+                  ),
+              )}
+            </ul>
+          )}
+        </li>
+      );
+    })}
+  </ol>
+</section>
+
+<style>
+  .block {
+    margin-bottom: var(--space-8);
+  }
+  .block-head {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: var(--space-3);
+  }
+  .minutes {
+    margin: 0;
+    color: var(--muted);
+    font-variant-numeric: tabular-nums;
+    font-weight: 700;
+  }
+  .items {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: grid;
+    gap: var(--space-4);
+  }
+  .text-item p {
+    margin: 0;
+  }
+  .steps {
+    margin: 0;
+    padding-inline-start: var(--space-6);
+  }
+  .steps li {
+    margin-bottom: var(--space-1);
+  }
+  .step-min {
+    color: var(--muted);
+    white-space: nowrap;
+  }
+</style>

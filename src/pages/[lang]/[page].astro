@@ -1,0 +1,37 @@
+---
+import { render } from 'astro:content';
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import { BUILT_LOCALES, type Lang } from '@/i18n/locales';
+import { getPagesByLang } from '@/lib/content';
+
+export async function getStaticPaths() {
+  const paths = [];
+  for (const lang of BUILT_LOCALES) {
+    for (const page of await getPagesByLang(lang)) {
+      paths.push({ params: { lang, page: page.id.split('/')[1]! }, props: { page } });
+    }
+  }
+  return paths;
+}
+const lang = Astro.params.lang as Lang;
+const { page } = Astro.props;
+const { Content } = await render(page);
+---
+
+<BaseLayout lang={lang} title={page.data.title} description={page.data.description} current="more">
+  <h1>{page.data.title}</h1>
+  <div class="prose">
+    <Content />
+  </div>
+</BaseLayout>
+
+<style is:global>
+  .prose table {
+    table-layout: fixed;
+    width: 100%;
+    overflow-wrap: anywhere;
+  }
+  .prose h2 {
+    margin-top: var(--space-8);
+  }
+</style>

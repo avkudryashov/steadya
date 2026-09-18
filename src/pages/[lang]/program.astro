@@ -1,0 +1,125 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import { BUILT_LOCALES, type Lang } from '@/i18n/locales';
+import { t } from '@/i18n/t';
+import { getProgram } from '@/lib/content';
+import { localeUrl } from '@/lib/urls';
+
+export function getStaticPaths() {
+  return BUILT_LOCALES.map((lang) => ({ params: { lang } }));
+}
+const lang = Astro.params.lang as Lang;
+const { data: program } = await getProgram(lang);
+---
+
+<BaseLayout
+  lang={lang}
+  title={t(lang, 'program.title')}
+  description={program.title}
+  current="program"
+>
+  <h1>{t(lang, 'program.title')}</h1>
+  <section>
+    <h2>{t(lang, 'program.schedule')}</h2>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th scope="col">{t(lang, 'table.day')}</th>
+            <th scope="col">{t(lang, 'table.session')}</th>
+            <th scope="col">{t(lang, 'table.time')}</th>
+          </tr>
+        </thead>
+        <tbody>
+          {program.days.map((d) => (
+            <tr>
+              <th scope="row">
+                <a href={localeUrl(lang, `day/${d.weekday}`)}>{t(lang, `weekday.${d.weekday}`)}</a>
+              </th>
+              <td>{d.title}</td>
+              <td>{d.durationMin > 0 ? t(lang, 'day.duration', { min: d.durationMin }) : ''}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+  </section>
+  <section>
+    <h2>{t(lang, 'program.progression')}</h2>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th scope="col">{t(lang, 'table.weeks')}</th>
+            <th scope="col">{t(lang, 'table.goal')}</th>
+            <th scope="col">{t(lang, 'table.strength')}</th>
+            <th scope="col">{t(lang, 'table.balance')}</th>
+          </tr>
+        </thead>
+        <tbody>
+          {program.phases.map((phase) => (
+            <tr>
+              <th scope="row">{phase.label}</th>
+              <td>{phase.goal}</td>
+              <td>{phase.strength}</td>
+              <td>{phase.balance}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+    <div class="rules">
+      <p class="note">{t(lang, 'program.rule22')}</p>
+      <p class="note">{t(lang, 'phase.deload')}</p>
+      <p class="note">{t(lang, 'program.missed_week')}</p>
+    </div>
+  </section>
+  <section>
+    <h2>
+      {t(lang, 'day.warmup')} и {t(lang, 'day.cooldown').toLowerCase()}
+    </h2>
+    <div class="routines">
+      <div class="routine">
+        <h3>{t(lang, 'day.warmup')}</h3>
+        <ol>
+          {program.warmup.map((s) => (
+            <li>{s.text}</li>
+          ))}
+        </ol>
+      </div>
+      <div class="routine">
+        <h3>{t(lang, 'day.cooldown')}</h3>
+        <ol>
+          {program.cooldown.map((s) => (
+            <li>{s.text}</li>
+          ))}
+        </ol>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .rules {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(17rem, 100%), 1fr));
+    gap: var(--space-3);
+    margin-block: var(--space-4);
+  }
+  .rules p {
+    margin: 0;
+    max-width: none;
+  }
+  .routines {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(20rem, 100%), 1fr));
+    gap: var(--space-4) var(--space-8);
+  }
+  .routine h3 {
+    margin-top: 0;
+  }
+  .routine ol {
+    max-width: none;
+    margin-bottom: 0;
+  }
+</style>
