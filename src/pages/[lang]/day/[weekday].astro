@@ -1,0 +1,97 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import DayBlock from '@/components/DayBlock.astro';
+import { BUILT_LOCALES, type Lang } from '@/i18n/locales';
+import { t } from '@/i18n/t';
+import { WEEKDAYS, type Weekday } from '@/content/schemas';
+import { getExercisesByLang, getProgram } from '@/lib/content';
+import { exerciseSlugsOfDay, findDay } from '@/lib/program';
+import { localeUrl } from '@/lib/urls';
+
+export function getStaticPaths() {
+  return BUILT_LOCALES.flatMap((lang) =>
+    WEEKDAYS.map((weekday) => ({ params: { lang, weekday } })),
+  );
+}
+
+const lang = Astro.params.lang as Lang;
+const weekday = Astro.params.weekday as Weekday;
+const program = await getProgram();
+const day = findDay(program.data, weekday);
+const all = await getExercisesByLang(lang);
+const exercises = new Map(all.map((e) => [e.data.slug, e]));
+for (const slug of exerciseSlugsOfDay(day))
+  if (!exercises.has(slug)) throw new Error(`no exercise ${slug} for ${lang}`);
+const daily = program.data.daily.filter((d) => !d.exceptWeekdays.includes(weekday));
+const title = `${t(lang, `weekday.${weekday}`)}: ${day.title}`;
+---
+
+<BaseLayout lang={lang} title={title} description={day.note ?? day.title} current="today">
+  <p class="eyebrow">
+    {t(lang, `weekday.${weekday}`)}
+    {day.durationMin > 0 && ` · ${t(lang, 'day.duration', { min: day.durationMin })}`}
+  </p>
+  <h1>{day.title}</h1>
+  {day.note && <p class="note">{day.note}</p>}
+
+  {day.blocks.length > 0 && (
+    <nav class="toc" aria-label="Блоки занятия">
+      <ol>
+        {day.blocks.map((b) => (
+          <li>
+            <a href={`#block-${b.minutesFrom}`}>{b.title}</a>
+          </li>
+        ))}
+      </ol>
+    </nav>
+  )}
+
+  {day.blocks.map((block) => (
+    <DayBlock lang={lang} block={block} exercises={exercises} />
+  ))}
+
+  {day.blocks.length > 0 && <p class="note">{t(lang, 'phase.deload')}</p>}
+
+  <section class="card">
+    <h2>{t(lang, 'day.daily')}</h2>
+    <ul>
+      {daily.map((d) => (
+        <li>{d.text}</li>
+      ))}
+    </ul>
+  </section>
+
+  <p>
+    <a class="btn secondary" href={localeUrl(lang, 'program')}>
+      {t(lang, 'nav.program')}
+    </a>
+  </p>
+</BaseLayout>
+
+<style>
+  .eyebrow {
+    color: var(--accent);
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    font-size: var(--fs-small);
+    margin-bottom: var(--space-1);
+  }
+  .toc ol {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2);
+    padding: 0;
+    list-style: none;
+  }
+  .toc a {
+    display: inline-flex;
+    align-items: center;
+    min-height: var(--tap);
+    padding: 0 var(--space-4);
+    border-radius: 999px;
+    background: var(--accent-soft);
+    text-decoration: none;
+    font-weight: 600;
+  }
+</style>
