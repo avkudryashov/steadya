@@ -72,18 +72,20 @@ export default function TodayCard({
     <section class="today card" aria-labelledby="today-heading">
       <h2 id="today-heading">{t(lang, 'today.heading')}</h2>
       <p class="today-day">{isRest ? t(lang, 'today.rest') : day.title}</p>
-      {storageUnavailable && <p class="note warn">{t(lang, 'storage.unavailable')}</p>}
+      <div role="status">
+        {storageUnavailable && <p class="note warn">{t(lang, 'storage.unavailable')}</p>}
+        {state?.deload && <p class="note">{t(lang, 'today.deload')}</p>}
+        {state?.beyondProgram && (
+          <p class="note warn">
+            {t(lang, 'today.beyond')}{' '}
+            {settingsLink && <a href={settingsLink}>{t(lang, 'today.settings')}</a>}
+          </p>
+        )}
+      </div>
       {state && (
         <p class="today-meta">
           {t(lang, 'today.week', { week: state.week, total: program.weeks })}
           {phaseLabel ? ` · ${t(lang, 'today.phase', { label: phaseLabel })}` : ''}
-        </p>
-      )}
-      {state?.deload && <p class="note">{t(lang, 'today.deload')}</p>}
-      {state?.beyondProgram && (
-        <p class="note warn">
-          {t(lang, 'today.beyond')}{' '}
-          {settingsLink && <a href={settingsLink}>{t(lang, 'today.settings')}</a>}
         </p>
       )}
       <p class="today-actions">
