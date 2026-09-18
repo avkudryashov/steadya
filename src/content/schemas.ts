@@ -79,11 +79,7 @@ export const prescriptionSchema = z
   });
 export type Prescription = z.infer<typeof prescriptionSchema>;
 
-const prescriptionsSchema = z
-  .record(z.enum(PHASE_IDS), prescriptionSchema)
-  .refine((r) => PHASE_IDS.every((p) => p in r), {
-    message: `prescriptions must cover phases ${PHASE_IDS.join(', ')}`,
-  });
+const prescriptionsSchema = z.record(z.enum(PHASE_IDS), prescriptionSchema);
 
 const exerciseItemSchema = z.object({
   exercise: z.string().regex(/^[a-z0-9-]+$/),
@@ -92,7 +88,7 @@ const exerciseItemSchema = z.object({
 const textItemSchema = z.object({
   text: z.string().min(5),
   minutes: z.number().min(0).optional(),
-  byPhase: z.record(z.enum(PHASE_IDS), z.string()).optional(),
+  byPhase: z.partialRecord(z.enum(PHASE_IDS), z.string()).optional(),
 });
 export const programItemSchema = z.union([exerciseItemSchema, textItemSchema]);
 export type ProgramItem = z.infer<typeof programItemSchema>;

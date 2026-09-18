@@ -1,5 +1,10 @@
 import { describe, expect, it } from 'vitest';
-import { exerciseBaseSchema, programSchema, prescriptionSchema } from '@/content/schemas';
+import {
+  exerciseBaseSchema,
+  programSchema,
+  prescriptionSchema,
+  programItemSchema,
+} from '@/content/schemas';
 
 const exercise = {
   slug: 'chair-squat',
@@ -91,5 +96,47 @@ describe('programSchema', () => {
       ),
     };
     expect(() => programSchema.parse(withItem)).toThrow(/p2/);
+  });
+
+  it('rejects a duplicate weekday with a missing weekday', () => {
+    const day = (weekday: string) => ({
+      weekday,
+      kind: 'rest',
+      title: 'Отдых',
+      durationMin: 0,
+      blocks: [],
+    });
+    const base = {
+      id: 'women-70-plus',
+      title: 'Программа',
+      audience: 'women-70-plus',
+      weeks: 12,
+      phases: [
+        { id: 'p1', weeks: [1, 2] },
+        { id: 'p2', weeks: [3, 4] },
+        { id: 'p3', weeks: [5, 8] },
+        { id: 'p4', weeks: [9, 12] },
+      ],
+      deloadWeeks: [4, 8, 12],
+      warmup: [{ text: 'Ходьба на месте', minutes: 2 }],
+      cooldown: [{ text: 'Медленная ходьба', minutes: 2 }],
+      daily: [{ text: 'Ходьба 30 минут', exceptWeekdays: [] }],
+      days: ['monday', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday'].map(day),
+    };
+    expect(() => programSchema.parse(base)).toThrow(/seven weekdays/);
+  });
+});
+
+describe('programItemSchema', () => {
+  it('accepts a text item with a partial byPhase override', () => {
+    expect(
+      programItemSchema.parse({
+        text: 'Блок мощности пропускается',
+        byPhase: { p1: 'Пропуск' },
+      }),
+    ).toMatchObject({ byPhase: { p1: 'Пропуск' } });
+  });
+  it('rejects a byPhase key that is not a valid phase', () => {
+    expect(() => programItemSchema.parse({ text: 'x'.repeat(5), byPhase: { p9: 'no' } })).toThrow();
   });
 });
