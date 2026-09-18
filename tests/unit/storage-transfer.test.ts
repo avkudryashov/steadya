@@ -71,4 +71,30 @@ describe('parseImport and applyImport', () => {
     expect(() => parseImport('{')).toThrow(/не удалось прочитать/i);
     expect(() => parseImport('{"app":"other","version":1}')).toThrow(/steadya/i);
   });
+  it('rejects a session missing items', async () => {
+    await seed();
+    const file = await buildExport();
+    const broken = { ...file, sessions: [{ ...file.sessions[0], items: undefined }] };
+    expect(() => parseImport(JSON.stringify(broken))).toThrow(/повреждён/i);
+  });
+  it('rejects a test result whose value is not a number', async () => {
+    await seed();
+    const file = await buildExport();
+    const broken = {
+      ...file,
+      testResults: [{ ...file.testResults[0], value: 'oops' }],
+    };
+    expect(() => parseImport(JSON.stringify(broken))).toThrow(/повреждён/i);
+  });
+  it('leaves previous data intact when applyImport fails', async () => {
+    await seed();
+    const before = await buildExport();
+    const broken = {
+      ...before,
+      sessions: [{ ...before.sessions[0], id: undefined as unknown as string }],
+    };
+    await expect(applyImport(broken)).rejects.toThrow();
+    expect((await buildExport()).sessions).toHaveLength(1);
+    expect((await buildExport()).sessions[0]!.id).toBe(before.sessions[0]!.id);
+  });
 });
