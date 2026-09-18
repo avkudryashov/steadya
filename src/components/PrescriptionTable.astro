@@ -9,9 +9,18 @@ interface Props {
   prescriptions: Record<PhaseId, Prescription>;
 }
 const { lang, prescriptions } = Astro.props;
+
+function loadAndNote(p: Prescription): string {
+  return [p.load, p.note].filter(Boolean).join('. ');
+}
 ---
 
-<div class="table-wrap" tabindex="0" role="region" aria-label={t(lang, 'table.scroll_hint')}>
+<div
+  class="table-wrap presc-narrow"
+  tabindex="0"
+  role="region"
+  aria-label={t(lang, 'table.scroll_hint')}
+>
   <table>
     <thead>
       <tr>
@@ -39,10 +48,61 @@ const { lang, prescriptions } = Astro.props;
   </table>
 </div>
 
+<div
+  class="table-wrap presc-wide"
+  tabindex="0"
+  role="region"
+  aria-label={t(lang, 'table.scroll_hint')}
+>
+  <table>
+    <thead>
+      <tr>
+        <th scope="col">{t(lang, 'day.phase')}</th>
+        {PHASE_IDS.map((phase) => (
+          <th scope="col">{t(lang, `phase.${phase}`)}</th>
+        ))}
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <th scope="row">{t(lang, 'table.volume')}</th>
+        {PHASE_IDS.map((phase) => (
+          <td class="num" data-phase={phase}>
+            {formatPrescription(prescriptions[phase], lang)}
+          </td>
+        ))}
+      </tr>
+      <tr>
+        <th scope="row">{t(lang, 'table.step')}</th>
+        {PHASE_IDS.map((phase) => (
+          <td data-phase={phase}>{t(lang, `exercise.step.${prescriptions[phase].step}`)}</td>
+        ))}
+      </tr>
+      <tr>
+        <th scope="row">{t(lang, 'table.load_note')}</th>
+        {PHASE_IDS.map((phase) => (
+          <td data-phase={phase}>{loadAndNote(prescriptions[phase])}</td>
+        ))}
+      </tr>
+    </tbody>
+  </table>
+</div>
+
 <style>
   .num {
     font-variant-numeric: tabular-nums;
     white-space: nowrap;
     font-weight: 700;
+  }
+  .presc-wide {
+    display: none;
+  }
+  @media (min-width: 900px) {
+    .presc-narrow {
+      display: none;
+    }
+    .presc-wide {
+      display: block;
+    }
   }
 </style>
