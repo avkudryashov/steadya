@@ -1,0 +1,120 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import { BUILT_LOCALES, type Lang } from '@/i18n/locales';
+import { t } from '@/i18n/t';
+import { getProgram } from '@/lib/content';
+import { localeUrl } from '@/lib/urls';
+
+export function getStaticPaths() {
+  return BUILT_LOCALES.map((lang) => ({ params: { lang } }));
+}
+const lang = Astro.params.lang as Lang;
+const { data: program } = await getProgram();
+const phaseRows = [
+  {
+    id: 'p1',
+    goal: 'Освоение техники',
+    strength: '2 подхода, усилие 5–6, базовая или рабочая ступень',
+    balance: 'Только Otago и динамика, без мощности',
+  },
+  {
+    id: 'p2',
+    goal: 'Вход в рабочий режим',
+    strength: '3 подхода, усилие 6–7',
+    balance: 'Добавить быстрое вставание и шаги',
+  },
+  {
+    id: 'p3',
+    goal: 'Рост нагрузки',
+    strength: '3 подхода, усилие 7–8, рабочая ступень',
+    balance: 'Полный блок мощности, удары пяткой, подскоки',
+  },
+  {
+    id: 'p4',
+    goal: 'Интенсификация, неделя 12 разгрузка и тесты',
+    strength: '3 подхода, усилие 8, продвинутая ступень где готова',
+    balance: 'Усложнения баланса: глаза, подушка, двойные задачи',
+  },
+] as const;
+---
+
+<BaseLayout
+  lang={lang}
+  title={t(lang, 'program.title')}
+  description={program.title}
+  current="program"
+>
+  <h1>{t(lang, 'program.title')}</h1>
+  <section>
+    <h2>Расписание недели</h2>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th scope="col">День</th>
+            <th scope="col">Занятие</th>
+            <th scope="col">Время</th>
+          </tr>
+        </thead>
+        <tbody>
+          {program.days.map((d) => (
+            <tr>
+              <th scope="row">
+                <a href={localeUrl(lang, `day/${d.weekday}`)}>{t(lang, `weekday.${d.weekday}`)}</a>
+              </th>
+              <td>{d.title}</td>
+              <td>{d.durationMin > 0 ? t(lang, 'day.duration', { min: d.durationMin }) : ''}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+  </section>
+  <section>
+    <h2>{t(lang, 'program.progression')}</h2>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th scope="col">Недели</th>
+            <th scope="col">Задача</th>
+            <th scope="col">Силовые</th>
+            <th scope="col">Баланс и мощность</th>
+          </tr>
+        </thead>
+        <tbody>
+          {phaseRows.map((r) => (
+            <tr>
+              <th scope="row">{t(lang, `phase.${r.id}`)}</th>
+              <td>{r.goal}</td>
+              <td>{r.strength}</td>
+              <td>{r.balance}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+    <p class="note">{t(lang, 'program.rule22')}</p>
+    <p class="note">{t(lang, 'phase.deload')}</p>
+    <p>
+      Если пропущена неделя и больше, следующие 2 занятия проводятся на предыдущем уровне нагрузки.
+    </p>
+  </section>
+  <section>
+    <h2>
+      {t(lang, 'day.warmup')} и {t(lang, 'day.cooldown').toLowerCase()}
+    </h2>
+    <h3>{t(lang, 'day.warmup')}</h3>
+    <ol>
+      {program.warmup.map((s) => (
+        <li>{s.text}</li>
+      ))}
+    </ol>
+    <h3>{t(lang, 'day.cooldown')}</h3>
+    <ol>
+      {program.cooldown.map((s) => (
+        <li>{s.text}</li>
+      ))}
+    </ol>
+  </section>
+</BaseLayout>

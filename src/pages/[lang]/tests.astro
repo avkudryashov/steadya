@@ -1,0 +1,50 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import { BUILT_LOCALES, type Lang } from '@/i18n/locales';
+import { t } from '@/i18n/t';
+import { getTests } from '@/lib/content';
+
+export function getStaticPaths() {
+  return BUILT_LOCALES.map((lang) => ({ params: { lang } }));
+}
+const lang = Astro.params.lang as Lang;
+const tests = await getTests();
+---
+
+<BaseLayout
+  lang={lang}
+  title={t(lang, 'tests.title')}
+  description={t(lang, 'tests.lead')}
+  current="more"
+>
+  <h1>{t(lang, 'tests.title')}</h1>
+  <p>{t(lang, 'tests.lead')}</p>
+  <div class="list">
+    {tests.map((test) => (
+      <article class="card" id={test.id}>
+        <h2>{test.data.title}</h2>
+        <p>
+          <strong>{t(lang, 'tests.how')}:</strong> {test.data.howTo}
+        </p>
+        <p>
+          <strong>{t(lang, 'tests.threshold')}:</strong> {test.data.thresholdNote}
+        </p>
+        <p>
+          <strong>{t(lang, 'tests.meaning')}:</strong> {test.data.meaning}
+        </p>
+      </article>
+    ))}
+  </div>
+  <p>
+    Цель первого блока: плюс 2–3 вставания, минус 1–2 секунды в Timed Up and Go, плюс 5 секунд
+    стойки на одной ноге.
+  </p>
+</BaseLayout>
+
+<style>
+  .list {
+    display: grid;
+    gap: var(--space-4);
+    margin-bottom: var(--space-6);
+  }
+</style>
