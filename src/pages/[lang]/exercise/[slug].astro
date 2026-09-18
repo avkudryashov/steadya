@@ -32,7 +32,7 @@ const { Content } = await render(exercise);
   current="exercises"
 >
   <h1>{exercise.data.title}</h1>
-  <ExerciseCard lang={lang} exercise={exercise} variant="full" headingLevel={2} />
+  <ExerciseCard lang={lang} exercise={exercise} variant="full" headingLevel={2} loading="eager" />
   <div class="prose">
     <Content />
   </div>

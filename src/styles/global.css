@@ -62,6 +62,10 @@ a {
   outline-offset: 2px;
 }
 
+[id] {
+  scroll-margin-top: calc(var(--tap) + var(--space-4));
+}
+
 img {
   max-width: 100%;
   height: auto;

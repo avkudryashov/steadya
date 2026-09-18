@@ -11,7 +11,7 @@ interface Props {
 const { lang, prescriptions } = Astro.props;
 ---
 
-<div class="table-wrap">
+<div class="table-wrap" tabindex="0" role="region" aria-label={t(lang, 'table.scroll_hint')}>
   <table>
     <thead>
       <tr>

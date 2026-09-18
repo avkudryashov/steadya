@@ -27,8 +27,9 @@ const { Content } = await render(page);
 
 <style is:global>
   .prose table {
-    display: block;
-    overflow-x: auto;
+    table-layout: fixed;
+    width: 100%;
+    overflow-wrap: anywhere;
   }
   .prose h2 {
     margin-top: var(--space-8);

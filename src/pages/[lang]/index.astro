@@ -20,6 +20,9 @@ const program = await getProgram(lang);
 >
   <h1>{t(lang, 'home.title')}</h1>
   <p>{t(lang, 'home.lead')}</p>
+  <p class="note warn">
+    {t(lang, 'site.disclaimer')} <a href={localeUrl(lang, 'safety')}>{t(lang, 'more.safety')}</a>
+  </p>
   <ol class="week">
     {program.data.days.map((d) => (
       <li class={`card day day--${d.kind}`}>

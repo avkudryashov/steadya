@@ -3,7 +3,7 @@ import BaseLayout from '@/layouts/BaseLayout.astro';
 import DayBlock from '@/components/DayBlock.astro';
 import { BUILT_LOCALES, type Lang } from '@/i18n/locales';
 import { t } from '@/i18n/t';
-import { WEEKDAYS, type Weekday } from '@/content/schemas';
+import { isExerciseItem, WEEKDAYS, type Weekday } from '@/content/schemas';
 import { getExercisesByLang, getProgram } from '@/lib/content';
 import { exerciseSlugsOfDay, findDay } from '@/lib/program';
 import { localeUrl } from '@/lib/urls';
@@ -23,6 +23,16 @@ const exercises = new Map(all.map((e) => [e.data.slug, e]));
 for (const slug of exerciseSlugsOfDay(day))
   if (!exercises.has(slug)) throw new Error(`no exercise ${slug} for ${lang}`);
 const daily = program.data.daily.filter((d) => !d.exceptWeekdays.includes(weekday));
+let eagerBlock = -1;
+let eagerItem = -1;
+for (const [bi, block] of day.blocks.entries()) {
+  const ii = block.items.findIndex(isExerciseItem);
+  if (ii >= 0) {
+    eagerBlock = bi;
+    eagerItem = ii;
+    break;
+  }
+}
 const title = `${t(lang, `weekday.${weekday}`)}: ${day.title}`;
 ---
 
@@ -46,8 +56,13 @@ const title = `${t(lang, `weekday.${weekday}`)}: ${day.title}`;
     </nav>
   )}
 
-  {day.blocks.map((block) => (
-    <DayBlock lang={lang} block={block} exercises={exercises} />
+  {day.blocks.map((block, index) => (
+    <DayBlock
+      lang={lang}
+      block={block}
+      exercises={exercises}
+      eagerItemIndex={index === eagerBlock ? eagerItem : undefined}
+    />
   ))}
 
   {day.blocks.length > 0 && <p class="note">{t(lang, 'phase.deload')}</p>}
@@ -91,6 +106,8 @@ const title = `${t(lang, `weekday.${weekday}`)}: ${day.title}`;
     padding: 0 var(--space-4);
     border-radius: 999px;
     background: var(--accent-soft);
+    color: var(--ink);
+    border: 2px solid var(--accent);
     text-decoration: none;
     font-weight: 600;
   }

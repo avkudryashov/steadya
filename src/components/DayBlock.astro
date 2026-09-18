@@ -9,8 +9,9 @@ interface Props {
   lang: Lang;
   block: ProgramBlock;
   exercises: Map<string, CollectionEntry<'exercises'>>;
+  eagerItemIndex?: number;
 }
-const { lang, block, exercises } = Astro.props;
+const { lang, block, exercises, eagerItemIndex } = Astro.props;
 ---
 
 <section class="block" aria-labelledby={`block-${block.minutesFrom}`}>
@@ -21,7 +22,7 @@ const { lang, block, exercises } = Astro.props;
     <h2 id={`block-${block.minutesFrom}`}>{block.title}</h2>
   </header>
   <ol class="items">
-    {block.items.map((item) => {
+    {block.items.map((item, index) => {
       if (isExerciseItem(item)) {
         const ex = exercises.get(item.exercise);
         if (!ex) throw new Error(`exercise ${item.exercise} missing in map`);
@@ -32,6 +33,7 @@ const { lang, block, exercises } = Astro.props;
               exercise={ex}
               prescriptions={item.prescriptions}
               variant="inline"
+              loading={index === eagerItemIndex ? 'eager' : 'lazy'}
             />
           </li>
         );
