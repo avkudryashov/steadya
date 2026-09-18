@@ -1,0 +1,45 @@
+---
+import type { Lang } from '@/i18n/locales';
+import { t } from '@/i18n/t';
+import { localeUrl } from '@/lib/urls';
+interface Props {
+  lang: Lang;
+}
+const { lang } = Astro.props;
+---
+
+<header class="site-header">
+  <div class="container row">
+    <a class="brand" href={localeUrl(lang)}>
+      {t(lang, 'site.name')}
+    </a>
+    <p class="tagline">{t(lang, 'site.tagline')}</p>
+  </div>
+</header>
+
+<style>
+  .site-header {
+    border-bottom: 2px solid var(--accent);
+    background: var(--surface);
+  }
+  .row {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: var(--space-2) var(--space-4);
+    min-height: var(--tap);
+    padding-block: var(--space-2);
+  }
+  .brand {
+    font-family: var(--font-display);
+    font-size: var(--fs-1);
+    font-weight: 600;
+    text-decoration: none;
+    color: var(--ink);
+  }
+  .tagline {
+    margin: 0;
+    color: var(--muted);
+    font-size: var(--fs-small);
+  }
+</style>
