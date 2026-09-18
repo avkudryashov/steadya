@@ -56,9 +56,11 @@ export default function RestTimer({ lang, seconds, sound, onDone }: Props) {
   }, [seconds]);
 
   return (
-    <div class="rest" role="timer" aria-live="polite">
+    <div class="rest" role="timer">
       <p class="rest-label">{t(lang, 'session.rest')}</p>
-      <p class="rest-value">{left}</p>
+      <p class="rest-value" aria-live="off">
+        {left}
+      </p>
       <button type="button" class="btn secondary" onClick={onDone}>
         {t(lang, 'session.rest_skip')}
       </button>

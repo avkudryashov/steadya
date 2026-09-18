@@ -89,8 +89,14 @@ describe('SessionRunner', () => {
     expect(screen.getByText(/Подход 2 из 2/)).toBeTruthy();
   });
 
-  it('moves between steps and finishes the session', async () => {
+  it('moves between steps and finishes the session once a set is recorded', async () => {
     renderRunner();
+    fireEvent.click(await screen.findByRole('button', { name: 'Сделала подход' }));
+    await waitFor(async () => {
+      const s = await getSession('2026-09-14:monday');
+      expect(s?.items[0]?.sets[0]?.done).toBe(true);
+    });
+    fireEvent.click(screen.getByRole('button', { name: 'Пропустить отдых' }));
     fireEvent.click(await screen.findByRole('button', { name: 'Дальше' }));
     await waitFor(() => expect(screen.getByText('Подъём на носки')).toBeTruthy());
     fireEvent.click(screen.getByRole('button', { name: 'Завершить занятие' }));
@@ -99,6 +105,19 @@ describe('SessionRunner', () => {
       expect(s?.finishedAt).toBeTruthy();
     });
     expect(screen.getByText('Занятие завершено')).toBeTruthy();
+  });
+
+  // F10: finishing early is possible on any step once at least one set is recorded.
+  it('offers finish next to next on an earlier step once a set is recorded', async () => {
+    renderRunner();
+    expect(screen.queryByRole('button', { name: 'Завершить занятие' })).toBeNull();
+    fireEvent.click(await screen.findByRole('button', { name: 'Сделала подход' }));
+    await waitFor(async () => {
+      const s = await getSession('2026-09-14:monday');
+      expect(s?.items[0]?.sets[0]?.done).toBe(true);
+    });
+    expect(screen.getByRole('button', { name: 'Дальше' })).toBeTruthy();
+    expect(screen.getByRole('button', { name: 'Завершить занятие' })).toBeTruthy();
   });
 
   it('keeps marks after a remount', async () => {

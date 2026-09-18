@@ -59,9 +59,11 @@ export default function SessionRunner({ lang, weekday, program, steps, dayLink, 
   const [deload, setDeload] = useState(false);
   const [index, setIndex] = useState(0);
   const [resting, setResting] = useState(false);
+  const [restOver, setRestOver] = useState(false);
   const [sound, setSound] = useState(true);
   const [hint, setHint] = useState(false);
   const [storageUnavailable, setStorageUnavailable] = useState(false);
+  const [saveFailed, setSaveFailed] = useState(false);
   const [reps, setReps] = useState('');
   const [load, setLoad] = useState('');
 
@@ -102,6 +104,7 @@ export default function SessionRunner({ lang, weekday, program, steps, dayLink, 
         setPhaseId(phase);
         setDeload(isDeload);
         if (err instanceof StorageUnavailableError) setStorageUnavailable(true);
+        else setSaveFailed(true);
       }
     })();
     return () => {
@@ -123,10 +126,11 @@ export default function SessionRunner({ lang, weekday, program, steps, dayLink, 
     };
   }, []);
 
-  // Switching steps (or unmounting) must not leave a rest timer running, or a
-  // previous exercise's typed reps/load, behind.
+  // Switching steps (or unmounting) must not leave a rest timer, a stale
+  // "rest over" notice, or a previous exercise's typed reps/load, behind.
   useEffect(() => {
     setResting(false);
+    setRestOver(false);
     setReps('');
     setLoad('');
   }, [index]);
@@ -139,6 +143,7 @@ export default function SessionRunner({ lang, weekday, program, steps, dayLink, 
       ? session?.items.find((i) => i.exerciseId === step.exerciseId)
       : undefined;
   const nextSetIndex = item?.sets.findIndex((s) => !s.done) ?? -1;
+  const hasProgress = session?.items.some((i) => i.sets.some((s) => s.done)) ?? false;
 
   useEffect(() => {
     if (!step || step.kind !== 'exercise' || !prescription) {
@@ -168,17 +173,30 @@ export default function SessionRunner({ lang, weekday, program, steps, dayLink, 
     const parsed = Number(reps);
     if (reps.trim() !== '' && Number.isFinite(parsed)) patch.reps = parsed;
     if (load.trim() !== '') patch.load = load.trim();
-    const updated = await markSet(session.id, step.exerciseId, nextSetIndex, patch);
-    setSession({ ...updated });
-    setReps('');
-    setLoad('');
-    if (prescription.restSec > 0) setResting(true);
+    try {
+      const updated = await markSet(session.id, step.exerciseId, nextSetIndex, patch);
+      setSession({ ...updated });
+      setReps('');
+      setLoad('');
+      if (prescription.restSec > 0) {
+        setRestOver(false);
+        setResting(true);
+      }
+    } catch (err) {
+      if (err instanceof StorageUnavailableError) setStorageUnavailable(true);
+      else setSaveFailed(true);
+    }
   }
 
   async function finish() {
     if (!session) return;
-    const done = await finishSession(session.id);
-    setSession({ ...done });
+    try {
+      const done = await finishSession(session.id);
+      setSession({ ...done });
+    } catch (err) {
+      if (err instanceof StorageUnavailableError) setStorageUnavailable(true);
+      else setSaveFailed(true);
+    }
   }
 
   return (
@@ -210,9 +228,9 @@ export default function SessionRunner({ lang, weekday, program, steps, dayLink, 
             </ol>
           </div>
 
-          {!session?.finishedAt && nextSetIndex >= 0 && prescription && (
+          {!session?.finishedAt && nextSetIndex >= 0 && item && (
             <p class="runner-set">
-              {t(lang, 'session.set_of', { index: nextSetIndex + 1, total: prescription.sets })}
+              {t(lang, 'session.set_of', { index: nextSetIndex + 1, total: item.sets.length })}
             </p>
           )}
         </>
@@ -243,6 +261,8 @@ export default function SessionRunner({ lang, weekday, program, steps, dayLink, 
         )}
         {session?.finishedAt && <p class="note">{t(lang, 'session.finished')}</p>}
         {storageUnavailable && <p class="note warn">{t(lang, 'storage.unavailable')}</p>}
+        {saveFailed && <p class="note warn">{t(lang, 'session.save_failed')}</p>}
+        {restOver && <p class="note">{t(lang, 'session.rest_over')}</p>}
       </div>
 
       {step.kind === 'exercise' && resting && prescription ? (
@@ -251,7 +271,10 @@ export default function SessionRunner({ lang, weekday, program, steps, dayLink, 
           lang={lang}
           seconds={prescription.restSec}
           sound={sound}
-          onDone={() => setResting(false)}
+          onDone={() => {
+            setResting(false);
+            setRestOver(true);
+          }}
         />
       ) : (
         step.kind === 'exercise' &&
@@ -290,17 +313,15 @@ export default function SessionRunner({ lang, weekday, program, steps, dayLink, 
             {t(lang, 'session.prev')}
           </button>
         )}
-        {index < steps.length - 1 ? (
+        {index < steps.length - 1 && (
           <button type="button" class="btn secondary" onClick={() => setIndex(index + 1)}>
             {t(lang, 'session.next')}
           </button>
-        ) : (
-          session &&
-          !session.finishedAt && (
-            <button type="button" class="btn secondary" onClick={() => void finish()}>
-              {t(lang, 'session.finish')}
-            </button>
-          )
+        )}
+        {session && hasProgress && !session.finishedAt && (
+          <button type="button" class="btn secondary" onClick={() => void finish()}>
+            {t(lang, 'session.finish')}
+          </button>
         )}
         <a class="btn secondary" href={dayLink}>
           {t(lang, 'session.exit')}
