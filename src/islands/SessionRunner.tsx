@@ -99,9 +99,12 @@ export default function SessionRunner({ lang, weekday, program, steps, dayLink, 
     };
   }, []);
 
-  // Switching steps (or unmounting) must not leave a rest timer running behind.
+  // Switching steps (or unmounting) must not leave a rest timer running, or a
+  // previous exercise's typed reps/load, behind.
   useEffect(() => {
     setResting(false);
+    setReps('');
+    setLoad('');
   }, [index]);
 
   const step = steps[index];
@@ -185,6 +188,7 @@ export default function SessionRunner({ lang, weekday, program, steps, dayLink, 
 
       {resting ? (
         <RestTimer
+          key={`${step.exerciseId}-${nextSetIndex}`}
           lang={lang}
           seconds={prescription.restSec}
           sound={sound}
@@ -216,7 +220,7 @@ export default function SessionRunner({ lang, weekday, program, steps, dayLink, 
       )}
 
       <div class="runner-actions">
-        {nextSetIndex >= 0 && !session?.finishedAt && (
+        {nextSetIndex >= 0 && !resting && !session?.finishedAt && (
           <button type="button" class="btn" onClick={() => void doSet()}>
             {t(lang, 'session.set_done')}
           </button>
