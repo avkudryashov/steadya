@@ -73,6 +73,12 @@ for (const block of day.blocks) {
   noindex
 >
   <p class="note">{t(lang, 'session.keep_awake')}</p>
+  <noscript>
+    <p class="note warn">
+      {t(lang, 'session.needs_js')}{' '}
+      <a href={localeUrl(lang, `day/${weekday}`)}>{t(lang, 'session.exit')}</a>
+    </p>
+  </noscript>
   <SessionRunner
     client:load
     lang={lang}
