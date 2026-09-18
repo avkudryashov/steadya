@@ -55,6 +55,16 @@ describe('markSet', () => {
       /9/,
     );
   });
+
+  it('keeps both marks when two sets are recorded at once', async () => {
+    await getOrCreateSession({ ...base, dateIso: '2026-09-14' });
+    await Promise.all([
+      markSet('2026-09-14:monday', 'chair-squat', 0, { done: true, reps: 10 }),
+      markSet('2026-09-14:monday', 'chair-squat', 1, { done: true, reps: 11 }),
+    ]);
+    const s = await getSession('2026-09-14:monday');
+    expect(s?.items[0]?.sets.map((x) => x.done)).toEqual([true, true]);
+  });
 });
 
 describe('finishSession and history', () => {
