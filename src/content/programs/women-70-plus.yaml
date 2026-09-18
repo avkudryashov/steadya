@@ -1,0 +1,469 @@
+id: women-70-plus
+title: Устойчивость, сила, осанка после 70
+audience: women-70-plus
+weeks: 12
+phases:
+  - { id: p1, weeks: [1, 2] }
+  - { id: p2, weeks: [3, 4] }
+  - { id: p3, weeks: [5, 8] }
+  - { id: p4, weeks: [9, 12] }
+deloadWeeks: [4, 8, 12]
+warmup:
+  - { text: 'Ходьба на месте или по комнате, постепенно ускоряясь', minutes: 2 }
+  - { text: 'Круги плечами вперёд и назад, по 10 раз', minutes: 1 }
+  - { text: 'Махи руками крест-накрест и вверх-вниз, 10 раз', minutes: 1 }
+  - { text: 'Полуприседы с руками вперёд у опоры, 10 раз', minutes: 1 }
+  - { text: 'Махи ногой вперёд и назад у опоры, по 10 раз каждой', minutes: 1 }
+  - { text: 'Круги тазом, по 8 раз в каждую сторону', minutes: 1 }
+  - { text: 'Круги стопой стоя на одной ноге у опоры, по 8 раз каждой', minutes: 1 }
+cooldown:
+  - { text: Медленная ходьба, minutes: 2 }
+  - { text: 'Растяжка икр у стены, 30 секунд каждая нога', minutes: 1 }
+  - { text: 'Растяжка передней поверхности бедра стоя у опоры, 30 секунд каждая', minutes: 1 }
+  - { text: Диафрагмальное дыхание, minutes: 1 }
+daily:
+  - text: Ходьба 30 и более минут в темпе, при котором можно говорить, но не петь. Раз в неделю часть пути в горку или по лестнице.
+    exceptWeekdays: []
+  - text: Модуль Sinaki 5 минут, разгибание спины лёжа, 10 раз по 5 секунд. Со второго месяца с рюкзаком 1–2 кг.
+    exceptWeekdays: [friday]
+days:
+  - weekday: monday
+    kind: strength
+    title: 'Силовая A: ноги, спина, хват'
+    durationMin: 60
+    blocks:
+      - title: Разминка
+        minutesFrom: 0
+        minutesTo: 8
+        items:
+          - { text: Разминка по общему списку, minutes: 8 }
+      - title: Ноги и спина
+        minutesFrom: 8
+        minutesTo: 29
+        items:
+          - exercise: chair-squat
+            prescriptions:
+              p1: { sets: 2, reps: '10', step: base, restSec: 60 }
+              p2: { sets: 3, reps: '10', step: working, restSec: 60 }
+              p3: { sets: 3, reps: '8–12', step: working, load: гантель 4–6 кг, restSec: 90 }
+              p4: { sets: 3, reps: '8–10', step: advanced, load: гантель 8–12 кг, restSec: 90 }
+          - exercise: romanian-deadlift
+            prescriptions:
+              p1: { sets: 2, reps: '10', step: base, restSec: 60 }
+              p2: { sets: 3, reps: '10', step: working, load: гантели 3–4 кг, restSec: 60 }
+              p3: { sets: 3, reps: '8–12', step: working, load: гантели 4–6 кг, restSec: 90 }
+              p4: { sets: 3, reps: '8–10', step: advanced, load: гантели 6–10 кг, restSec: 90 }
+          - exercise: dumbbell-row
+            prescriptions:
+              p1: { sets: 2, reps: '10 на сторону', step: base, load: гантель 2–3 кг, restSec: 60 }
+              p2: { sets: 3, reps: '10 на сторону', step: base, load: гантель 3–4 кг, restSec: 60 }
+              p3:
+                {
+                  sets: 3,
+                  reps: '8–12 на сторону',
+                  step: working,
+                  load: гантель 4–6 кг,
+                  restSec: 60,
+                }
+              p4:
+                {
+                  sets: 3,
+                  reps: '8–10 на сторону',
+                  step: advanced,
+                  load: гантель 6–10 кг,
+                  restSec: 90,
+                }
+      - title: Осанка и голени
+        minutesFrom: 29
+        minutesTo: 46
+        items:
+          - exercise: band-pull-apart
+            prescriptions:
+              p1: { sets: 2, reps: '12', step: base, restSec: 45 }
+              p2: { sets: 2, reps: '15', step: base, restSec: 45 }
+              p3: { sets: 2, reps: '12–15', step: working, restSec: 45 }
+              p4: { sets: 2, reps: '12–15', step: advanced, restSec: 45 }
+          - exercise: calf-raise
+            prescriptions:
+              p1: { sets: 2, reps: '12', step: base, restSec: 45 }
+              p2: { sets: 3, reps: '12', step: base, restSec: 45 }
+              p3: { sets: 3, reps: '12–15', step: working, restSec: 45 }
+              p4: { sets: 3, reps: '12 на ногу', step: advanced, restSec: 60 }
+          - exercise: glute-bridge
+            prescriptions:
+              p1: { sets: 2, reps: '12', step: base, restSec: 45 }
+              p2: { sets: 3, reps: '12', step: base, restSec: 45 }
+              p3: { sets: 3, reps: '10–15', step: working, restSec: 60 }
+              p4: { sets: 3, reps: '10 на ногу', step: advanced, restSec: 60 }
+      - title: Хват и корпус
+        minutesFrom: 46
+        minutesTo: 55
+        items:
+          - exercise: farmers-carry
+            prescriptions:
+              p1: { sets: 2, seconds: 30, step: base, load: гантели 3 кг, restSec: 60 }
+              p2: { sets: 3, seconds: 30, step: base, load: гантели 4 кг, restSec: 60 }
+              p3: { sets: 3, seconds: 40, step: working, load: гантели 5–6 кг, restSec: 60 }
+              p4: { sets: 3, seconds: 45, step: advanced, load: гантели 8–10 кг, restSec: 90 }
+          - exercise: forearm-plank
+            prescriptions:
+              p1: { sets: 2, seconds: 20, step: base, restSec: 45 }
+              p2: { sets: 3, seconds: 20, step: base, restSec: 45 }
+              p3: { sets: 3, seconds: 30, step: working, restSec: 45 }
+              p4: { sets: 3, seconds: 40, step: advanced, restSec: 45 }
+          - exercise: dead-bug
+            prescriptions:
+              p1: { sets: 2, reps: '6 на сторону', step: base, restSec: 30 }
+              p2: { sets: 2, reps: '8 на сторону', step: base, restSec: 30 }
+              p3: { sets: 2, reps: '8 на сторону', step: working, restSec: 30 }
+              p4: { sets: 2, reps: '10 на сторону', step: advanced, restSec: 30 }
+      - title: Заминка
+        minutesFrom: 55
+        minutesTo: 60
+        items:
+          - { text: Заминка по общему списку, minutes: 5 }
+
+  - weekday: tuesday
+    kind: balance
+    title: Баланс и мощность
+    durationMin: 50
+    blocks:
+      - title: Разминка
+        minutesFrom: 0
+        minutesTo: 8
+        items:
+          - { text: Разминка по общему списку, minutes: 8 }
+      - title: 'Блок 1. Статический баланс по Otago'
+        minutesFrom: 8
+        minutesTo: 18
+        items:
+          - exercise: tandem-stance
+            prescriptions:
+              p1: { sets: 2, seconds: 10, step: base, note: у опоры, restSec: 15 }
+              p2: { sets: 2, seconds: 20, step: working, restSec: 15 }
+              p3: { sets: 2, seconds: 30, step: advanced, restSec: 15 }
+              p4:
+                {
+                  sets: 2,
+                  seconds: 30,
+                  step: advanced,
+                  note: глаза закрыты или на подушке,
+                  restSec: 15,
+                }
+          - exercise: single-leg-stand
+            prescriptions:
+              p1: { sets: 2, seconds: 10, step: base, note: пальцы на опоре, restSec: 15 }
+              p2: { sets: 2, seconds: 20, step: working, restSec: 15 }
+              p3: { sets: 2, seconds: 30, step: working, restSec: 15 }
+              p4: { sets: 2, seconds: 30, step: advanced, note: повороты головы, restSec: 15 }
+      - title: 'Блок 2. Мощность'
+        minutesFrom: 18
+        minutesTo: 30
+        items:
+          - text: 'В недели 1–2 блок мощности пропускается: вместо него 5 минут ходьбы тандемом.'
+            byPhase: { p1: Пропуск, p2: Начало, p3: Полный блок, p4: Полный блок с усложнениями }
+          - exercise: fast-sit-to-stand
+            prescriptions:
+              p1: { sets: 1, reps: '6 в спокойном темпе', step: base, restSec: 60 }
+              p2: { sets: 2, reps: '6', step: working, restSec: 60 }
+              p3: { sets: 3, reps: '8', step: working, restSec: 60 }
+              p4: { sets: 3, reps: '8', step: advanced, restSec: 60 }
+          - exercise: step-up
+            prescriptions:
+              p1: { sets: 1, reps: '6 на ногу в спокойном темпе', step: base, restSec: 45 }
+              p2: { sets: 2, reps: '6 на ногу быстро', step: base, restSec: 45 }
+              p3: { sets: 3, reps: '6 на ногу быстро', step: working, restSec: 60 }
+              p4:
+                {
+                  sets: 3,
+                  reps: '6 на ногу быстро',
+                  step: advanced,
+                  load: платформа 15–20 см,
+                  restSec: 60,
+                }
+          - exercise: heel-drop
+            prescriptions:
+              p1: { sets: 1, reps: '10 мягко', step: base, restSec: 30 }
+              p2: { sets: 2, reps: '10', step: base, restSec: 30 }
+              p3: { sets: 2, reps: '10', step: working, restSec: 30 }
+              p4:
+                {
+                  sets: 2,
+                  reps: '10',
+                  step: advanced,
+                  note: 'плюс подскоки 2 × 10, если колени не болят',
+                  restSec: 45,
+                }
+      - title: 'Блок 3. Динамика, реакция, двойные задачи'
+        minutesFrom: 30
+        minutesTo: 44
+        items:
+          - exercise: tandem-walk
+            prescriptions:
+              p1: { sets: 2, reps: '10 шагов вперёд', step: base, restSec: 20 }
+              p2: { sets: 3, reps: '10 шагов вперёд и 10 назад', step: working, restSec: 20 }
+              p3:
+                {
+                  sets: 3,
+                  reps: '10 вперёд и 10 назад',
+                  step: working,
+                  note: с обратным счётом от 100 через 3,
+                  restSec: 20,
+                }
+              p4:
+                {
+                  sets: 3,
+                  reps: '10 вперёд и 10 назад',
+                  step: advanced,
+                  note: 'с чашкой в руках, перекладывая из руки в руку',
+                  restSec: 20,
+                }
+          - { text: 'Ходьба на носках 10 шагов, на пятках 10 шагов, 2 круга', minutes: 2 }
+          - {
+              text: 'Ходьба боком приставным шагом, по 10 шагов в каждую сторону, 2 круга',
+              minutes: 2,
+            }
+          - { text: Поворот на 360 градусов шагами, по 2 раза в каждую сторону, minutes: 1 }
+          - {
+              text: 'Перенос веса до края: наклониться вперёд, назад, в стороны, насколько удержишь, вернуться. По 8 раз.',
+              minutes: 2,
+            }
+          - exercise: reactive-step
+            prescriptions:
+              p1: { sets: 1, reps: '4 назад', step: base, restSec: 20 }
+              p2: { sets: 1, reps: '6 назад', step: base, restSec: 20 }
+              p3: { sets: 1, reps: '6 назад, 6 вперёд, 6 в стороны', step: working, restSec: 20 }
+              p4: { sets: 2, reps: '6 назад, 6 вперёд, 6 в стороны', step: advanced, restSec: 20 }
+          - { text: 'Подъём предмета с пола из приседа или шага, 8 раз', minutes: 2 }
+      - title: Заминка
+        minutesFrom: 44
+        minutesTo: 50
+        items:
+          - { text: Заминка по общему списку, minutes: 5 }
+
+  - weekday: wednesday
+    kind: walk
+    title: Ходьба и спина
+    durationMin: 45
+    note: Ходьба на улице 30–45 минут в разговорном темпе. Раз в неделю 10 минут пути в горку или по лестнице. Дома модуль Sinaki 5 минут.
+    blocks: []
+
+  - weekday: thursday
+    kind: strength
+    title: 'Силовая B: ноги, плечи, грудь'
+    durationMin: 60
+    blocks:
+      - title: Разминка
+        minutesFrom: 0
+        minutesTo: 8
+        items:
+          - { text: Разминка по общему списку, minutes: 8 }
+      - title: Ноги
+        minutesFrom: 8
+        minutesTo: 22
+        items:
+          - exercise: step-up
+            prescriptions:
+              p1:
+                {
+                  sets: 2,
+                  reps: '8 на ногу',
+                  step: base,
+                  load: 'платформа 10 см, у опоры',
+                  restSec: 60,
+                }
+              p2: { sets: 3, reps: '8 на ногу', step: base, load: платформа 10 см, restSec: 60 }
+              p3:
+                {
+                  sets: 3,
+                  reps: '8–10 на ногу',
+                  step: working,
+                  load: платформа 15 см без опоры,
+                  restSec: 60,
+                }
+              p4:
+                {
+                  sets: 3,
+                  reps: '8 на ногу',
+                  step: advanced,
+                  load: 'платформа 15–20 см, гантели 3–5 кг',
+                  restSec: 90,
+                }
+          - exercise: split-squat
+            prescriptions:
+              p1: { sets: 2, reps: '8 на ногу', step: base, restSec: 60 }
+              p2: { sets: 3, reps: '8 на ногу', step: base, restSec: 60 }
+              p3: { sets: 3, reps: '8–10 на ногу', step: working, restSec: 60 }
+              p4: { sets: 3, reps: '8 на ногу', step: advanced, load: гантели 3–6 кг, restSec: 90 }
+      - title: Плечи и грудь
+        minutesFrom: 22
+        minutesTo: 41
+        items:
+          - exercise: overhead-press
+            prescriptions:
+              p1: { sets: 2, reps: '10', step: base, load: 'гантели 2 кг, сидя', restSec: 60 }
+              p2: { sets: 3, reps: '10', step: base, load: 'гантели 3 кг, сидя', restSec: 60 }
+              p3:
+                { sets: 3, reps: '8–12', step: working, load: 'гантели 3–5 кг, стоя', restSec: 60 }
+              p4:
+                { sets: 3, reps: '8–10', step: advanced, load: 'гантели 5–8 кг, стоя', restSec: 90 }
+          - exercise: wall-pushup
+            prescriptions:
+              p1: { sets: 2, reps: '10', step: base, restSec: 60 }
+              p2: { sets: 3, reps: '10', step: base, note: от стены или стола, restSec: 60 }
+              p3: { sets: 3, reps: '8–12', step: working, restSec: 60 }
+              p4: { sets: 3, reps: '8–10', step: advanced, restSec: 60 }
+          - exercise: overhead-band-pull-apart
+            prescriptions:
+              p1: { sets: 2, reps: '12', step: base, restSec: 45 }
+              p2: { sets: 3, reps: '10', step: base, restSec: 45 }
+              p3: { sets: 3, reps: '10–12', step: working, restSec: 45 }
+              p4: { sets: 3, reps: '10 с паузой', step: advanced, restSec: 45 }
+      - title: Бёдра и осанка
+        minutesFrom: 41
+        minutesTo: 50
+        items:
+          - exercise: band-side-steps
+            prescriptions:
+              p1: { sets: 2, reps: '12 лёжа на боку', step: base, restSec: 30 }
+              p2: { sets: 2, reps: '15 лёжа на боку', step: base, restSec: 30 }
+              p3: { sets: 2, reps: '12–15 стоя с лентой', step: working, restSec: 30 }
+              p4: { sets: 2, reps: '15 шагов в каждую сторону', step: advanced, restSec: 30 }
+          - exercise: prone-y-raise
+            prescriptions:
+              p1: { sets: 2, reps: '10', step: base, restSec: 30 }
+              p2: { sets: 2, reps: '12', step: base, restSec: 30 }
+              p3: { sets: 2, reps: '12–15 с паузой', step: working, restSec: 30 }
+              p4: { sets: 2, reps: '12', step: advanced, load: 'бутылки 0, 5 л', restSec: 30 }
+      - title: Корпус
+        minutesFrom: 50
+        minutesTo: 55
+        items:
+          - exercise: side-plank-knee
+            prescriptions:
+              p1: { sets: 2, seconds: 15, step: base, note: на сторону, restSec: 30 }
+              p2: { sets: 3, seconds: 15, step: base, note: на сторону, restSec: 30 }
+              p3: { sets: 3, seconds: 25, step: working, note: на сторону, restSec: 30 }
+              p4: { sets: 3, seconds: 30, step: advanced, note: на сторону, restSec: 30 }
+          - exercise: bird-dog
+            prescriptions:
+              p1: { sets: 2, reps: '6 на сторону', step: base, restSec: 30 }
+              p2: { sets: 2, reps: '8 на сторону', step: base, restSec: 30 }
+              p3: { sets: 2, reps: '8 на сторону', step: working, restSec: 30 }
+              p4: { sets: 2, reps: '10 на сторону', step: advanced, restSec: 30 }
+      - title: Заминка
+        minutesFrom: 55
+        minutesTo: 60
+        items:
+          - { text: Заминка по общему списку, minutes: 5 }
+
+  - weekday: friday
+    kind: posture
+    title: Осанка и подвижность
+    durationMin: 45
+    blocks:
+      - title: Разминка
+        minutesFrom: 0
+        minutesTo: 8
+        items:
+          - { text: Разминка по общему списку, minutes: 8 }
+      - title: Спина
+        minutesFrom: 8
+        minutesTo: 14
+        items:
+          - exercise: sinaki-back-extension
+            prescriptions:
+              p1: { sets: 1, reps: '10 по 5 секунд', step: base, restSec: 0 }
+              p2: { sets: 1, reps: '10 по 5 секунд', step: base, restSec: 0 }
+              p3: { sets: 1, reps: '10 по 5 секунд', step: working, load: рюкзак 1 кг, restSec: 0 }
+              p4: { sets: 1, reps: '10 по 5 секунд', step: advanced, load: рюкзак 2 кг, restSec: 0 }
+      - title: Грудной отдел и плечи
+        minutesFrom: 14
+        minutesTo: 26
+        items:
+          - exercise: thoracic-foam-roll
+            prescriptions:
+              p1: { sets: 1, reps: '10 с паузой 3 с', step: base, restSec: 0 }
+              p2: { sets: 1, reps: '10 с паузой 3 с', step: base, restSec: 0 }
+              p3: { sets: 1, reps: '10 с паузой 3 с', step: working, restSec: 0 }
+              p4: { sets: 1, reps: '10 с паузой 3 с', step: working, restSec: 0 }
+          - exercise: wall-angel
+            prescriptions:
+              p1: { sets: 1, reps: '10', step: base, restSec: 30 }
+              p2: { sets: 2, reps: '10', step: base, restSec: 30 }
+              p3: { sets: 2, reps: '10', step: working, restSec: 30 }
+              p4: { sets: 2, reps: '10 с паузой 3 с', step: advanced, restSec: 30 }
+          - exercise: doorway-chest-stretch
+            prescriptions:
+              p1: { sets: 2, seconds: 20, step: base, restSec: 10 }
+              p2: { sets: 3, seconds: 30, step: working, restSec: 10 }
+              p3: { sets: 3, seconds: 30, step: working, restSec: 10 }
+              p4: { sets: 3, seconds: 30, step: advanced, restSec: 10 }
+          - exercise: chin-tuck
+            prescriptions:
+              p1: { sets: 1, reps: '10 по 5 секунд', step: base, restSec: 0 }
+              p2: { sets: 1, reps: '10 по 5 секунд', step: base, restSec: 0 }
+              p3: { sets: 1, reps: '10 по 5 секунд', step: working, restSec: 0 }
+              p4: { sets: 1, reps: '10 по 5 секунд', step: working, restSec: 0 }
+          - { text: 'Круги лопатками сидя, по 10 в каждую сторону', minutes: 1 }
+      - title: Таз, бёдра, голеностопы
+        minutesFrom: 26
+        minutesTo: 38
+        items:
+          - exercise: hip-flexor-stretch
+            prescriptions:
+              p1: { sets: 2, seconds: 20, step: base, note: на сторону, restSec: 10 }
+              p2: { sets: 3, seconds: 30, step: working, note: на сторону, restSec: 10 }
+              p3: { sets: 3, seconds: 30, step: working, note: на сторону, restSec: 10 }
+              p4: { sets: 3, seconds: 30, step: advanced, note: на сторону, restSec: 10 }
+          - exercise: calf-stretch
+            prescriptions:
+              p1: { sets: 2, seconds: 20, step: base, note: каждая нога, restSec: 10 }
+              p2: { sets: 2, seconds: 30, step: working, note: каждая нога, restSec: 10 }
+              p3: { sets: 2, seconds: 30, step: working, note: каждая нога, restSec: 10 }
+              p4: { sets: 2, seconds: 30, step: advanced, note: каждая нога, restSec: 10 }
+          - exercise: clamshell
+            prescriptions:
+              p1: { sets: 1, reps: '15 на сторону', step: base, restSec: 30 }
+              p2: { sets: 2, reps: '15 на сторону', step: base, restSec: 30 }
+              p3: { sets: 2, reps: '15 на сторону', step: working, restSec: 30 }
+              p4: { sets: 2, reps: '15 на сторону', step: advanced, restSec: 30 }
+          - {
+              text: 'Сидя 90/90: наружная и внутренняя ротация бедра, 10 медленных переходов',
+              minutes: 2,
+            }
+          - {
+              text: 'Голеностоп: сидя, написать стопой алфавит в воздухе, по 1 разу каждой',
+              minutes: 2,
+            }
+          - exercise: cat-cow
+            prescriptions:
+              p1: { sets: 1, reps: '10 медленных циклов', step: base, restSec: 0 }
+              p2: { sets: 1, reps: '10 медленных циклов', step: base, restSec: 0 }
+              p3: { sets: 1, reps: '10 медленных циклов', step: working, restSec: 0 }
+              p4: { sets: 1, reps: '10 медленных циклов', step: working, restSec: 0 }
+      - title: Дыхание
+        minutesFrom: 38
+        minutesTo: 45
+        items:
+          - exercise: diaphragm-breathing
+            prescriptions:
+              p1: { sets: 1, seconds: 300, step: base, restSec: 0 }
+              p2: { sets: 1, seconds: 300, step: base, restSec: 0 }
+              p3: { sets: 1, seconds: 300, step: working, restSec: 0 }
+              p4: { sets: 1, seconds: 300, step: working, restSec: 0 }
+          - { text: 'Раз в 4 недели тест «осанка у стены», записать в дневник', minutes: 2 }
+
+  - weekday: saturday
+    kind: optional
+    title: По желанию
+    durationMin: 60
+    note: 'Один из двух вариантов: прогулка 60 минут в темпе выше обычного, последние 10 минут медленно, или повтор вторника без блока мощности.'
+    blocks: []
+
+  - weekday: sunday
+    kind: rest
+    title: Отдых
+    durationMin: 0
+    note: Лёгкая прогулка 20–30 минут и модуль Sinaki.
+    blocks: []
