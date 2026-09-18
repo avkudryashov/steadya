@@ -25,7 +25,7 @@ const groups = CATEGORIES.map((c) => ({
 >
   <h1>{t(lang, 'exercises.title')}</h1>
   <p>{t(lang, 'exercises.lead')}</p>
-  <nav aria-label="Категории" class="chips">
+  <nav aria-label={t(lang, 'exercises.categories')} class="chips">
     {groups.map((g) => (
       <a class="chip" href={`#cat-${g.c}`}>
         {t(lang, `category.${g.c}`)} ({g.items.length})

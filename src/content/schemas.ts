@@ -123,7 +123,14 @@ export const programSchema = z.object({
   weeks: z.number().int().min(1),
   phases: z
     .array(
-      z.object({ id: z.enum(PHASE_IDS), weeks: z.tuple([z.number().int(), z.number().int()]) }),
+      z.object({
+        id: z.enum(PHASE_IDS),
+        weeks: z.tuple([z.number().int(), z.number().int()]),
+        label: z.string(),
+        goal: z.string(),
+        strength: z.string(),
+        balance: z.string(),
+      }),
     )
     .length(PHASE_IDS.length),
   deloadWeeks: z.array(z.number().int()),

@@ -20,7 +20,7 @@ export async function getStaticPaths() {
 
 const lang = Astro.params.lang as Lang;
 const { exercise } = Astro.props;
-const program = await getProgram();
+const program = await getProgram(lang);
 const days = daysUsingExercise(program.data, exercise.data.slug);
 const { Content } = await render(exercise);
 ---

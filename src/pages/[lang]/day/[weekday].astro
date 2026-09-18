@@ -16,7 +16,7 @@ export function getStaticPaths() {
 
 const lang = Astro.params.lang as Lang;
 const weekday = Astro.params.weekday as Weekday;
-const program = await getProgram();
+const program = await getProgram(lang);
 const day = findDay(program.data, weekday);
 const all = await getExercisesByLang(lang);
 const exercises = new Map(all.map((e) => [e.data.slug, e]));
@@ -35,7 +35,7 @@ const title = `${t(lang, `weekday.${weekday}`)}: ${day.title}`;
   {day.note && <p class="note">{day.note}</p>}
 
   {day.blocks.length > 0 && (
-    <nav class="toc" aria-label="Блоки занятия">
+    <nav class="toc" aria-label={t(lang, 'day.blocks')}>
       <ol>
         {day.blocks.map((b) => (
           <li>
