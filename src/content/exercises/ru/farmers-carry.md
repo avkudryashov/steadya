@@ -5,7 +5,7 @@ shortCue: Гантели вдоль тела, плечи назад, шаг ро
 image: ../../../assets/exercises/a7-farmers-carry.png
 imageAlt: Женщина идёт по комнате с гантелями в опущенных руках, плечи развёрнуты назад
 category: strength
-muscles: [хват предплечья, трапеция, мышцы кора]
+muscles: [мышцы предплечья, трапеция, мышцы кора]
 equipment: [dumbbells]
 steps:
   base:
