@@ -31,4 +31,8 @@ describe('shouldProgress', () => {
     expect(shouldProgress(10, [12])).toBe(false);
     expect(shouldProgress(null, [12, 12])).toBe(false);
   });
+  it('reads the newest values first and ignores older sessions', () => {
+    expect(shouldProgress(10, [12, 12, 5])).toBe(true);
+    expect(shouldProgress(10, [9, 12, 12])).toBe(false);
+  });
 });
