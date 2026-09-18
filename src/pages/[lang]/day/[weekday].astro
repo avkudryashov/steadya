@@ -71,7 +71,7 @@ const title = `${t(lang, `weekday.${weekday}`)}: ${day.title}`;
 
   <section class="card">
     <h2>{t(lang, 'day.daily')}</h2>
-    <ul>
+    <ul class="measure">
       {daily.map((d) => (
         <li>{d.text}</li>
       ))}

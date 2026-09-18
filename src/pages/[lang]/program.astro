@@ -77,13 +77,13 @@ const { data: program } = await getProgram(lang);
       {t(lang, 'day.warmup')} и {t(lang, 'day.cooldown').toLowerCase()}
     </h2>
     <h3>{t(lang, 'day.warmup')}</h3>
-    <ol>
+    <ol class="measure">
       {program.warmup.map((s) => (
         <li>{s.text}</li>
       ))}
     </ol>
     <h3>{t(lang, 'day.cooldown')}</h3>
-    <ol>
+    <ol class="measure">
       {program.cooldown.map((s) => (
         <li>{s.text}</li>
       ))}

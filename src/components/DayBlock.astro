@@ -48,7 +48,7 @@ const { lang, block, exercises, routines, eagerItemIndex } = Astro.props;
       if (isRefItem(item)) {
         return (
           <li class="card">
-            <ol class="steps">
+            <ol class="steps measure">
               {routines[item.ref].map((step) => (
                 <li>
                   {step.text}

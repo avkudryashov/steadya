@@ -44,12 +44,16 @@ h3 {
   font-size: var(--fs-1);
 }
 
-p,
-li {
-  max-width: var(--measure);
-}
 p {
+  max-width: var(--measure);
   margin: 0 0 var(--space-3);
+}
+/* Running text keeps the 65ch measure; layout lists (day items, week grid,
+   navigation) must be free to fill the container. */
+.prose ol,
+.prose ul,
+.measure {
+  max-width: var(--measure);
 }
 
 a {
