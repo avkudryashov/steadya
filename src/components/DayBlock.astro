@@ -8,17 +8,21 @@ import {
   PHASE_IDS,
   type Program,
   type ProgramBlock,
+  type Weekday,
 } from '@/content/schemas';
+import type { ProgramMeta } from '@/lib/phase';
 import ExerciseCard from './ExerciseCard.astro';
 
 interface Props {
   lang: Lang;
+  weekday: Weekday;
+  program: ProgramMeta;
   block: ProgramBlock;
   exercises: Map<string, CollectionEntry<'exercises'>>;
   routines: { warmup: Program['warmup']; cooldown: Program['cooldown'] };
   eagerItemIndex?: number;
 }
-const { lang, block, exercises, routines, eagerItemIndex } = Astro.props;
+const { lang, weekday, program, block, exercises, routines, eagerItemIndex } = Astro.props;
 ---
 
 <section class="block" aria-labelledby={`block-${block.minutesFrom}`}>
@@ -41,6 +45,9 @@ const { lang, block, exercises, routines, eagerItemIndex } = Astro.props;
               prescriptions={item.prescriptions}
               variant="inline"
               loading={index === eagerItemIndex ? 'eager' : 'lazy'}
+              logger
+              weekday={weekday}
+              program={program}
             />
           </li>
         );

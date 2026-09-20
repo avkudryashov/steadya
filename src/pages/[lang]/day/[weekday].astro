@@ -8,6 +8,7 @@ import { isExerciseItem, WEEKDAYS, type Weekday } from '@/content/schemas';
 import { getExercisesByLang, getProgram } from '@/lib/content';
 import { exerciseSlugsOfDay, findDay } from '@/lib/program';
 import { localeUrl } from '@/lib/urls';
+import type { ProgramMeta } from '@/lib/phase';
 
 export function getStaticPaths() {
   return BUILT_LOCALES.flatMap((lang) =>
@@ -25,6 +26,12 @@ for (const slug of exerciseSlugsOfDay(day))
   if (!exercises.has(slug)) throw new Error(`no exercise ${slug} for ${lang}`);
 const daily = program.data.daily.filter((d) => !d.exceptWeekdays.includes(weekday));
 const routines = { warmup: program.data.warmup, cooldown: program.data.cooldown };
+const programMeta: ProgramMeta = {
+  id: program.data.id,
+  weeks: program.data.weeks,
+  deloadWeeks: program.data.deloadWeeks,
+  phases: program.data.phases,
+};
 let eagerBlock = -1;
 let eagerItem = -1;
 for (const [bi, block] of day.blocks.entries()) {
@@ -57,6 +64,8 @@ const title = `${t(lang, `weekday.${weekday}`)}: ${day.title}`;
   {day.blocks.map((block, index) => (
     <DayBlock
       lang={lang}
+      weekday={weekday}
+      program={programMeta}
       block={block}
       exercises={exercises}
       routines={routines}
