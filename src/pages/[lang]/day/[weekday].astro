@@ -1,6 +1,7 @@
 ---
 import BaseLayout from '@/layouts/BaseLayout.astro';
 import DayBlock from '@/components/DayBlock.astro';
+import PhaseFilter from '@/islands/PhaseFilter';
 import { BUILT_LOCALES, type Lang } from '@/i18n/locales';
 import { t } from '@/i18n/t';
 import { isExerciseItem, WEEKDAYS, type Weekday } from '@/content/schemas';
@@ -45,6 +46,14 @@ const title = `${t(lang, `weekday.${weekday}`)}: ${day.title}`;
   <h1>{day.title}</h1>
   {day.note && <p class="note">{day.note}</p>}
 
+  {day.blocks.length > 0 && (
+    <PhaseFilter
+      client:load
+      lang={lang}
+      phases={program.data.phases.map((p) => ({ id: p.id, label: p.label }))}
+    />
+  )}
+
   {day.blocks.map((block, index) => (
     <DayBlock
       lang={lang}
@@ -81,5 +90,30 @@ const title = `${t(lang, `weekday.${weekday}`)}: ${day.title}`;
     text-transform: uppercase;
     font-size: var(--fs-small);
     margin-bottom: var(--space-1);
+  }
+</style>
+
+<style is:global>
+  .phase-filter {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2);
+    margin-bottom: var(--space-4);
+  }
+  .phase-filter button {
+    display: inline-flex;
+    align-items: center;
+    min-height: var(--tap);
+    padding: 0 var(--space-4);
+    border-radius: 999px;
+    border: 2px solid transparent;
+    background: var(--accent-soft);
+    color: var(--ink);
+    font: inherit;
+    font-weight: 600;
+    cursor: pointer;
+  }
+  .phase-filter button[aria-pressed='true'] {
+    border-color: var(--accent);
   }
 </style>

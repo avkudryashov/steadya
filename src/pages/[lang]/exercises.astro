@@ -1,9 +1,10 @@
 ---
 import BaseLayout from '@/layouts/BaseLayout.astro';
 import ExerciseCard from '@/components/ExerciseCard.astro';
+import AtlasFilter from '@/islands/AtlasFilter';
 import { BUILT_LOCALES, type Lang } from '@/i18n/locales';
 import { t } from '@/i18n/t';
-import { CATEGORIES } from '@/content/schemas';
+import { CATEGORIES, EQUIPMENT } from '@/content/schemas';
 import { getExercisesByLang } from '@/lib/content';
 
 export function getStaticPaths() {
@@ -15,6 +16,9 @@ const groups = CATEGORIES.map((c) => ({
   c,
   items: exercises.filter((e) => e.data.category === c),
 })).filter((g) => g.items.length);
+const equipment = EQUIPMENT.filter((id) =>
+  exercises.some((e) => e.data.equipment.includes(id)),
+).map((id) => ({ id, label: t(lang, `equipment.${id}`) }));
 ---
 
 <BaseLayout
@@ -32,16 +36,19 @@ const groups = CATEGORIES.map((c) => ({
       </a>
     ))}
   </nav>
-  {groups.map((g) => (
-    <section aria-labelledby={`cat-${g.c}`}>
-      <h2 id={`cat-${g.c}`}>{t(lang, `category.${g.c}`)}</h2>
-      <div class="grid">
-        {g.items.map((e) => (
-          <ExerciseCard lang={lang} exercise={e} variant="compact" />
-        ))}
-      </div>
-    </section>
-  ))}
+  <AtlasFilter client:load lang={lang} equipment={equipment} />
+  <div data-atlas>
+    {groups.map((g) => (
+      <section aria-labelledby={`cat-${g.c}`}>
+        <h2 id={`cat-${g.c}`}>{t(lang, `category.${g.c}`)}</h2>
+        <div class="grid">
+          {g.items.map((e) => (
+            <ExerciseCard lang={lang} exercise={e} variant="compact" />
+          ))}
+        </div>
+      </section>
+    ))}
+  </div>
 </BaseLayout>
 
 <style>
@@ -68,5 +75,30 @@ const groups = CATEGORIES.map((c) => ({
     border: 2px solid var(--accent);
     text-decoration: none;
     font-weight: 600;
+  }
+</style>
+
+<style is:global>
+  .atlas-filter {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2);
+    margin-bottom: var(--space-6);
+  }
+  .atlas-filter button {
+    display: inline-flex;
+    align-items: center;
+    min-height: var(--tap);
+    padding: 0 var(--space-4);
+    border-radius: 999px;
+    border: 2px solid transparent;
+    background: var(--accent-soft);
+    color: var(--ink);
+    font: inherit;
+    font-weight: 600;
+    cursor: pointer;
+  }
+  .atlas-filter button[aria-pressed='true'] {
+    border-color: var(--accent);
   }
 </style>
