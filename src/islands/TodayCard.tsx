@@ -12,7 +12,6 @@ export interface DayMeta {
   title: string;
   durationMin: number;
   kind: string;
-  hasBlocks: boolean;
 }
 
 interface Props {
@@ -20,7 +19,6 @@ interface Props {
   program: ProgramMeta;
   days: DayMeta[];
   dayLinks: Record<Weekday, string>;
-  sessionLinks: Record<Weekday, string>;
   settingsLink?: string;
   now?: Date;
 }
@@ -30,7 +28,6 @@ export default function TodayCard({
   program,
   days,
   dayLinks,
-  sessionLinks,
   settingsLink = '',
   now,
 }: Props) {
@@ -90,12 +87,7 @@ export default function TodayCard({
         </p>
       )}
       <p class="today-actions">
-        {!isRest && day.hasBlocks && (
-          <a class="btn" href={sessionLinks[weekday]}>
-            {t(lang, 'today.start')}
-          </a>
-        )}
-        <a class="btn secondary" href={dayLinks[weekday]}>
+        <a class="btn" href={dayLinks[weekday]}>
           {t(lang, 'today.open')}
         </a>
       </p>

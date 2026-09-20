@@ -19,31 +19,14 @@ const program = {
   ],
 } satisfies ProgramMeta;
 const days = [
-  {
-    weekday: 'monday' as Weekday,
-    title: 'Силовая A',
-    durationMin: 60,
-    kind: 'strength',
-    hasBlocks: true,
-  },
-  { weekday: 'sunday' as Weekday, title: 'Отдых', durationMin: 0, kind: 'rest', hasBlocks: false },
-  {
-    weekday: 'wednesday' as Weekday,
-    title: 'Ходьба',
-    durationMin: 45,
-    kind: 'walk',
-    hasBlocks: false,
-  },
+  { weekday: 'monday' as Weekday, title: 'Силовая A', durationMin: 60, kind: 'strength' },
+  { weekday: 'sunday' as Weekday, title: 'Отдых', durationMin: 0, kind: 'rest' },
+  { weekday: 'wednesday' as Weekday, title: 'Ходьба', durationMin: 45, kind: 'walk' },
 ];
 const links = {
   monday: '/ru/day/monday/',
   sunday: '/ru/day/sunday/',
   wednesday: '/ru/day/wednesday/',
-} as Record<Weekday, string>;
-const sessions = {
-  monday: '/ru/day/monday/session/',
-  sunday: '/ru/day/sunday/session/',
-  wednesday: '/ru/day/wednesday/session/',
 } as Record<Weekday, string>;
 
 beforeEach(async () => {
@@ -55,7 +38,7 @@ afterEach(() => {
 });
 
 describe('TodayCard', () => {
-  it('shows the training day, week and start button', async () => {
+  it('shows the training day, week and the open-day button', async () => {
     await saveSettings({ startDate: '2026-09-14' });
     render(
       <TodayCard
@@ -63,18 +46,17 @@ describe('TodayCard', () => {
         program={program}
         days={days}
         dayLinks={links}
-        sessionLinks={sessions}
         now={new Date(2026, 8, 14)}
       />,
     );
     expect(screen.getByText('Силовая A')).toBeTruthy();
     await waitFor(() => expect(screen.getByText(/Неделя 1 из 12/)).toBeTruthy());
     expect(screen.getByText(/Недели 1–2/)).toBeTruthy();
-    const start = screen.getByRole('link', { name: 'Начать занятие' });
-    expect(start.getAttribute('href')).toBe('/ru/day/monday/session/');
+    const open = screen.getByRole('link', { name: 'Открыть день' });
+    expect(open.getAttribute('href')).toBe('/ru/day/monday/');
   });
 
-  it('shows a rest day without a start button', async () => {
+  it('shows a rest day with the same open-day button', async () => {
     await saveSettings({ startDate: '2026-09-14' });
     render(
       <TodayCard
@@ -82,12 +64,11 @@ describe('TodayCard', () => {
         program={program}
         days={days}
         dayLinks={links}
-        sessionLinks={sessions}
         now={new Date(2026, 8, 20)}
       />,
     );
     await waitFor(() => expect(screen.getByText('Сегодня отдых')).toBeTruthy());
-    expect(screen.queryByRole('link', { name: 'Начать занятие' })).toBeNull();
+    expect(screen.getByRole('link', { name: 'Открыть день' })).toBeTruthy();
   });
 
   it('marks a deload week', async () => {
@@ -98,14 +79,13 @@ describe('TodayCard', () => {
         program={program}
         days={days}
         dayLinks={links}
-        sessionLinks={sessions}
         now={new Date(2026, 9, 5)}
       />,
     );
     await waitFor(() => expect(screen.getByText(/Лёгкая неделя/)).toBeTruthy());
   });
 
-  it('shows no start button on a day with no session', async () => {
+  it('shows the open-day button on a day without blocks too', async () => {
     await saveSettings({ startDate: '2026-09-14' });
     render(
       <TodayCard
@@ -113,12 +93,10 @@ describe('TodayCard', () => {
         program={program}
         days={days}
         dayLinks={links}
-        sessionLinks={sessions}
         now={new Date(2026, 8, 16)}
       />,
     );
     await waitFor(() => expect(screen.getByText('Ходьба')).toBeTruthy());
-    expect(screen.queryByRole('link', { name: 'Начать занятие' })).toBeNull();
     expect(screen.getByRole('link', { name: 'Открыть день' })).toBeTruthy();
   });
 
@@ -133,7 +111,6 @@ describe('TodayCard', () => {
           program={program}
           days={days}
           dayLinks={links}
-          sessionLinks={sessions}
           now={new Date(2026, 8, 14)}
         />,
       );
@@ -141,7 +118,7 @@ describe('TodayCard', () => {
         expect(screen.getByText('Записи не сохраняются на этом устройстве')).toBeTruthy(),
       );
       expect(screen.getByText('Силовая A')).toBeTruthy();
-      expect(screen.getByRole('link', { name: 'Начать занятие' })).toBeTruthy();
+      expect(screen.getByRole('link', { name: 'Открыть день' })).toBeTruthy();
       expect(screen.queryByText(/Неделя/)).toBeNull();
     } finally {
       globalThis.indexedDB = originalIndexedDB;
