@@ -75,7 +75,7 @@ const days = program.data.days.map((d) => ({
   </section>
 </BaseLayout>
 
-<style>
+<style is:global>
   .today {
     margin-bottom: var(--space-6);
   }
@@ -94,6 +94,9 @@ const days = program.data.days.map((d) => ({
     gap: var(--space-2);
     margin: 0;
   }
+</style>
+
+<style>
   .week {
     list-style: none;
     padding: 0;
