@@ -4,7 +4,9 @@ import type { CollectionEntry } from 'astro:content';
 import type { Lang } from '@/i18n/locales';
 import { t } from '@/i18n/t';
 import { localeUrl } from '@/lib/urls';
-import { STEP_IDS, type PhaseId, type Prescription } from '@/content/schemas';
+import { STEP_IDS, type PhaseId, type Prescription, type Weekday } from '@/content/schemas';
+import type { ProgramMeta } from '@/lib/phase';
+import SetLogger from '@/islands/SetLogger';
 import PrescriptionTable from './PrescriptionTable.astro';
 
 interface Props {
@@ -14,8 +16,22 @@ interface Props {
   variant: 'compact' | 'inline' | 'full';
   headingLevel?: 2 | 3;
   loading?: 'lazy' | 'eager';
+  /** Mounts the set logger on the inline (day sheet) variant. */
+  logger?: boolean;
+  weekday?: Weekday;
+  program?: ProgramMeta;
 }
-const { lang, exercise, prescriptions, variant, headingLevel = 3, loading = 'lazy' } = Astro.props;
+const {
+  lang,
+  exercise,
+  prescriptions,
+  variant,
+  headingLevel = 3,
+  loading = 'lazy',
+  logger = false,
+  weekday,
+  program,
+} = Astro.props;
 const d = exercise.data;
 const href = localeUrl(lang, `exercise/${d.slug}`);
 const Heading = headingLevel === 2 ? 'h2' : 'h3';
@@ -53,6 +69,17 @@ const sizes =
 
     {variant !== 'compact' && prescriptions && (
       <PrescriptionTable lang={lang} prescriptions={prescriptions} />
+    )}
+
+    {variant === 'inline' && logger && program && weekday && prescriptions && (
+      <SetLogger
+        client:load
+        lang={lang}
+        weekday={weekday}
+        program={program}
+        exerciseId={d.slug}
+        prescriptions={prescriptions}
+      />
     )}
 
     {variant !== 'compact' && (

@@ -22,11 +22,31 @@ export async function getSession(id: string): Promise<Session | undefined> {
   return s;
 }
 
-/** Rejects with {@link StorageUnavailableError} when the browser has no usable IndexedDB. */
+/**
+ * Rejects with {@link StorageUnavailableError} when the browser has no usable IndexedDB.
+ *
+ * Each exercise card mounts its own logger and only knows its own plan, so a
+ * later card's first tap must add its item to a session another card already
+ * created for the same day, rather than ignore it.
+ */
 export async function getOrCreateSession(input: SessionPlan): Promise<Session> {
   const id = sessionId(input.dateIso, input.weekday);
   const existing = await getSession(id);
-  if (existing) return existing;
+  if (existing) {
+    const missing = input.plan.filter(
+      (p) => !existing.items.some((i) => i.exerciseId === p.exerciseId),
+    );
+    if (missing.length === 0) return existing;
+    return update(id, (session) => {
+      for (const p of missing) {
+        if (session.items.some((i) => i.exerciseId === p.exerciseId)) continue;
+        session.items.push({
+          exerciseId: p.exerciseId,
+          sets: Array.from({ length: p.sets }, () => ({ done: false })),
+        });
+      }
+    });
+  }
   const session: Session = {
     id,
     date: input.dateIso,
@@ -77,6 +97,25 @@ export function markSet(
     const set = item.sets[index];
     if (!set) throw new Error(`exercise ${exerciseId} has no set ${index}`);
     Object.assign(set, patch);
+  });
+}
+
+/**
+ * Applies reps and/or load to every set of the exercise in one transaction.
+ * Rejects with {@link StorageUnavailableError} when the browser has no usable IndexedDB.
+ */
+export function setExerciseFields(
+  id: string,
+  exerciseId: string,
+  patch: { reps?: number; load?: string },
+): Promise<Session> {
+  return update(id, (session) => {
+    const item = session.items.find((i) => i.exerciseId === exerciseId);
+    if (!item) throw new Error(`session ${id} has no exercise ${exerciseId}`);
+    for (const set of item.sets) {
+      if (patch.reps !== undefined) set.reps = patch.reps;
+      if (patch.load !== undefined) set.load = patch.load;
+    }
   });
 }
 

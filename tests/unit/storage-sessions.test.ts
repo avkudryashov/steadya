@@ -7,6 +7,7 @@ import {
   listSessions,
   markSet,
   sessionId,
+  setExerciseFields,
   topSetsFor,
 } from '@/lib/storage/sessions';
 
@@ -45,6 +46,28 @@ describe('getOrCreateSession', () => {
     const again = await getOrCreateSession({ ...base, dateIso: '2026-09-14' });
     expect(again.items[0]!.sets[0]).toEqual({ done: true, reps: 12 });
   });
+
+  // Each exercise card on the day sheet mounts its own logger and only knows
+  // its own plan, so a later card's first tap must add its item to the
+  // session another card already created for the same day, not replace it.
+  it('adds a missing exercise to a session another logger already created', async () => {
+    await getOrCreateSession({
+      dateIso: '2026-09-14',
+      weekday: 'monday',
+      programId: 'women-70-plus',
+      phaseId: 'p1',
+      plan: [{ exerciseId: 'chair-squat', sets: 2 }],
+    });
+    const withSecond = await getOrCreateSession({
+      dateIso: '2026-09-14',
+      weekday: 'monday',
+      programId: 'women-70-plus',
+      phaseId: 'p1',
+      plan: [{ exerciseId: 'calf-raise', sets: 3 }],
+    });
+    expect(withSecond.items.map((i) => i.exerciseId)).toEqual(['chair-squat', 'calf-raise']);
+    expect(withSecond.items[1]!.sets).toHaveLength(3);
+  });
 });
 
 describe('markSet', () => {
@@ -64,6 +87,35 @@ describe('markSet', () => {
     ]);
     const s = await getSession('2026-09-14:monday');
     expect(s?.items[0]?.sets.map((x) => x.done)).toEqual([true, true]);
+  });
+});
+
+describe('setExerciseFields', () => {
+  it('applies reps and load to every set of the exercise', async () => {
+    await getOrCreateSession({ ...base, dateIso: '2026-09-14' });
+    const updated = await setExerciseFields('2026-09-14:monday', 'chair-squat', {
+      reps: 10,
+      load: 'лента красная',
+    });
+    const item = updated.items.find((i) => i.exerciseId === 'chair-squat');
+    expect(item?.sets).toEqual([
+      { done: false, reps: 10, load: 'лента красная' },
+      { done: false, reps: 10, load: 'лента красная' },
+    ]);
+  });
+
+  it('does not clear a done flag already set on a set', async () => {
+    await getOrCreateSession({ ...base, dateIso: '2026-09-14' });
+    await markSet('2026-09-14:monday', 'chair-squat', 0, { done: true });
+    const updated = await setExerciseFields('2026-09-14:monday', 'chair-squat', { reps: 8 });
+    expect(updated.items[0]!.sets[0]).toEqual({ done: true, reps: 8 });
+  });
+
+  it('rejects an unknown exercise', async () => {
+    await getOrCreateSession({ ...base, dateIso: '2026-09-14' });
+    await expect(setExerciseFields('2026-09-14:monday', 'nope', { reps: 8 })).rejects.toThrow(
+      /nope/,
+    );
   });
 });
 
