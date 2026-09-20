@@ -177,6 +177,38 @@ th {
   background: var(--surface);
 }
 
+/* Phase filter (PhaseFilter island): without JS <html> carries no data-phase
+   and every .phase row in the prescription table stays visible. Once the
+   island sets data-phase on <html>, hide every row and re-show only the one
+   whose own data-phase matches it (kept in sync with PHASE_IDS). */
+:root[data-phase] .phase {
+  display: none;
+}
+:root[data-phase='p1'] .phase[data-phase='p1'],
+:root[data-phase='p2'] .phase[data-phase='p2'],
+:root[data-phase='p3'] .phase[data-phase='p3'],
+:root[data-phase='p4'] .phase[data-phase='p4'] {
+  display: grid;
+}
+
+/* Atlas filter (AtlasFilter island): without JS the [data-atlas] container
+   carries no data-equipment and every card stays visible. Once the island
+   sets data-equipment on the container, hide cards whose own data-equipment
+   list does not include that id (kept in sync with EQUIPMENT). */
+[data-atlas][data-equipment='none'] .exercise:not([data-equipment~='none']),
+[data-atlas][data-equipment='chair'] .exercise:not([data-equipment~='chair']),
+[data-atlas][data-equipment='wall'] .exercise:not([data-equipment~='wall']),
+[data-atlas][data-equipment='mat'] .exercise:not([data-equipment~='mat']),
+[data-atlas][data-equipment='dumbbells'] .exercise:not([data-equipment~='dumbbells']),
+[data-atlas][data-equipment='longBand'] .exercise:not([data-equipment~='longBand']),
+[data-atlas][data-equipment='miniBand'] .exercise:not([data-equipment~='miniBand']),
+[data-atlas][data-equipment='step'] .exercise:not([data-equipment~='step']),
+[data-atlas][data-equipment='roller'] .exercise:not([data-equipment~='roller']),
+[data-atlas][data-equipment='backpack'] .exercise:not([data-equipment~='backpack']),
+[data-atlas][data-equipment='pillow'] .exercise:not([data-equipment~='pillow']) {
+  display: none;
+}
+
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,

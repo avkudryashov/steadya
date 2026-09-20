@@ -28,6 +28,7 @@ const sizes =
 <article
   class={`card exercise exercise--${variant}`}
   id={variant === 'inline' ? `ex-${d.slug}` : undefined}
+  data-equipment={variant === 'compact' ? d.equipment.join(' ') : undefined}
 >
   <div class="media">
     <Picture
