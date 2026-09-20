@@ -1,6 +1,5 @@
 // @ts-check
 import { defineConfig } from 'astro/config';
-import preact from '@astrojs/preact';
 import sitemap from '@astrojs/sitemap';
 
 const site = process.env.SITE_URL ?? 'https://steadya.app';
@@ -11,7 +10,7 @@ export default defineConfig({
   base,
   output: 'static',
   trailingSlash: 'always',
-  integrations: [preact(), sitemap()],
+  integrations: [sitemap()],
   i18n: {
     locales: ['ru', 'en', 'es'],
     defaultLocale: 'ru',
