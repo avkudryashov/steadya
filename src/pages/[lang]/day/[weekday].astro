@@ -1,14 +1,12 @@
 ---
 import BaseLayout from '@/layouts/BaseLayout.astro';
 import DayBlock from '@/components/DayBlock.astro';
-import PhaseFilter from '@/islands/PhaseFilter';
 import { BUILT_LOCALES, type Lang } from '@/i18n/locales';
 import { t } from '@/i18n/t';
 import { isExerciseItem, WEEKDAYS, type Weekday } from '@/content/schemas';
 import { getExercisesByLang, getProgram } from '@/lib/content';
 import { exerciseSlugsOfDay, findDay } from '@/lib/program';
 import { localeUrl } from '@/lib/urls';
-import type { ProgramMeta } from '@/lib/phase';
 
 export function getStaticPaths() {
   return BUILT_LOCALES.flatMap((lang) =>
@@ -26,12 +24,6 @@ for (const slug of exerciseSlugsOfDay(day))
   if (!exercises.has(slug)) throw new Error(`no exercise ${slug} for ${lang}`);
 const daily = program.data.daily.filter((d) => !d.exceptWeekdays.includes(weekday));
 const routines = { warmup: program.data.warmup, cooldown: program.data.cooldown };
-const programMeta: ProgramMeta = {
-  id: program.data.id,
-  weeks: program.data.weeks,
-  deloadWeeks: program.data.deloadWeeks,
-  phases: program.data.phases,
-};
 let eagerBlock = -1;
 let eagerItem = -1;
 for (const [bi, block] of day.blocks.entries()) {
@@ -53,19 +45,9 @@ const title = `${t(lang, `weekday.${weekday}`)}: ${day.title}`;
   <h1>{day.title}</h1>
   {day.note && <p class="note">{day.note}</p>}
 
-  {day.blocks.length > 0 && (
-    <PhaseFilter
-      client:load
-      lang={lang}
-      phases={program.data.phases.map((p) => ({ id: p.id, label: p.label }))}
-    />
-  )}
-
   {day.blocks.map((block, index) => (
     <DayBlock
       lang={lang}
-      weekday={weekday}
-      program={programMeta}
       block={block}
       exercises={exercises}
       routines={routines}
@@ -99,30 +81,5 @@ const title = `${t(lang, `weekday.${weekday}`)}: ${day.title}`;
     text-transform: uppercase;
     font-size: var(--fs-small);
     margin-bottom: var(--space-1);
-  }
-</style>
-
-<style is:global>
-  .phase-filter {
-    display: flex;
-    flex-wrap: wrap;
-    gap: var(--space-2);
-    margin-bottom: var(--space-4);
-  }
-  .phase-filter button {
-    display: inline-flex;
-    align-items: center;
-    min-height: var(--tap);
-    padding: 0 var(--space-4);
-    border-radius: 999px;
-    border: 2px solid transparent;
-    background: var(--accent-soft);
-    color: var(--ink);
-    font: inherit;
-    font-weight: 600;
-    cursor: pointer;
-  }
-  .phase-filter button[aria-pressed='true'] {
-    border-color: var(--accent);
   }
 </style>

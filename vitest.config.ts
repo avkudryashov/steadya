@@ -5,6 +5,5 @@ export default getViteConfig({
   test: {
     include: ['tests/unit/**/*.test.ts', 'tests/unit/**/*.test.tsx'],
     environment: 'node',
-    setupFiles: ['tests/setup/indexeddb.ts'],
   },
 });
