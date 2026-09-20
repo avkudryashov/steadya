@@ -16,12 +16,10 @@ from playwright.sync_api import sync_playwright
 ROUTES = [
     "/ru/",
     "/ru/day/monday/",
-    "/ru/day/monday/session/",
     "/ru/day/tuesday/",
     "/ru/day/wednesday/",
     "/ru/day/thursday/",
     "/ru/day/friday/",
-    "/ru/day/friday/session/",
     "/ru/day/saturday/",
     "/ru/day/sunday/",
     "/ru/exercises/",

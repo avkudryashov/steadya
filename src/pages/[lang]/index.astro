@@ -15,9 +15,6 @@ const program = await getProgram(lang);
 const dayLinks = Object.fromEntries(
   WEEKDAYS.map((w) => [w, localeUrl(lang, `day/${w}`)]),
 ) as Record<Weekday, string>;
-const sessionLinks = Object.fromEntries(
-  WEEKDAYS.map((w) => [w, localeUrl(lang, `day/${w}/session`)]),
-) as Record<Weekday, string>;
 const meta = {
   id: program.data.id,
   weeks: program.data.weeks,
@@ -29,7 +26,6 @@ const days = program.data.days.map((d) => ({
   title: d.title,
   durationMin: d.durationMin,
   kind: d.kind,
-  hasBlocks: d.blocks.length > 0,
 }));
 ---
 
@@ -50,7 +46,6 @@ const days = program.data.days.map((d) => ({
     program={meta}
     days={days}
     dayLinks={dayLinks}
-    sessionLinks={sessionLinks}
     settingsLink={localeUrl(lang, 'settings')}
   />
   <ol class="week">
