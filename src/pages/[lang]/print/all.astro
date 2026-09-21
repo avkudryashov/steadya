@@ -1,12 +1,11 @@
 ---
-import PrintLayout from '@/layouts/PrintLayout.astro';
-import DaySheet from '@/components/print/DaySheet.astro';
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import DayBlock from '@/components/DayBlock.astro';
 import DiarySheet from '@/components/print/DiarySheet.astro';
-import TestsSheet from '@/components/print/TestsSheet.astro';
 import { BUILT_LOCALES, type Lang } from '@/i18n/locales';
 import { t } from '@/i18n/t';
 import { WEEKDAYS } from '@/content/schemas';
-import { getProgram } from '@/lib/content';
+import { getExercisesByLang, getProgram, getTests } from '@/lib/content';
 import { findDay } from '@/lib/program';
 
 export function getStaticPaths() {
@@ -18,19 +17,106 @@ const program = await getProgram(lang);
 const printableWeekdays = WEEKDAYS.filter(
   (weekday) => findDay(program.data, weekday).blocks.length > 0,
 );
+const all = await getExercisesByLang(lang);
+const exercises = new Map(all.map((e) => [e.data.slug, e]));
+const routines = { warmup: program.data.warmup, cooldown: program.data.cooldown };
+const tests = await getTests(lang);
+const measures = [1, 2, 3, 4];
 ---
 
-<PrintLayout lang={lang} title={t(lang, 'print.program_title')}>
-  {printableWeekdays.map((weekday) => (
-    <DaySheet lang={lang} weekday={weekday} />
-  ))}
-  <DiarySheet lang={lang} />
-  <TestsSheet lang={lang} />
-</PrintLayout>
+<BaseLayout
+  lang={lang}
+  title={t(lang, 'print.program_title')}
+  description={t(lang, 'print.program_title')}
+  noindex
+>
+  {printableWeekdays.map((weekday) => {
+    const day = findDay(program.data, weekday);
+    return (
+      <section class="print-section">
+        <p class="eyebrow">
+          {t(lang, `weekday.${weekday}`)}
+          {day.durationMin > 0 && ` · ${t(lang, 'day.duration', { min: day.durationMin })}`}
+        </p>
+        <h1>{day.title}</h1>
+        {day.note && <p class="note">{day.note}</p>}
+        <p class="print-only">
+          {t(lang, 'print.date')} <span class="blank"></span>
+          {t(lang, 'print.week')} <span class="blank"></span>
+          {t(lang, 'print.phase')} <span class="blank"></span>
+        </p>
+
+        {day.blocks.map((block) => (
+          <DayBlock lang={lang} block={block} exercises={exercises} routines={routines} />
+        ))}
+
+        <p class="note">{t(lang, 'phase.deload')}</p>
+        <p class="print-only">
+          {t(lang, 'print.feeling')} <span class="blank"></span>
+          {t(lang, 'print.note')} <span class="blank blank-wide"></span>
+        </p>
+      </section>
+    );
+  })}
+
+  <section class="print-section">
+    <DiarySheet lang={lang} />
+  </section>
+
+  <section class="print-section">
+    <h1>{t(lang, 'tests.title')}</h1>
+    <p>{t(lang, 'tests.lead')}</p>
+    <div class="list">
+      {tests.map((test) => (
+        <article class="card" id={test.id}>
+          <h2>{test.title}</h2>
+          <p>
+            <strong>{t(lang, 'tests.how')}:</strong> {test.howTo}
+          </p>
+          <p>
+            <strong>{t(lang, 'tests.threshold')}:</strong> {test.thresholdNote}
+          </p>
+          <p>
+            <strong>{t(lang, 'tests.meaning')}:</strong> {test.meaning}
+          </p>
+          <p class="measures">
+            {measures.map((n) => (
+              <span class="measure">
+                {t(lang, 'print.measure', { n })} <span class="blank"></span>
+              </span>
+            ))}
+          </p>
+        </article>
+      ))}
+    </div>
+    <p>{t(lang, 'tests.goal')}</p>
+  </section>
+</BaseLayout>
 
 <style>
-  :global(.disclaimer) {
-    margin-top: 1mm;
-    line-height: 1.1;
+  .print-section + .print-section {
+    break-before: page;
+  }
+  .eyebrow {
+    color: var(--accent);
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    font-size: var(--fs-small);
+    margin-bottom: var(--space-1);
+  }
+  .list {
+    display: grid;
+    gap: var(--space-4);
+    margin-bottom: var(--space-6);
+  }
+  .measures {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-3);
+    margin: var(--space-2) 0 0;
+  }
+  .measure {
+    white-space: nowrap;
   }
 </style>

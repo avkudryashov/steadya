@@ -41,5 +41,14 @@ const canonical = new URL(Astro.url.pathname, Astro.site);
       <slot />
     </main>
     <SiteFooter lang={lang} />
+    <p class="print-only disclaimer-print">{t(lang, 'site.disclaimer')}</p>
   </body>
 </html>
+
+<style>
+  .disclaimer-print {
+    padding-inline: var(--space-4);
+    color: var(--muted);
+    font-size: var(--fs-small);
+  }
+</style>

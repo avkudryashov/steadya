@@ -28,16 +28,22 @@ PDF_DIR = DIST / "ru" / "pdf"
 _raw_base_path = os.environ.get("BASE_PATH", "/").strip("/")
 BASE_PREFIX = f"/{_raw_base_path}" if _raw_base_path else ""
 
-# маршрут, имя файла, ожидаемое число страниц
+# маршрут, имя файла, ожидаемое число страниц (None: число не фиксировано,
+# лист с картинками может занять больше одной страницы).
+# Печатаются настоящие страницы дня и тестов (не отдельные print-листы: с
+# S4 печатный вид это то же самое, что на экране, через `@media print`).
 ROUTES = [
-    ("/ru/print/day/monday/", "day-monday.pdf", 1),
-    ("/ru/print/day/tuesday/", "day-tuesday.pdf", 1),
-    ("/ru/print/day/thursday/", "day-thursday.pdf", 1),
-    ("/ru/print/day/friday/", "day-friday.pdf", 1),
+    ("/ru/day/monday/", "day-monday.pdf", None),
+    ("/ru/day/tuesday/", "day-tuesday.pdf", None),
+    ("/ru/day/thursday/", "day-thursday.pdf", None),
+    ("/ru/day/friday/", "day-friday.pdf", None),
+    ("/ru/tests/", "tests.pdf", None),
     ("/ru/print/diary/", "diary.pdf", 1),
-    ("/ru/print/tests/", "tests.pdf", 1),
-    ("/ru/print/all/", "program.pdf", 6),
 ]
+
+# сводный файл: маршрут и имя, число страниц не фиксируем константой, а
+# сверяем с суммой страниц отдельных файлов выше (см. main()).
+ALL_ROUTE = ("/ru/print/all/", "program.pdf")
 
 
 def count_pages(data: bytes) -> int:
@@ -97,7 +103,8 @@ def main() -> int:
                 print(f"ошибка: chromium недоступен: {exc}", file=sys.stderr)
                 return 1
             page = browser.new_page()
-            for route, filename, expected_pages in ROUTES:
+
+            def render(route: str, filename: str) -> int:
                 out = PDF_DIR / filename
                 page.goto(base + route, wait_until="networkidle")
                 page.pdf(
@@ -116,10 +123,25 @@ def main() -> int:
                 pages = count_pages(data)
                 size_kb = len(data) / 1024
                 rows.append((filename, pages, size_kb))
-                if pages != expected_pages:
+                return pages
+
+            pages_by_file: dict[str, int] = {}
+            for route, filename, expected_pages in ROUTES:
+                pages = render(route, filename)
+                pages_by_file[filename] = pages
+                if expected_pages is not None and pages != expected_pages:
                     problems.append(
                         f"{filename}: ожидалось страниц {expected_pages}, получено {pages}"
                     )
+
+            all_route, all_filename = ALL_ROUTE
+            all_pages = render(all_route, all_filename)
+            individual_sum = sum(pages_by_file.values())
+            if abs(all_pages - individual_sum) > len(ROUTES):
+                problems.append(
+                    f"{all_filename}: сумма страниц отдельных файлов {individual_sum}, "
+                    f"а в сводном файле {all_pages}, разница больше страницы на раздел"
+                )
             browser.close()
     finally:
         server.shutdown()

@@ -3,13 +3,14 @@ import BaseLayout from '@/layouts/BaseLayout.astro';
 import { BUILT_LOCALES, type Lang } from '@/i18n/locales';
 import { t } from '@/i18n/t';
 import { getTests } from '@/lib/content';
-import { localeUrl, pdfUrl } from '@/lib/urls';
+import { pdfUrl } from '@/lib/urls';
 
 export function getStaticPaths() {
   return BUILT_LOCALES.map((lang) => ({ params: { lang } }));
 }
 const lang = Astro.params.lang as Lang;
 const tests = await getTests(lang);
+const measures = [1, 2, 3, 4];
 ---
 
 <BaseLayout
@@ -33,14 +34,21 @@ const tests = await getTests(lang);
         <p>
           <strong>{t(lang, 'tests.meaning')}:</strong> {test.meaning}
         </p>
+        <p class="print-only measures">
+          {measures.map((n) => (
+            <span class="measure">
+              {t(lang, 'print.measure', { n })} <span class="blank"></span>
+            </span>
+          ))}
+        </p>
       </article>
     ))}
   </div>
   <p>{t(lang, 'tests.goal')}</p>
   <p>
-    <a class="btn secondary" href={localeUrl(lang, 'print/tests')}>
+    <button class="btn secondary" type="button" onclick="window.print()">
       {t(lang, 'print.tests_sheet')}
-    </a>
+    </button>
     <a class="btn secondary" href={pdfUrl(lang, 'tests')} download>
       {t(lang, 'print.pdf_tests')}
     </a>
@@ -52,5 +60,14 @@ const tests = await getTests(lang);
     display: grid;
     gap: var(--space-4);
     margin-bottom: var(--space-6);
+  }
+  .measures {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-3);
+    margin: var(--space-2) 0 0;
+  }
+  .measure {
+    white-space: nowrap;
   }
 </style>

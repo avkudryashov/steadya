@@ -186,3 +186,61 @@ th {
     scroll-behavior: auto !important;
   }
 }
+
+/* Print-only fill-in marks: shown only when printed, reused by the exercise
+   card, the day page and the tests page for handwritten values on paper. */
+.print-only {
+  display: none;
+}
+.box {
+  display: inline-block;
+  width: 6mm;
+  height: 6mm;
+  border: 1px solid #000;
+  margin-right: 1.5mm;
+}
+.blank {
+  display: inline-block;
+  min-width: 28mm;
+  border-bottom: 1px solid #000;
+}
+.blank-wide {
+  min-width: 80mm;
+}
+
+@media print {
+  :root,
+  :root:not([data-theme='light']),
+  :root[data-theme='dark'] {
+    --bg: #fff;
+    --surface: #fff;
+    --ink: #000;
+    --muted: #333;
+    --line: #000;
+    --accent: #000;
+    --accent-ink: #fff;
+    --accent-soft: #fff;
+    --warn: #000;
+    --warn-soft: #fff;
+    --danger: #000;
+    --danger-soft: #fff;
+    --focus: #000;
+    --image-bg: #fff;
+  }
+  .skip-link,
+  .site-header,
+  .bottom-nav,
+  .site-footer,
+  .btn {
+    display: none !important;
+  }
+  .print-only {
+    display: block;
+  }
+  body {
+    padding-block: 0;
+  }
+  .card {
+    break-inside: avoid;
+  }
+}
