@@ -6,7 +6,9 @@
 ## Команды
 
 - `pnpm dev` локальный сервер
-- `pnpm build` сборка в `dist/`
+- `pnpm build` сборка в `dist/`, затем печатает готовые PDF в `dist/ru/pdf/`
+  (нужен playwright с chromium, установленный в системе)
+- `pnpm build:nopdf` та же сборка, но без PDF (быстрый прогон, `SKIP_PDF=1`)
 - `pnpm check && pnpm lint && pnpm test && pnpm validate` проверки
 
 ## Переменные сборки

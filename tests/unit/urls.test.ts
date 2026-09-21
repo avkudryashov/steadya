@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { buildLocaleUrl } from '@/lib/urls';
+import { buildLocaleUrl, buildPdfUrl } from '@/lib/urls';
 
 describe('buildLocaleUrl', () => {
   it('prefixes base and lang and ends with slash', () => {
@@ -9,5 +9,12 @@ describe('buildLocaleUrl', () => {
   it('handles root path', () => {
     expect(buildLocaleUrl('/', 'ru', '')).toBe('/ru/');
     expect(buildLocaleUrl('/steadya', 'en', '/')).toBe('/steadya/en/');
+  });
+});
+
+describe('buildPdfUrl', () => {
+  it('prefixes base and lang and appends .pdf', () => {
+    expect(buildPdfUrl('/', 'ru', 'day-monday')).toBe('/ru/pdf/day-monday.pdf');
+    expect(buildPdfUrl('/steadya', 'ru', 'program')).toBe('/steadya/ru/pdf/program.pdf');
   });
 });

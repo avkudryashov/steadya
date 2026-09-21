@@ -1,0 +1,36 @@
+---
+import PrintLayout from '@/layouts/PrintLayout.astro';
+import DaySheet from '@/components/print/DaySheet.astro';
+import DiarySheet from '@/components/print/DiarySheet.astro';
+import TestsSheet from '@/components/print/TestsSheet.astro';
+import { BUILT_LOCALES, type Lang } from '@/i18n/locales';
+import { t } from '@/i18n/t';
+import { WEEKDAYS } from '@/content/schemas';
+import { getProgram } from '@/lib/content';
+import { findDay } from '@/lib/program';
+
+export function getStaticPaths() {
+  return BUILT_LOCALES.map((lang) => ({ params: { lang } }));
+}
+
+const lang = Astro.params.lang as Lang;
+const program = await getProgram(lang);
+const printableWeekdays = WEEKDAYS.filter(
+  (weekday) => findDay(program.data, weekday).blocks.length > 0,
+);
+---
+
+<PrintLayout lang={lang} title={t(lang, 'print.program_title')}>
+  {printableWeekdays.map((weekday) => (
+    <DaySheet lang={lang} weekday={weekday} />
+  ))}
+  <DiarySheet lang={lang} />
+  <TestsSheet lang={lang} />
+</PrintLayout>
+
+<style>
+  :global(.disclaimer) {
+    margin-top: 1mm;
+    line-height: 1.1;
+  }
+</style>

@@ -72,6 +72,9 @@ tr,
 li {
   break-inside: avoid;
 }
+.sheet + .sheet {
+  break-before: page;
+}
 .print-button {
   margin-bottom: 6mm;
 }

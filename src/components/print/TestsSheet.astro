@@ -1,0 +1,63 @@
+---
+import { t } from '@/i18n/t';
+import type { Lang } from '@/i18n/locales';
+import { getTests } from '@/lib/content';
+
+interface Props {
+  lang: Lang;
+}
+const { lang } = Astro.props;
+
+const tests = await getTests(lang);
+const measures = [1, 2, 3, 4];
+---
+
+<div class="sheet">
+  <h1>{t(lang, 'print.tests_title')}</h1>
+
+  <table>
+    <colgroup>
+      <col style="width: 26%" />
+      <col style="width: 22%" />
+      <col style="width: 13%" />
+      <col style="width: 13%" />
+      <col style="width: 13%" />
+      <col style="width: 13%" />
+    </colgroup>
+    <thead>
+      <tr>
+        <th scope="col">{t(lang, 'print.test')}</th>
+        <th scope="col">{t(lang, 'tests.threshold')}</th>
+        {measures.map((n) => (
+          <th scope="col">
+            {t(lang, 'print.measure', { n })}
+            <br />
+            <span class="blank"></span>
+          </th>
+        ))}
+      </tr>
+    </thead>
+    <tbody>
+      {tests.map((test) => (
+        <tr>
+          <td>
+            {test.title} <span class="hint">({test.howTo})</span>
+          </td>
+          <td>{test.thresholdNote}</td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+        </tr>
+      ))}
+    </tbody>
+  </table>
+
+  <p class="goal">{t(lang, 'tests.goal')}</p>
+</div>
+
+<style>
+  .goal {
+    margin-top: 4mm;
+  }
+</style>

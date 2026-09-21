@@ -3,7 +3,7 @@ import BaseLayout from '@/layouts/BaseLayout.astro';
 import { BUILT_LOCALES, type Lang } from '@/i18n/locales';
 import { t } from '@/i18n/t';
 import { getTests } from '@/lib/content';
-import { localeUrl } from '@/lib/urls';
+import { localeUrl, pdfUrl } from '@/lib/urls';
 
 export function getStaticPaths() {
   return BUILT_LOCALES.map((lang) => ({ params: { lang } }));
@@ -40,6 +40,9 @@ const tests = await getTests(lang);
   <p>
     <a class="btn secondary" href={localeUrl(lang, 'print/tests')}>
       {t(lang, 'print.tests_sheet')}
+    </a>
+    <a class="btn secondary" href={pdfUrl(lang, 'tests')} download>
+      {t(lang, 'print.pdf_tests')}
     </a>
   </p>
 </BaseLayout>

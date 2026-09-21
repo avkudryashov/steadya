@@ -5,7 +5,7 @@ import { t } from '@/i18n/t';
 import { WEEKDAYS } from '@/content/schemas';
 import { getPagesByLang, getProgram } from '@/lib/content';
 import { findDay } from '@/lib/program';
-import { localeUrl } from '@/lib/urls';
+import { localeUrl, pdfUrl } from '@/lib/urls';
 
 export function getStaticPaths() {
   return BUILT_LOCALES.map((lang) => ({ params: { lang } }));
@@ -27,6 +27,15 @@ const printLinks = [
     href: localeUrl(lang, `print/day/${weekday}`),
     label: `${t(lang, `weekday.${weekday}`)}. ${t(lang, 'print.day_sheet')}`,
   })),
+];
+const pdfLinks = [
+  ...printableWeekdays.map((weekday) => ({
+    href: pdfUrl(lang, `day-${weekday}`),
+    label: `${t(lang, `weekday.${weekday}`)}. ${t(lang, 'print.pdf_day')}`,
+  })),
+  { href: pdfUrl(lang, 'diary'), label: t(lang, 'print.pdf_diary') },
+  { href: pdfUrl(lang, 'tests'), label: t(lang, 'print.pdf_tests') },
+  { href: pdfUrl(lang, 'program'), label: t(lang, 'print.pdf_all') },
 ];
 ---
 
@@ -52,6 +61,17 @@ const printLinks = [
     {printLinks.map((l) => (
       <li>
         <a class="row" href={l.href}>
+          {l.label}
+        </a>
+      </li>
+    ))}
+  </ul>
+
+  <h2>{t(lang, 'print.pdf_section')}</h2>
+  <ul class="links">
+    {pdfLinks.map((l) => (
+      <li>
+        <a class="row" href={l.href} download>
           {l.label}
         </a>
       </li>
