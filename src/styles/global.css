@@ -252,7 +252,7 @@ th {
     font-size: 12pt;
   }
   .card {
-    break-inside: avoid;
+    break-inside: auto;
     padding: 3mm;
   }
 }
