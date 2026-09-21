@@ -2,7 +2,9 @@
 import BaseLayout from '@/layouts/BaseLayout.astro';
 import { BUILT_LOCALES, type Lang } from '@/i18n/locales';
 import { t } from '@/i18n/t';
-import { getPagesByLang } from '@/lib/content';
+import { WEEKDAYS } from '@/content/schemas';
+import { getPagesByLang, getProgram } from '@/lib/content';
+import { findDay } from '@/lib/program';
 import { localeUrl } from '@/lib/urls';
 
 export function getStaticPaths() {
@@ -13,6 +15,18 @@ const pages = await getPagesByLang(lang);
 const links = [
   { href: localeUrl(lang, 'tests'), label: t(lang, 'more.tests') },
   ...pages.map((p) => ({ href: localeUrl(lang, p.id.split('/')[1]!), label: p.data.title })),
+];
+const program = await getProgram(lang);
+const printableWeekdays = WEEKDAYS.filter(
+  (weekday) => findDay(program.data, weekday).blocks.length > 0,
+);
+const printLinks = [
+  { href: localeUrl(lang, 'print/diary'), label: t(lang, 'print.diary_sheet') },
+  { href: localeUrl(lang, 'print/tests'), label: t(lang, 'print.tests_sheet') },
+  ...printableWeekdays.map((weekday) => ({
+    href: localeUrl(lang, `print/day/${weekday}`),
+    label: `${t(lang, `weekday.${weekday}`)}. ${t(lang, 'print.day_sheet')}`,
+  })),
 ];
 ---
 
@@ -25,6 +39,17 @@ const links = [
   <h1>{t(lang, 'nav.more')}</h1>
   <ul class="links">
     {links.map((l) => (
+      <li>
+        <a class="row" href={l.href}>
+          {l.label}
+        </a>
+      </li>
+    ))}
+  </ul>
+
+  <h2>{t(lang, 'print.section')}</h2>
+  <ul class="links">
+    {printLinks.map((l) => (
       <li>
         <a class="row" href={l.href}>
           {l.label}

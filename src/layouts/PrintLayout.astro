@@ -1,0 +1,49 @@
+---
+import '@/styles/print.css';
+import type { Lang } from '@/i18n/locales';
+import { t } from '@/i18n/t';
+
+interface Props {
+  lang: Lang;
+  title: string;
+}
+const { lang, title } = Astro.props;
+---
+
+<!doctype html>
+<html lang={lang}>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title} · {t(lang, 'site.name')}</title>
+    <meta name="robots" content="noindex" />
+  </head>
+  <body>
+    <p class="print-bar">
+      <button class="print-button" type="button" onclick="window.print()">
+        {t(lang, 'print.print')}
+      </button>
+    </p>
+    <slot />
+    <p class="hint disclaimer">{t(lang, 'site.disclaimer')}</p>
+  </body>
+</html>
+
+<style>
+  .print-bar {
+    margin: 0;
+    text-align: right;
+  }
+  .print-button {
+    font: inherit;
+    font-size: 11pt;
+    padding: 2mm 4mm;
+    background: #fff;
+    color: #000;
+    border: 1px solid #000;
+    cursor: pointer;
+  }
+  .disclaimer {
+    margin-top: 6mm;
+  }
+</style>

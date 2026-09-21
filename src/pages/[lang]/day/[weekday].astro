@@ -70,6 +70,11 @@ const title = `${t(lang, `weekday.${weekday}`)}: ${day.title}`;
     <a class="btn secondary" href={localeUrl(lang, 'program')}>
       {t(lang, 'nav.program')}
     </a>
+    {day.blocks.length > 0 && (
+      <a class="btn secondary" href={localeUrl(lang, `print/day/${weekday}`)}>
+        {t(lang, 'print.day_sheet')}
+      </a>
+    )}
   </p>
 </BaseLayout>
 
