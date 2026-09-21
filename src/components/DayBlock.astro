@@ -122,4 +122,12 @@ const { lang, block, exercises, routines, eagerItemIndex } = Astro.props;
     color: var(--muted);
     white-space: nowrap;
   }
+  @media print {
+    .block {
+      margin-bottom: 4mm;
+    }
+    .items {
+      gap: 4mm;
+    }
+  }
 </style>

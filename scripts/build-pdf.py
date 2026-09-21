@@ -107,6 +107,17 @@ def main() -> int:
             def render(route: str, filename: str) -> int:
                 out = PDF_DIR / filename
                 page.goto(base + route, wait_until="networkidle")
+                # `loading="lazy"` бережёт трафик в браузере, но
+                # headless-печать не проходит через настоящий скролл, так
+                # что картинки ниже первого экрана без этого никогда не
+                # начинают загружаться и остаются пустыми в PDF.
+                page.evaluate(
+                    "document.querySelectorAll('img[loading=\"lazy\"]')"
+                    ".forEach((img) => { img.loading = 'eager'; })"
+                )
+                page.wait_for_function(
+                    "Array.from(document.images).every((img) => img.complete)"
+                )
                 page.pdf(
                     path=str(out),
                     format="A4",
