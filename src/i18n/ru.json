@@ -119,5 +119,11 @@
   "print.to": "по",
   "print.diary_title": "Дневник недели",
   "print.tests_title": "Домашние тесты",
-  "print.day_title": "{weekday}. {title}"
+  "print.day_title": "{weekday}. {title}",
+  "print.program_title": "Вся программа",
+  "print.pdf_section": "Файлы для скачивания",
+  "print.pdf_day": "Скачать лист дня (PDF)",
+  "print.pdf_tests": "Скачать лист тестов (PDF)",
+  "print.pdf_diary": "Скачать дневник недели (PDF)",
+  "print.pdf_all": "Скачать всю программу (PDF)"
 }

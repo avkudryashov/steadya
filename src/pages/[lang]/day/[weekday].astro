@@ -6,7 +6,7 @@ import { t } from '@/i18n/t';
 import { isExerciseItem, WEEKDAYS, type Weekday } from '@/content/schemas';
 import { getExercisesByLang, getProgram } from '@/lib/content';
 import { exerciseSlugsOfDay, findDay } from '@/lib/program';
-import { localeUrl } from '@/lib/urls';
+import { localeUrl, pdfUrl } from '@/lib/urls';
 
 export function getStaticPaths() {
   return BUILT_LOCALES.flatMap((lang) =>
@@ -73,6 +73,11 @@ const title = `${t(lang, `weekday.${weekday}`)}: ${day.title}`;
     {day.blocks.length > 0 && (
       <a class="btn secondary" href={localeUrl(lang, `print/day/${weekday}`)}>
         {t(lang, 'print.day_sheet')}
+      </a>
+    )}
+    {day.blocks.length > 0 && (
+      <a class="btn secondary" href={pdfUrl(lang, `day-${weekday}`)} download>
+        {t(lang, 'print.pdf_day')}
       </a>
     )}
   </p>
