@@ -32,12 +32,7 @@ ROUTES = [
     "/ru/nutrition/",
     "/ru/equipment/",
     "/ru/about/",
-    "/ru/print/day/monday/",
-    "/ru/print/day/tuesday/",
-    "/ru/print/day/thursday/",
-    "/ru/print/day/friday/",
     "/ru/print/diary/",
-    "/ru/print/tests/",
     "/ru/print/all/",
 ]
 

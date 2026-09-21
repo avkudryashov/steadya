@@ -20,14 +20,7 @@ const program = await getProgram(lang);
 const printableWeekdays = WEEKDAYS.filter(
   (weekday) => findDay(program.data, weekday).blocks.length > 0,
 );
-const printLinks = [
-  { href: localeUrl(lang, 'print/diary'), label: t(lang, 'print.diary_sheet') },
-  { href: localeUrl(lang, 'print/tests'), label: t(lang, 'print.tests_sheet') },
-  ...printableWeekdays.map((weekday) => ({
-    href: localeUrl(lang, `print/day/${weekday}`),
-    label: `${t(lang, `weekday.${weekday}`)}. ${t(lang, 'print.day_sheet')}`,
-  })),
-];
+const printLinks = [{ href: localeUrl(lang, 'print/diary'), label: t(lang, 'print.diary_sheet') }];
 const pdfLinks = [
   ...printableWeekdays.map((weekday) => ({
     href: pdfUrl(lang, `day-${weekday}`),

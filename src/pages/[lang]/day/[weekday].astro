@@ -45,6 +45,14 @@ const title = `${t(lang, `weekday.${weekday}`)}: ${day.title}`;
   <h1>{day.title}</h1>
   {day.note && <p class="note">{day.note}</p>}
 
+  {day.blocks.length > 0 && (
+    <p class="print-only">
+      {t(lang, 'print.date')} <span class="blank"></span>
+      {t(lang, 'print.week')} <span class="blank"></span>
+      {t(lang, 'print.phase')} <span class="blank"></span>
+    </p>
+  )}
+
   {day.blocks.map((block, index) => (
     <DayBlock
       lang={lang}
@@ -66,14 +74,21 @@ const title = `${t(lang, `weekday.${weekday}`)}: ${day.title}`;
     </ul>
   </section>
 
+  {day.blocks.length > 0 && (
+    <p class="print-only">
+      {t(lang, 'print.feeling')} <span class="blank"></span>
+      {t(lang, 'print.note')} <span class="blank blank-wide"></span>
+    </p>
+  )}
+
   <p>
     <a class="btn secondary" href={localeUrl(lang, 'program')}>
       {t(lang, 'nav.program')}
     </a>
     {day.blocks.length > 0 && (
-      <a class="btn secondary" href={localeUrl(lang, `print/day/${weekday}`)}>
+      <button class="btn secondary" type="button" onclick="window.print()">
         {t(lang, 'print.day_sheet')}
-      </a>
+      </button>
     )}
     {day.blocks.length > 0 && (
       <a class="btn secondary" href={pdfUrl(lang, `day-${weekday}`)} download>

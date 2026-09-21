@@ -4,7 +4,7 @@ import type { CollectionEntry } from 'astro:content';
 import type { Lang } from '@/i18n/locales';
 import { t } from '@/i18n/t';
 import { localeUrl } from '@/lib/urls';
-import { STEP_IDS, type PhaseId, type Prescription } from '@/content/schemas';
+import { PHASE_IDS, STEP_IDS, type PhaseId, type Prescription } from '@/content/schemas';
 import PrescriptionTable from './PrescriptionTable.astro';
 
 interface Props {
@@ -23,6 +23,9 @@ const Section = headingLevel === 2 ? 'h2' : 'h4';
 const widths = variant === 'compact' ? [320, 640] : [320, 640, 960];
 const sizes =
   variant === 'compact' ? '(max-width: 600px) 45vw, 240px' : '(max-width: 900px) 100vw, 400px';
+const maxSets = prescriptions
+  ? Math.max(3, ...PHASE_IDS.map((p) => prescriptions[p]?.sets ?? 0))
+  : 3;
 ---
 
 <article
@@ -112,6 +115,16 @@ const sizes =
             <a href={href}>{t(lang, 'exercise.open')}</a>
           </p>
         </details>
+        {prescriptions && (
+          <p class="print-only fill-in">
+            <span class="fill-label">{t(lang, 'print.sets')}</span>
+            {Array.from({ length: maxSets }).map(() => (
+              <span class="box"></span>
+            ))}
+            <span class="fill-label">{t(lang, 'print.load')}</span> <span class="blank"></span>
+            <span class="fill-label">{t(lang, 'print.reps')}</span> <span class="blank"></span>
+          </p>
+        )}
       </>
     )}
 
@@ -272,5 +285,25 @@ const sizes =
     cursor: pointer;
     font-weight: 700;
     color: var(--accent);
+  }
+  .fill-in {
+    margin: var(--space-2) 0 0;
+  }
+  .fill-label {
+    font-weight: 700;
+    margin-right: var(--space-1);
+  }
+  @media print {
+    .exercise {
+      break-inside: avoid;
+    }
+    .media :global(img) {
+      width: 45mm;
+      height: 45mm;
+      max-width: 45mm;
+    }
+    details {
+      display: none;
+    }
   }
 </style>
