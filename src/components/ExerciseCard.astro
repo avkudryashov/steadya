@@ -297,10 +297,15 @@ const maxSets = prescriptions
     .exercise {
       break-inside: avoid;
     }
-    .media :global(img) {
-      width: 45mm;
-      height: 45mm;
-      max-width: 45mm;
+    .exercise--inline {
+      grid-template-columns: 40mm minmax(0, 1fr);
+      align-items: start;
+    }
+    .media {
+      position: static;
+    }
+    .title {
+      font-size: 12pt;
     }
     details {
       display: none;
