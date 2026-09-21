@@ -1,0 +1,96 @@
+---
+import PrintLayout from '@/layouts/PrintLayout.astro';
+import { BUILT_LOCALES, type Lang } from '@/i18n/locales';
+import { t } from '@/i18n/t';
+import { WEEKDAYS } from '@/content/schemas';
+import { getProgram } from '@/lib/content';
+import { findDay } from '@/lib/program';
+
+export function getStaticPaths() {
+  return BUILT_LOCALES.map((lang) => ({ params: { lang } }));
+}
+
+const lang = Astro.params.lang as Lang;
+const program = await getProgram(lang);
+const days = WEEKDAYS.map((weekday) => findDay(program.data, weekday));
+---
+
+<PrintLayout lang={lang} title={t(lang, 'print.diary_title')}>
+  <h1>{t(lang, 'print.diary_title')}</h1>
+
+  <p class="fields">
+    {t(lang, 'print.week')} <span class="blank"></span>
+    {t(lang, 'print.from')} <span class="blank"></span>
+    {t(lang, 'print.to')} <span class="blank"></span>
+  </p>
+
+  <table>
+    <colgroup>
+      <col style="width: 16%" />
+      <col style="width: 22%" />
+      <col style="width: 10%" />
+      <col style="width: 14%" />
+      <col style="width: 16%" />
+      <col style="width: 22%" />
+    </colgroup>
+    <thead>
+      <tr>
+        <th scope="col">{t(lang, 'table.day')}</th>
+        <th scope="col">{t(lang, 'table.session')}</th>
+        <th scope="col">{t(lang, 'print.date')}</th>
+        <th scope="col">{t(lang, 'print.done')}</th>
+        <th scope="col">{t(lang, 'print.feeling')}</th>
+        <th scope="col">{t(lang, 'print.note')}</th>
+      </tr>
+    </thead>
+    <tbody>
+      {days.map((day) => (
+        <tr>
+          <th scope="row">{t(lang, `weekday.${day.weekday}`)}</th>
+          <td>{day.title}</td>
+          <td></td>
+          <td>
+            <span class="box"></span>
+          </td>
+          <td></td>
+          <td></td>
+        </tr>
+      ))}
+    </tbody>
+  </table>
+
+  <h2>{t(lang, 'print.daily')}</h2>
+  {program.data.daily.map((item) => (
+    <div class="daily-item">
+      <p>{item.text}</p>
+      <p class="week-boxes">
+        {WEEKDAYS.map((weekday) => (
+          <span class="day-box">
+            {!item.exceptWeekdays.includes(weekday) && <span class="box"></span>}
+            <span class="hint">{t(lang, `weekday.${weekday}`).slice(0, 2)}</span>
+          </span>
+        ))}
+      </p>
+    </div>
+  ))}
+</PrintLayout>
+
+<style>
+  .fields {
+    margin: 0 0 3mm;
+  }
+  .daily-item p:first-child {
+    margin: 0 0 1mm;
+  }
+  .week-boxes {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 3mm;
+    margin: 0 0 3mm;
+  }
+  .day-box {
+    display: inline-flex;
+    align-items: center;
+    gap: 1mm;
+  }
+</style>

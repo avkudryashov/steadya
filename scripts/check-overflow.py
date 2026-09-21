@@ -32,6 +32,12 @@ ROUTES = [
     "/ru/nutrition/",
     "/ru/equipment/",
     "/ru/about/",
+    "/ru/print/day/monday/",
+    "/ru/print/day/tuesday/",
+    "/ru/print/day/thursday/",
+    "/ru/print/day/friday/",
+    "/ru/print/diary/",
+    "/ru/print/tests/",
 ]
 
 WIDTHS = [320, 390, 768, 1024, 1440, 2400]
