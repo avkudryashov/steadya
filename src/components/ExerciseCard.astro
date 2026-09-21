@@ -295,7 +295,7 @@ const maxSets = prescriptions
   }
   @media print {
     .exercise {
-      break-inside: avoid;
+      break-inside: auto;
     }
     .exercise--inline {
       grid-template-columns: 40mm minmax(0, 1fr);
@@ -303,9 +303,20 @@ const maxSets = prescriptions
     }
     .media {
       position: static;
+      break-inside: avoid;
     }
     .title {
       font-size: 12pt;
+      break-after: avoid;
+    }
+    .technique {
+      break-inside: avoid;
+    }
+    .note.warn {
+      break-inside: avoid;
+    }
+    .fill-in {
+      break-inside: avoid;
     }
     details {
       display: none;

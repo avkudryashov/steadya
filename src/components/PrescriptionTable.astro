@@ -83,4 +83,12 @@ function details(p: Prescription, lang: Lang): string {
       grid-row: auto;
     }
   }
+  @media print {
+    .phases {
+      break-inside: avoid;
+    }
+    .phase {
+      break-inside: avoid;
+    }
+  }
 </style>
