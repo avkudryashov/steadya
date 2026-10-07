@@ -154,6 +154,7 @@ export type Program = z.infer<typeof programSchema>;
 
 export const testSchema = z.object({
   id: z.string(),
+  imageAlt: z.string().min(10),
   title: z.string(),
   howTo: z.string(),
   unit: z.string(),

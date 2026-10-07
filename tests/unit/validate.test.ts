@@ -85,6 +85,23 @@ describe('validateContent', () => {
     });
     expect(errors.join('\n')).toMatch(/repeats minutesFrom 0/);
   });
+  it('reports a test that points to a missing image', () => {
+    const errors = validateContent({
+      program: program([{ exercise: 'x', prescriptions: presc() }]),
+      exerciseSlugs: new Set(['x']),
+      imageFiles: new Set(['a.png']),
+      exerciseImages: new Map([['x', 'a.png']]),
+      testImages: new Map([
+        ['ru/tug', '../../assets/tests/tug.png'],
+        ['ru/ghost', '../../assets/tests/ghost.png'],
+      ]),
+      testImageFiles: new Set(['../../assets/tests/tug.png']),
+      pageSlugs: new Set(['safety']),
+    });
+    expect(errors).toEqual([
+      `test "ru/ghost" points to missing image "../../assets/tests/ghost.png"`,
+    ]);
+  });
   it('reports a page slug that collides with a reserved route', () => {
     const errors = validateContent({
       program: program([{ exercise: 'x', prescriptions: presc() }]),

@@ -1,9 +1,14 @@
-import { readFileSync, readdirSync } from 'node:fs';
+import { existsSync, readFileSync, readdirSync } from 'node:fs';
 import { basename, join, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { parse } from 'yaml';
 import { z } from 'astro/zod';
-import { exerciseBaseSchema, programSchema, type Program } from '../src/content/schemas.ts';
+import {
+  exerciseBaseSchema,
+  programSchema,
+  testSchema,
+  type Program,
+} from '../src/content/schemas.ts';
 import { blockMinutesTotal, exerciseSlugsOfProgram } from '../src/lib/program.ts';
 import { parseFrontmatter } from '../src/lib/frontmatter.ts';
 
@@ -21,6 +26,8 @@ export interface ValidateInput {
   exerciseSlugs: Set<string>;
   imageFiles: Set<string>;
   exerciseImages: Map<string, string>;
+  testImageFiles?: Set<string>;
+  testImages?: Map<string, string>;
   pageSlugs: Set<string>;
 }
 
@@ -38,6 +45,10 @@ export function validateContent(input: ValidateInput): string[] {
   for (const [slug, image] of input.exerciseImages) {
     if (!input.imageFiles.has(image))
       errors.push(`exercise "${slug}" points to missing image "${image}"`);
+  }
+  for (const [id, image] of input.testImages ?? []) {
+    if (!input.testImageFiles?.has(image))
+      errors.push(`test "${id}" points to missing image "${image}"`);
   }
   for (const day of input.program.days) {
     if (day.blocks.length === 0) continue;
@@ -110,8 +121,30 @@ function loadFromDisk(root: string): ValidateInput {
     }
   }
 
+  const testsRoot = join(root, 'src/content/tests');
+  const testImages = new Map<string, string>();
+  const testImageFiles = new Set<string>();
+  for (const file of readdirSync(testsRoot).filter((f) => f.endsWith('.yaml'))) {
+    const doc = z
+      .object({ tests: z.array(testSchema.extend({ image: z.string().min(1) })) })
+      .parse(parse(readFileSync(join(testsRoot, file), 'utf8')));
+    for (const test of doc.tests) {
+      const key = `${file.replace(/\.yaml$/, '')}/${test.id}`;
+      testImages.set(key, test.image);
+      if (existsSync(resolve(testsRoot, test.image))) testImageFiles.add(test.image);
+    }
+  }
+
   const imageFiles = new Set(readdirSync(join(root, 'src/assets/exercises')));
-  return { program, exerciseSlugs, imageFiles, exerciseImages, pageSlugs };
+  return {
+    program,
+    exerciseSlugs,
+    imageFiles,
+    exerciseImages,
+    testImages,
+    testImageFiles,
+    pageSlugs,
+  };
 }
 
 export function main(): number {

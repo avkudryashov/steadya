@@ -23,7 +23,7 @@ const programs = defineCollection({
 
 const tests = defineCollection({
   loader: glob({ pattern: '*.yaml', base: './src/content/tests' }),
-  schema: z.object({ tests: z.array(testSchema) }),
+  schema: ({ image }) => z.object({ tests: z.array(testSchema.extend({ image: image() })) }),
 });
 
 const pages = defineCollection({
