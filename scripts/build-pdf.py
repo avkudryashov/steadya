@@ -35,8 +35,11 @@ BASE_PREFIX = f"/{_raw_base_path}" if _raw_base_path else ""
 ROUTES = [
     ("/ru/day/monday/", "day-monday.pdf", None),
     ("/ru/day/tuesday/", "day-tuesday.pdf", None),
+    ("/ru/day/wednesday/", "day-wednesday.pdf", None),
     ("/ru/day/thursday/", "day-thursday.pdf", None),
     ("/ru/day/friday/", "day-friday.pdf", None),
+    ("/ru/day/saturday/", "day-saturday.pdf", None),
+    ("/ru/day/sunday/", "day-sunday.pdf", None),
     ("/ru/tests/", "tests.pdf", None),
     ("/ru/print/diary/", "diary.pdf", 1),
 ]

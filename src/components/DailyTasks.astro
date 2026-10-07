@@ -1,0 +1,82 @@
+---
+import { Picture } from 'astro:assets';
+import type { ImageMetadata } from 'astro';
+import type { Lang } from '@/i18n/locales';
+import { t } from '@/i18n/t';
+
+interface Props {
+  lang: Lang;
+  items: { text: string; image: ImageMetadata; imageAlt: string }[];
+}
+const { lang, items } = Astro.props;
+---
+
+<section class="card daily">
+  <h2>{t(lang, 'day.daily')}</h2>
+  <ul class="items">
+    {items.map((d) => (
+      <li class="item">
+        <div class="media">
+          <Picture
+            src={d.image}
+            alt={d.imageAlt}
+            widths={[320, 640, 960]}
+            sizes="(max-width: 900px) 100vw, 320px"
+            formats={['avif', 'webp']}
+            fallbackFormat="webp"
+            loading="lazy"
+            decoding="async"
+          />
+        </div>
+        <p class="text">{d.text}</p>
+      </li>
+    ))}
+  </ul>
+</section>
+
+<style>
+  .daily {
+    max-width: none;
+  }
+  .items {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: grid;
+    gap: var(--space-4);
+  }
+  .item {
+    display: grid;
+    gap: var(--space-4);
+    break-inside: avoid;
+  }
+  .text {
+    min-width: 0;
+    margin: 0;
+  }
+  .media :global(img) {
+    width: 100%;
+    aspect-ratio: 1;
+    object-fit: cover;
+    background: var(--image-bg);
+    border-radius: var(--radius);
+  }
+  @media (min-width: 900px) {
+    .item {
+      grid-template-columns: 280px minmax(0, 1fr);
+      align-items: start;
+    }
+  }
+  @media (min-width: 1100px) {
+    .item {
+      grid-template-columns: 320px minmax(0, 1fr);
+    }
+  }
+  @media print {
+    .item {
+      grid-template-columns: 76mm minmax(0, 1fr);
+      align-items: start;
+      gap: 6mm;
+    }
+  }
+</style>

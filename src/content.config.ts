@@ -1,7 +1,13 @@
 import { defineCollection } from 'astro:content';
 import { glob } from 'astro/loaders';
 import { z } from 'astro/zod';
-import { exerciseBaseSchema, pageSchema, programSchema, testSchema } from './content/schemas';
+import {
+  dailyItemSchema,
+  exerciseBaseSchema,
+  pageSchema,
+  programSchema,
+  testSchema,
+} from './content/schemas';
 
 const exercises = defineCollection({
   loader: glob({
@@ -18,7 +24,8 @@ const programs = defineCollection({
     base: './src/content/programs',
     generateId: ({ entry }) => entry.replace(/\.ya?ml$/, ''),
   }),
-  schema: programSchema,
+  schema: ({ image }) =>
+    programSchema.extend({ daily: z.array(dailyItemSchema.extend({ image: image() })) }),
 });
 
 const tests = defineCollection({

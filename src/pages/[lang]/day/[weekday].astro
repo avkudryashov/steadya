@@ -1,12 +1,12 @@
 ---
 import BaseLayout from '@/layouts/BaseLayout.astro';
+import DailyTasks from '@/components/DailyTasks.astro';
 import DayBlock from '@/components/DayBlock.astro';
 import { BUILT_LOCALES, type Lang } from '@/i18n/locales';
 import { t } from '@/i18n/t';
 import { isExerciseItem, WEEKDAYS, type Weekday } from '@/content/schemas';
 import { getExercisesByLang, getProgram } from '@/lib/content';
 import { exerciseSlugsOfDay, findDay } from '@/lib/program';
-import { localeUrl, pdfUrl } from '@/lib/urls';
 
 export function getStaticPaths() {
   return BUILT_LOCALES.flatMap((lang) =>
@@ -45,13 +45,11 @@ const title = `${t(lang, `weekday.${weekday}`)}: ${day.title}`;
   <h1>{day.title}</h1>
   {day.note && <p class="note">{day.note}</p>}
 
-  {day.blocks.length > 0 && (
-    <p class="print-only">
-      {t(lang, 'print.date')} <span class="blank"></span>
-      {t(lang, 'print.week')} <span class="blank"></span>
-      {t(lang, 'print.phase')} <span class="blank"></span>
-    </p>
-  )}
+  <p class="print-only">
+    {t(lang, 'print.date')} <span class="blank"></span>
+    {t(lang, 'print.week')} <span class="blank"></span>
+    {t(lang, 'print.phase')} <span class="blank"></span>
+  </p>
 
   {day.blocks.map((block, index) => (
     <DayBlock
@@ -65,36 +63,11 @@ const title = `${t(lang, `weekday.${weekday}`)}: ${day.title}`;
 
   {day.blocks.length > 0 && <p class="note">{t(lang, 'phase.deload')}</p>}
 
-  <section class="card">
-    <h2>{t(lang, 'day.daily')}</h2>
-    <ul class="measure">
-      {daily.map((d) => (
-        <li>{d.text}</li>
-      ))}
-    </ul>
-  </section>
+  <DailyTasks lang={lang} items={daily} />
 
-  {day.blocks.length > 0 && (
-    <p class="print-only">
-      {t(lang, 'print.feeling')} <span class="blank"></span>
-      {t(lang, 'print.note')} <span class="blank blank-wide"></span>
-    </p>
-  )}
-
-  <p>
-    <a class="btn secondary" href={localeUrl(lang, 'program')}>
-      {t(lang, 'nav.program')}
-    </a>
-    {day.blocks.length > 0 && (
-      <button class="btn secondary" type="button" onclick="window.print()">
-        {t(lang, 'print.day_sheet')}
-      </button>
-    )}
-    {day.blocks.length > 0 && (
-      <a class="btn secondary" href={pdfUrl(lang, `day-${weekday}`)} download>
-        {t(lang, 'print.pdf_day')}
-      </a>
-    )}
+  <p class="print-only">
+    {t(lang, 'print.feeling')} <span class="blank"></span>
+    {t(lang, 'print.note')} <span class="blank blank-wide"></span>
   </p>
 </BaseLayout>
 
