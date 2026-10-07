@@ -239,20 +239,23 @@ th {
   }
   body {
     padding-block: 0;
-    font-size: 11pt;
-    line-height: 1.3;
+    font-size: 13pt;
+    line-height: 1.4;
   }
   h1 {
-    font-size: 16pt;
+    font-size: 18pt;
   }
   h2 {
-    font-size: 14pt;
+    font-size: 15pt;
   }
   h3 {
-    font-size: 12pt;
+    font-size: 15pt;
   }
+  /* Карточки не разрываются между листами. Отдельный лист на упражнение
+     задаётся в самой карточке упражнения, чтобы текстовые шаги, разминка
+     и тесты продолжали идти подряд. */
   .card {
-    break-inside: auto;
+    break-inside: avoid;
     padding: 3mm;
   }
 }
