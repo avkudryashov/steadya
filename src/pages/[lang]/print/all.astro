@@ -83,7 +83,7 @@ const measures = [1, 2, 3, 4];
           </p>
           <p class="measures">
             {measures.map((n) => (
-              <span class="measure">
+              <span class="measure-slot">
                 {t(lang, 'print.measure', { n })} <span class="blank"></span>
               </span>
             ))}
@@ -118,7 +118,7 @@ const measures = [1, 2, 3, 4];
     gap: var(--space-3);
     margin: var(--space-2) 0 0;
   }
-  .measure {
+  .measure-slot {
     white-space: nowrap;
   }
 </style>

@@ -13,8 +13,8 @@ export async function getExerciseBySlug(lang: Lang, slug: string) {
 }
 
 export async function getProgram(lang: Lang) {
-  const entry = await getEntry('programs', `${lang}/women-70-plus`);
-  if (!entry) throw new Error(`program ${lang}/women-70-plus not found`);
+  const entry = await getEntry('programs', `${lang}/women-60-plus`);
+  if (!entry) throw new Error(`program ${lang}/women-60-plus not found`);
   return entry;
 }
 

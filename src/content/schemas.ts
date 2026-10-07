@@ -166,6 +166,12 @@ export const testSchema = z.object({
   howTo: z.string(),
   unit: z.string(),
   thresholdNote: z.string(),
+  // Нормы части тестов зависят от возраста: один порог на всех был бы неверен
+  // и для шестидесятилетней, и для восьмидесятилетней.
+  thresholdsByAge: z
+    .array(z.object({ ages: z.string(), value: z.string() }))
+    .min(2)
+    .optional(),
   meaning: z.string(),
   direction: z.enum(['higherBetter', 'lowerBetter']),
 });

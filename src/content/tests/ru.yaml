@@ -5,7 +5,14 @@ tests:
     title: Вставания со стула за 30 секунд
     howTo: Стул у стены, руки скрещены на груди, считать полные вставания за 30 секунд.
     unit: раз
-    thresholdNote: Меньше 11–12 повторений для 70–79 лет
+    thresholdNote: Ниже нормы для своего возраста
+    thresholdsByAge:
+      - { ages: 60–64 года, value: меньше 12 }
+      - { ages: 65–69 лет, value: меньше 11 }
+      - { ages: 70–79 лет, value: меньше 10 }
+      - { ages: 80–84 года, value: меньше 9 }
+      - { ages: 85–89 лет, value: меньше 8 }
+      - { ages: 90 лет и старше, value: меньше 4 }
     meaning: Сила ног, риск падений
     direction: higherBetter
   - id: tug
@@ -41,7 +48,14 @@ tests:
     title: Двухминутный шаг на месте
     howTo: Поднимать колени до середины бедра, считать подъёмы правого колена за 2 минуты.
     unit: раз
-    thresholdNote: Меньше 65–70
+    thresholdNote: Ниже нормы для своего возраста
+    thresholdsByAge:
+      - { ages: 60–64 года, value: меньше 75 }
+      - { ages: 65–69 лет, value: меньше 73 }
+      - { ages: 70–79 лет, value: меньше 68 }
+      - { ages: 80–84 года, value: меньше 60 }
+      - { ages: 85–89 лет, value: меньше 55 }
+      - { ages: 90 лет и старше, value: меньше 44 }
     meaning: Выносливость
     direction: higherBetter
   - id: wall-posture

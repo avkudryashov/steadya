@@ -4,6 +4,7 @@ import {
   programSchema,
   prescriptionSchema,
   programItemSchema,
+  testSchema,
 } from '@/content/schemas';
 
 const exercise = {
@@ -52,9 +53,9 @@ describe('programSchema', () => {
       blocks: [],
     });
     const base = {
-      id: 'women-70-plus',
+      id: 'women-60-plus',
       title: 'Программа',
-      audience: 'women-70-plus',
+      audience: 'women-60-plus',
       weeks: 12,
       phases: [
         { id: 'p1', weeks: [1, 2], label: 'w', goal: 'g', strength: 's', balance: 'b' },
@@ -107,9 +108,9 @@ describe('programSchema', () => {
       blocks: [],
     });
     const base = {
-      id: 'women-70-plus',
+      id: 'women-60-plus',
       title: 'Программа',
-      audience: 'women-70-plus',
+      audience: 'women-60-plus',
       weeks: 12,
       phases: [
         { id: 'p1', weeks: [1, 2], label: 'w', goal: 'g', strength: 's', balance: 'b' },
@@ -143,5 +144,39 @@ describe('programItemSchema', () => {
     expect(programItemSchema.parse({ ref: 'warmup' })).toEqual({ ref: 'warmup' });
     expect(programItemSchema.parse({ ref: 'cooldown' })).toEqual({ ref: 'cooldown' });
     expect(() => programItemSchema.parse({ ref: 'stretch' })).toThrow();
+  });
+});
+
+describe('testSchema', () => {
+  const base = {
+    id: 'chair-stand-30s',
+    imageAlt: 'Женщина встаёт со стула, руки скрещены на груди',
+    title: 'Вставания со стула за 30 секунд',
+    howTo: 'Считать полные вставания за 30 секунд',
+    unit: 'раз',
+    thresholdNote: 'Ниже нормы для своего возраста',
+    meaning: 'Сила ног',
+    direction: 'higherBetter' as const,
+  };
+
+  it('accepts a test without age bands', () => {
+    expect(testSchema.parse(base).thresholdsByAge).toBeUndefined();
+  });
+
+  it('accepts age bands', () => {
+    const parsed = testSchema.parse({
+      ...base,
+      thresholdsByAge: [
+        { ages: '60–64', value: 'меньше 12' },
+        { ages: '65–69', value: 'меньше 11' },
+      ],
+    });
+    expect(parsed.thresholdsByAge).toHaveLength(2);
+  });
+
+  it('rejects a single band: один порог не делит возраст', () => {
+    expect(() =>
+      testSchema.parse({ ...base, thresholdsByAge: [{ ages: '60–64', value: 'меньше 12' }] }),
+    ).toThrow();
   });
 });
