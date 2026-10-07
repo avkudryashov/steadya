@@ -1,17 +1,23 @@
 #!/usr/bin/env python3
 """Проверка: ни на одной странице нет горизонтальной прокрутки.
 
-Запуск: сначала `pnpm dev` (или `pnpm preview`), затем
-    python3 scripts/check-overflow.py [base-url]
+Запуск после `pnpm build`, сервер скрипт поднимает сам:
+    python3 scripts/check-overflow.py
+
+Чтобы проверить работающий dev-сервер, его адрес передаётся аргументом:
+    python3 scripts/check-overflow.py http://127.0.0.1:4321
 
 Скрипт обходит основные маршруты на типовых ширинах экрана и сообщает о любом
 элементе, который шире своей области и прокручивается вбок, а также о прокрутке
 страницы целиком. Код возврата 1, если найдена хотя бы одна проблема.
 """
 
+import contextlib
 import sys
 
 from playwright.sync_api import sync_playwright
+
+from dist_server import DIST, serve_dist
 
 ROUTES = [
     "/ru/",
@@ -63,7 +69,18 @@ PROBE = """
 
 
 def main() -> int:
-    base = sys.argv[1] if len(sys.argv) > 1 else "http://127.0.0.1:4322"
+    # Без аргумента проверяется собранный сайт: свой сервер не зависит от
+    # запущенного dev-сервера и не конфликтует с ним за порт.
+    given = sys.argv[1].rstrip("/") if len(sys.argv) > 1 else None
+    if given is None and not DIST.is_dir():
+        print(f"ошибка: каталог сборки не найден: {DIST}", file=sys.stderr)
+        return 1
+
+    with contextlib.nullcontext(given) if given else serve_dist() as base:
+        return check(base)
+
+
+def check(base: str) -> int:
     problems = 0
     with sync_playwright() as p:
         browser = p.chromium.launch()

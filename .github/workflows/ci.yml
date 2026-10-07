@@ -44,13 +44,7 @@ jobs:
       - run: pnpm validate
       - run: pnpm build
       - name: no horizontal scrolling
-        run: |
-          pnpm exec astro preview --port 4322 &
-          for _ in $(seq 1 60); do
-            curl -fsS "http://127.0.0.1:4322${BASE_PATH}ru/" -o /dev/null && break
-            sleep 1
-          done
-          python3 scripts/check-overflow.py "http://127.0.0.1:4322${BASE_PATH%/}"
+        run: python3 scripts/check-overflow.py
       - if: github.ref == 'refs/heads/main'
         uses: actions/upload-pages-artifact@v3
         with: { path: dist }
