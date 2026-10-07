@@ -45,12 +45,22 @@ const measures = [1, 2, 3, 4];
           <p>
             <strong>{t(lang, 'tests.threshold')}:</strong> {test.thresholdNote}
           </p>
+          {test.thresholdsByAge && (
+            <ul class="bands">
+              {test.thresholdsByAge.map((band) => (
+                <li class="band">
+                  <span class="band-ages">{band.ages}</span>
+                  <span class="band-value">{band.value}</span>
+                </li>
+              ))}
+            </ul>
+          )}
           <p>
             <strong>{t(lang, 'tests.meaning')}:</strong> {test.meaning}
           </p>
           <p class="print-only measures">
             {measures.map((n) => (
-              <span class="measure">
+              <span class="measure-slot">
                 {t(lang, 'print.measure', { n })} <span class="blank"></span>
               </span>
             ))}
@@ -60,6 +70,10 @@ const measures = [1, 2, 3, 4];
     ))}
   </div>
   <p>{t(lang, 'tests.goal')}</p>
+  <p class="measure">
+    {t(lang, 'tests.norms_source')}{' '}
+    <a href="https://pubmed.ncbi.nlm.nih.gov/22613940/">{t(lang, 'tests.norms_link')}</a>
+  </p>
   <p>
     <button class="btn secondary" type="button" onclick="window.print()">
       {t(lang, 'print.tests_sheet')}
@@ -113,13 +127,46 @@ const measures = [1, 2, 3, 4];
       break-before: page;
     }
   }
+  .bands {
+    list-style: none;
+    margin: 0 0 var(--space-3);
+    padding: 0;
+    max-width: none;
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    overflow: hidden;
+  }
+  .band {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) max-content;
+    gap: var(--space-3);
+    padding: var(--space-1) var(--space-3);
+    border-top: 1px solid var(--line);
+  }
+  .band:first-child {
+    border-top: 0;
+  }
+  .band-ages {
+    color: var(--muted);
+    font-size: var(--fs-small);
+  }
+  .band-value {
+    font-weight: 700;
+    font-variant-numeric: tabular-nums;
+  }
+  @media print {
+    .bands,
+    .band {
+      break-inside: avoid;
+    }
+  }
   .measures {
     display: flex;
     flex-wrap: wrap;
     gap: var(--space-3);
     margin: var(--space-2) 0 0;
   }
-  .measure {
+  .measure-slot {
     white-space: nowrap;
   }
 </style>

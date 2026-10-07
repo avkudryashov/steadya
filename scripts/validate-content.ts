@@ -87,7 +87,7 @@ function localeDirs(dir: string): string[] {
 
 function loadFromDisk(root: string): ValidateInput {
   const programText = readFileSync(
-    join(root, 'src/content/programs/ru/women-70-plus.yaml'),
+    join(root, 'src/content/programs/ru/women-60-plus.yaml'),
     'utf8',
   );
   const program = programSchema.parse(parse(programText));
