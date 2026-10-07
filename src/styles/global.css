@@ -137,7 +137,10 @@ img {
   color: var(--accent);
 }
 
+/* Выноска это блок вёрстки, а не абзац текста: она занимает всю ширину
+   колонки, иначе плашка жмётся влево и выглядит оборванной рядом с карточками. */
 .note {
+  max-width: none;
   border-left: 4px solid var(--accent);
   background: var(--accent-soft);
   padding: var(--space-3) var(--space-4);
