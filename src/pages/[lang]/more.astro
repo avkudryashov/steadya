@@ -3,8 +3,7 @@ import BaseLayout from '@/layouts/BaseLayout.astro';
 import { BUILT_LOCALES, type Lang } from '@/i18n/locales';
 import { t } from '@/i18n/t';
 import { WEEKDAYS } from '@/content/schemas';
-import { getPagesByLang, getProgram } from '@/lib/content';
-import { findDay } from '@/lib/program';
+import { getPagesByLang } from '@/lib/content';
 import { localeUrl, pdfUrl } from '@/lib/urls';
 
 export function getStaticPaths() {
@@ -16,13 +15,9 @@ const links = [
   { href: localeUrl(lang, 'tests'), label: t(lang, 'more.tests') },
   ...pages.map((p) => ({ href: localeUrl(lang, p.id.split('/')[1]!), label: p.data.title })),
 ];
-const program = await getProgram(lang);
-const printableWeekdays = WEEKDAYS.filter(
-  (weekday) => findDay(program.data, weekday).blocks.length > 0,
-);
 const printLinks = [{ href: localeUrl(lang, 'print/diary'), label: t(lang, 'print.diary_sheet') }];
 const pdfLinks = [
-  ...printableWeekdays.map((weekday) => ({
+  ...WEEKDAYS.map((weekday) => ({
     href: pdfUrl(lang, `day-${weekday}`),
     label: `${t(lang, `weekday.${weekday}`)}. ${t(lang, 'print.pdf_day')}`,
   })),

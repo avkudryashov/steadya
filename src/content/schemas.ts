@@ -122,6 +122,13 @@ export const programDaySchema = z.object({
 });
 export type ProgramDay = z.infer<typeof programDaySchema>;
 
+export const dailyItemSchema = z.object({
+  text: z.string(),
+  exceptWeekdays: z.array(z.enum(WEEKDAYS)),
+  imageAlt: z.string().min(10),
+});
+export type DailyItem = z.infer<typeof dailyItemSchema>;
+
 export const programSchema = z.object({
   id: z.string(),
   title: z.string(),
@@ -142,7 +149,7 @@ export const programSchema = z.object({
   deloadWeeks: z.array(z.number().int()),
   warmup: z.array(z.object({ text: z.string(), minutes: z.number() })),
   cooldown: z.array(z.object({ text: z.string(), minutes: z.number() })),
-  daily: z.array(z.object({ text: z.string(), exceptWeekdays: z.array(z.enum(WEEKDAYS)) })),
+  daily: z.array(dailyItemSchema),
   days: z
     .array(programDaySchema)
     .length(7)

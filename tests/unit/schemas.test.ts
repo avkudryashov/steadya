@@ -65,7 +65,7 @@ describe('programSchema', () => {
       deloadWeeks: [4, 8, 12],
       warmup: [{ text: 'Ходьба на месте', minutes: 2 }],
       cooldown: [{ text: 'Медленная ходьба', minutes: 2 }],
-      daily: [{ text: 'Ходьба 30 минут', exceptWeekdays: [] }],
+      daily: [{ text: 'Ходьба 30 минут', exceptWeekdays: [], imageAlt: 'Женщина идёт по дорожке' }],
       days: ['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday'].map(day),
     };
     expect(programSchema.parse(base).days).toHaveLength(7);
@@ -120,7 +120,7 @@ describe('programSchema', () => {
       deloadWeeks: [4, 8, 12],
       warmup: [{ text: 'Ходьба на месте', minutes: 2 }],
       cooldown: [{ text: 'Медленная ходьба', minutes: 2 }],
-      daily: [{ text: 'Ходьба 30 минут', exceptWeekdays: [] }],
+      daily: [{ text: 'Ходьба 30 минут', exceptWeekdays: [], imageAlt: 'Женщина идёт по дорожке' }],
       days: ['monday', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday'].map(day),
     };
     expect(() => programSchema.parse(base)).toThrow(/seven weekdays/);

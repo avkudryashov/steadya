@@ -44,8 +44,12 @@ cooldown:
 daily:
   - text: Ходьба 30 и более минут в темпе, при котором можно говорить, но не петь. Раз в неделю часть пути в горку или по лестнице.
     exceptWeekdays: []
+    image: ../../../assets/daily/walk.png
+    imageAlt: Женщина в куртке бодро идёт по парковой дорожке, руки согнуты в локтях, взгляд вперёд
   - text: Модуль Sinaki 5 минут, разгибание спины лёжа, 10 раз по 5 секунд. Со второго месяца с рюкзаком 1–2 кг.
     exceptWeekdays: [friday]
+    image: ../../../assets/exercises/d1-sinaki-back-extension.png
+    imageAlt: Женщина лежит на животе на коврике с тонкой подушкой под животом, слегка приподняв грудь и голову
 days:
   - weekday: monday
     kind: strength
