@@ -35,7 +35,19 @@ jobs:
           python-version: '3.12'
           cache: pip
       - run: pip install -r requirements.txt
-      - run: python3 -m playwright install --with-deps chromium
+      # Браузер весит около 170 МБ и меняется только вместе с версией
+      # playwright, поэтому ключ кеша завязан на requirements.txt.
+      - uses: actions/cache@v4
+        id: playwright-cache
+        with:
+          path: ~/.cache/ms-playwright
+          key: playwright-${{ runner.os }}-${{ hashFiles('requirements.txt') }}
+      - if: steps.playwright-cache.outputs.cache-hit != 'true'
+        run: python3 -m playwright install --with-deps chromium
+      # Системные библиотеки ставятся через apt и в кеш не попадают, так что
+      # при попадании в кеш остаётся только этот шаг, без скачивания браузера.
+      - if: steps.playwright-cache.outputs.cache-hit == 'true'
+        run: python3 -m playwright install-deps chromium
       - run: pnpm install --frozen-lockfile
       - run: pnpm format:check
       - run: pnpm lint
