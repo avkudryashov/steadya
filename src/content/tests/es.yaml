@@ -1,0 +1,69 @@
+tests:
+  - id: chair-stand-30s
+    image: ../../assets/exercises/c3-fast-sit-to-stand.png
+    imageAlt: Mujer que se levanta rápidamente de una silla con los brazos cruzados sobre el pecho
+    title: Prueba de levantarse de la silla en 30 segundos
+    howTo: Silla contra la pared, brazos cruzados sobre el pecho. Cuente las veces que se levanta del todo en 30 segundos.
+    unit: veces
+    thresholdNote: Por debajo de lo normal para su edad
+    thresholdsByAge:
+      - { ages: 60–64 años, value: menos de 12 }
+      - { ages: 65–69 años, value: menos de 11 }
+      - { ages: 70–79 años, value: menos de 10 }
+      - { ages: 80–84 años, value: menos de 9 }
+      - { ages: 85–89 años, value: menos de 8 }
+      - { ages: 90 años o más, value: menos de 4 }
+    meaning: Fuerza de las piernas, riesgo de caídas
+    direction: higherBetter
+  - id: tug
+    image: ../../assets/tests/tug.png
+    imageAlt: Mujer que camina desde una silla con reposabrazos hasta un cono naranja marcado con una línea en el suelo
+    title: Timed Up and Go (prueba «Levántate y anda» cronometrada)
+    howTo: Levántese de la silla, camine 3 metros, dé la vuelta, regrese y siéntese. Mida el tiempo con un cronómetro.
+    unit: s
+    thresholdNote: 12 segundos o más
+    meaning: Movilidad, riesgo de caídas
+    direction: lowerBetter
+  - id: single-leg
+    image: ../../assets/exercises/c2-single-leg-stand.png
+    imageAlt: Mujer de pie sobre una pierna con las manos en la cintura y la otra pierna levantada, junto a una mesa para apoyarse
+    title: Apoyo sobre una pierna (apoyo monopodal)
+    howTo: Manos en la cintura. Mida el tiempo hasta que toque el suelo o el apoyo; cuente el mejor de tres intentos. Tenga un apoyo (una mesa o el respaldo de una silla) al alcance de la mano.
+    unit: s
+    thresholdNote: Menos de 10 segundos
+    meaning: Equilibrio estático
+    direction: higherBetter
+  - id: four-stage
+    image: ../../assets/exercises/c1-tandem-stance.png
+    imageAlt: Mujer de pie con un pie delante del otro, el talón junto a la punta, tocando ligeramente con los dedos una mesa cercana
+    title: Prueba de equilibrio en 4 etapas
+    howTo: Pies juntos, semitándem, tándem y sobre una pierna, 10 segundos cada posición. Anote cuántas etapas ha mantenido. Tenga un apoyo (una mesa o el respaldo de una silla) al alcance de la mano.
+    unit: etapas
+    thresholdNote: No mantiene el tándem 10 segundos
+    meaning: Progreso del equilibrio
+    direction: higherBetter
+  - id: two-min-step
+    image: ../../assets/tests/two-min-step.png
+    imageAlt: Mujer que marcha en el sitio subiendo la rodilla hasta una marca en la pared, con los codos flexionados
+    title: Prueba de marcha en el sitio de 2 minutos
+    howTo: Suba las rodillas hasta la mitad del muslo y cuente cuántas veces sube la rodilla derecha en 2 minutos.
+    unit: veces
+    thresholdNote: Por debajo de lo normal para su edad
+    thresholdsByAge:
+      - { ages: 60–64 años, value: menos de 75 }
+      - { ages: 65–69 años, value: menos de 73 }
+      - { ages: 70–79 años, value: menos de 68 }
+      - { ages: 80–84 años, value: menos de 60 }
+      - { ages: 85–89 años, value: menos de 55 }
+      - { ages: 90 años o más, value: menos de 44 }
+    meaning: Resistencia
+    direction: higherBetter
+  - id: wall-posture
+    image: ../../assets/tests/wall-posture.png
+    imageAlt: Mujer de espaldas a la pared con la nuca, los omóplatos y los glúteos tocando la pared y los pies juntos
+    title: Postura contra la pared
+    howTo: Nuca, omóplatos, glúteos y talones contra la pared. Mida la distancia entre la nuca y la pared sin forzar la postura.
+    unit: cm
+    thresholdNote: Más de 5 cm o va en aumento
+    meaning: Cifosis dorsal
+    direction: lowerBetter

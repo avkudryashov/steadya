@@ -1,0 +1,69 @@
+tests:
+  - id: chair-stand-30s
+    image: ../../assets/exercises/c3-fast-sit-to-stand.png
+    imageAlt: Una donna si alza dalla sedia con un movimento rapido, le braccia incrociate sul petto
+    title: Test della sedia in 30 secondi (30-Second Chair Stand Test)
+    howTo: Sedia appoggiata alla parete, braccia incrociate sul petto. Conti le alzate complete in 30 secondi.
+    unit: volte
+    thresholdNote: Sotto il valore di riferimento per la sua età
+    thresholdsByAge:
+      - { ages: 60–64 anni, value: meno di 12 }
+      - { ages: 65–69 anni, value: meno di 11 }
+      - { ages: 70–79 anni, value: meno di 10 }
+      - { ages: 80–84 anni, value: meno di 9 }
+      - { ages: 85–89 anni, value: meno di 8 }
+      - { ages: 90 anni e oltre, value: meno di 4 }
+    meaning: Forza delle gambe, rischio di cadute
+    direction: higherBetter
+  - id: tug
+    image: ../../assets/tests/tug.png
+    imageAlt: Una donna cammina da una sedia con braccioli verso un cono arancione, segnato da una linea sul pavimento
+    title: Timed Up and Go
+    howTo: Si alzi dalla sedia, percorra 3 metri, si giri, torni indietro e si sieda. Misuri il tempo con un cronometro.
+    unit: s
+    thresholdNote: 12 secondi o più
+    meaning: Mobilità, rischio di cadute
+    direction: lowerBetter
+  - id: single-leg
+    image: ../../assets/exercises/c2-single-leg-stand.png
+    imageAlt: Una donna in piedi su una gamba, mani sui fianchi, l'altra gamba sollevata, accanto un tavolo per appoggiarsi
+    title: Appoggio monopodalico
+    howTo: Mani sui fianchi; misuri il tempo finché il piede non tocca il pavimento o l'appoggio. Registri il migliore di tre tentativi. Tenga un appoggio (un tavolo o lo schienale di una sedia) a portata di braccio teso.
+    unit: s
+    thresholdNote: Meno di 10 secondi
+    meaning: Equilibrio statico
+    direction: higherBetter
+  - id: four-stage
+    image: ../../assets/exercises/c1-tandem-stance.png
+    imageAlt: Una donna in piedi con i piedi in linea, tallone contro punta, le dita sfiorano il tavolo accanto
+    title: Test dell'equilibrio in 4 posizioni (4-Stage Balance Test)
+    howTo: Piedi uniti, semi-tandem, tandem, su una gamba sola, 10 secondi ciascuna. Annoti quante posizioni ha mantenuto. Tenga un appoggio (un tavolo o lo schienale di una sedia) a portata di braccio teso.
+    unit: posizioni
+    thresholdNote: Non riesce a mantenere il tandem per 10 secondi
+    meaning: Progressi nell'equilibrio
+    direction: higherBetter
+  - id: two-min-step
+    image: ../../assets/tests/two-min-step.png
+    imageAlt: Una donna marcia sul posto alzando il ginocchio fino a un segno sulla parete, gomiti piegati
+    title: Test del passo sul posto in 2 minuti (2-Minute Step Test)
+    howTo: Alzi le ginocchia fino a metà coscia e conti le alzate del ginocchio destro in 2 minuti.
+    unit: volte
+    thresholdNote: Sotto il valore di riferimento per la sua età
+    thresholdsByAge:
+      - { ages: 60–64 anni, value: meno di 75 }
+      - { ages: 65–69 anni, value: meno di 73 }
+      - { ages: 70–79 anni, value: meno di 68 }
+      - { ages: 80–84 anni, value: meno di 60 }
+      - { ages: 85–89 anni, value: meno di 55 }
+      - { ages: 90 anni e oltre, value: meno di 44 }
+    meaning: Resistenza
+    direction: higherBetter
+  - id: wall-posture
+    image: ../../assets/tests/wall-posture.png
+    imageAlt: Una donna in piedi con la schiena alla parete, nuca, scapole e glutei toccano il muro, piedi vicini
+    title: Postura al muro
+    howTo: Nuca, scapole, glutei e talloni contro la parete. Misuri la distanza tra la nuca e la parete senza sforzarsi.
+    unit: cm
+    thresholdNote: Più di 5 cm, oppure in aumento
+    meaning: Cifosi toracica
+    direction: lowerBetter

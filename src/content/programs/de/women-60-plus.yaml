@@ -1,0 +1,609 @@
+id: women-60-plus
+title: Standfestigkeit, Kraft, Haltung ab 60
+audience: women-60-plus
+weeks: 12
+phases:
+  - id: p1
+    weeks: [1, 2]
+    label: Wochen 1–2
+    goal: Technik erlernen
+    strength: 2 Sätze, Anstrengung 5–6, Basis- oder Arbeitsstufe
+    balance: Nur Otago und dynamische Übungen, ohne Schnellkraft
+  - id: p2
+    weeks: [3, 4]
+    label: Wochen 3–4
+    goal: Einstieg ins Arbeitsniveau
+    strength: 3 Sätze, Anstrengung 6–7
+    balance: Schnelles Aufstehen und Aufsteigen hinzunehmen
+  - id: p3
+    weeks: [5, 8]
+    label: Wochen 5–8
+    goal: Belastung steigern
+    strength: 3 Sätze, Anstrengung 7–8, Arbeitsstufe
+    balance: Vollständiger Schnellkraftblock, Fersenfallen, Hüpfer
+  - id: p4
+    weeks: [9, 12]
+    label: Wochen 9–12
+    goal: Intensivierung, Woche 12 Entlastung und Tests
+    strength: 3 Sätze, Anstrengung 8, Fortgeschrittenenstufe bei Übungen, für die Sie bereit sind
+    balance: 'Gleichgewicht erschweren: Augen, Kissen, Doppelaufgaben'
+deloadWeeks: [4, 8, 12]
+warmup:
+  - { text: 'Auf der Stelle oder durch das Zimmer gehen, allmählich schneller', minutes: 2 }
+  - { text: 'Schulterkreisen vorwärts und rückwärts, je 10-mal', minutes: 1 }
+  - { text: 'Armschwünge über Kreuz und auf und ab, 10-mal', minutes: 1 }
+  - { text: 'Halbe Kniebeugen mit Armen nach vorn an einer Stütze, 10-mal', minutes: 1 }
+  - { text: 'Beinschwünge vor und zurück an einer Stütze, je Bein 10-mal', minutes: 1 }
+  - { text: 'Beckenkreisen, je 8-mal in jede Richtung', minutes: 1 }
+  - { text: 'Fußkreisen im Einbeinstand an einer Stütze, je Fuß 8-mal', minutes: 1 }
+cooldown:
+  - { text: 'Langsames Gehen', minutes: 2 }
+  - { text: 'Wadendehnung an der Wand, 30 Sekunden pro Bein', minutes: 1 }
+  - {
+      text: 'Dehnung der Oberschenkelvorderseite im Stehen an einer Stütze, je 30 Sekunden',
+      minutes: 1,
+    }
+  - { text: 'Zwerchfellatmung', minutes: 1 }
+daily:
+  - text: Gehen, 30 Minuten oder mehr, in einem Tempo, bei dem Sie noch sprechen, aber nicht mehr singen können. Einmal pro Woche einen Teil der Strecke bergauf oder über Treppen.
+    exceptWeekdays: []
+    image: ../../../assets/daily/walk.png
+    imageAlt: Frau in Jacke geht zügig auf einem Parkweg, die Arme in den Ellbogen gebeugt, der Blick nach vorn
+  - text: Sinaki-Baustein, 5 Minuten, Rückenstreckung in Bauchlage, 10-mal 5 Sekunden. Ab dem zweiten Monat mit Rucksack 1–2 kg.
+    exceptWeekdays: [friday]
+    image: ../../../assets/exercises/d1-sinaki-back-extension.png
+    imageAlt: Frau liegt auf dem Bauch auf einer Matte mit einem dünnen Kissen unter dem Bauch und hebt Brust und Kopf leicht an
+days:
+  - weekday: monday
+    kind: strength
+    title: 'Kraft A: Beine, Rücken, Griff'
+    durationMin: 60
+    blocks:
+      - title: Aufwärmen
+        minutesFrom: 0
+        minutesTo: 8
+        items:
+          - { ref: warmup }
+      - title: Beine und Rücken
+        minutesFrom: 8
+        minutesTo: 29
+        items:
+          - exercise: chair-squat
+            prescriptions:
+              p1: { sets: 2, reps: '10', step: base, restSec: 60 }
+              p2: { sets: 3, reps: '10', step: working, restSec: 60 }
+              p3: { sets: 3, reps: '8–12', step: working, load: 'Kurzhantel 4–6 kg', restSec: 90 }
+              p4: { sets: 3, reps: '8–10', step: advanced, load: 'Kurzhantel 8–12 kg', restSec: 90 }
+          - exercise: romanian-deadlift
+            prescriptions:
+              p1: { sets: 2, reps: '10', step: base, restSec: 60 }
+              p2: { sets: 3, reps: '10', step: working, load: 'Kurzhanteln 3–4 kg', restSec: 60 }
+              p3: { sets: 3, reps: '8–12', step: working, load: 'Kurzhanteln 4–6 kg', restSec: 90 }
+              p4:
+                { sets: 3, reps: '8–10', step: advanced, load: 'Kurzhanteln 6–10 kg', restSec: 90 }
+          - exercise: dumbbell-row
+            prescriptions:
+              p1:
+                {
+                  sets: 2,
+                  reps: '10 pro Seite',
+                  step: base,
+                  load: 'Kurzhantel 2–3 kg',
+                  restSec: 60,
+                }
+              p2:
+                {
+                  sets: 3,
+                  reps: '10 pro Seite',
+                  step: base,
+                  load: 'Kurzhantel 3–4 kg',
+                  restSec: 60,
+                }
+              p3:
+                {
+                  sets: 3,
+                  reps: '8–12 pro Seite',
+                  step: working,
+                  load: 'Kurzhantel 4–6 kg',
+                  restSec: 60,
+                }
+              p4:
+                {
+                  sets: 3,
+                  reps: '8–10 pro Seite',
+                  step: advanced,
+                  load: 'Kurzhantel 6–10 kg',
+                  restSec: 90,
+                }
+      - title: Haltung und Unterschenkel
+        minutesFrom: 29
+        minutesTo: 46
+        items:
+          - exercise: band-pull-apart
+            prescriptions:
+              p1: { sets: 2, reps: '12', step: base, restSec: 45 }
+              p2: { sets: 2, reps: '15', step: base, restSec: 45 }
+              p3: { sets: 2, reps: '12–15', step: working, restSec: 45 }
+              p4: { sets: 2, reps: '12–15', step: advanced, restSec: 45 }
+          - exercise: calf-raise
+            prescriptions:
+              p1: { sets: 2, reps: '12', step: base, restSec: 45 }
+              p2: { sets: 3, reps: '12', step: base, restSec: 45 }
+              p3: { sets: 3, reps: '12–15', step: working, restSec: 45 }
+              p4: { sets: 3, reps: '12 pro Bein', step: advanced, restSec: 60 }
+          - exercise: glute-bridge
+            prescriptions:
+              p1: { sets: 2, reps: '12', step: base, restSec: 45 }
+              p2: { sets: 3, reps: '12', step: base, restSec: 45 }
+              p3: { sets: 3, reps: '10–15', step: working, restSec: 60 }
+              p4: { sets: 3, reps: '10 pro Bein', step: advanced, restSec: 60 }
+      - title: Griff und Rumpf
+        minutesFrom: 46
+        minutesTo: 55
+        items:
+          - exercise: farmers-carry
+            prescriptions:
+              p1: { sets: 2, seconds: 30, step: base, load: 'Kurzhanteln 3 kg', restSec: 60 }
+              p2: { sets: 3, seconds: 30, step: base, load: 'Kurzhanteln 4 kg', restSec: 60 }
+              p3: { sets: 3, seconds: 40, step: working, load: 'Kurzhanteln 5–6 kg', restSec: 60 }
+              p4: { sets: 3, seconds: 45, step: advanced, load: 'Kurzhanteln 8–10 kg', restSec: 90 }
+          - exercise: forearm-plank
+            prescriptions:
+              p1: { sets: 2, seconds: 20, step: base, restSec: 45 }
+              p2: { sets: 3, seconds: 20, step: base, restSec: 45 }
+              p3: { sets: 3, seconds: 30, step: working, restSec: 45 }
+              p4: { sets: 3, seconds: 40, step: advanced, restSec: 45 }
+          - exercise: dead-bug
+            prescriptions:
+              p1: { sets: 2, reps: '6 pro Seite', step: base, restSec: 30 }
+              p2: { sets: 2, reps: '8 pro Seite', step: base, restSec: 30 }
+              p3: { sets: 2, reps: '8 pro Seite', step: working, restSec: 30 }
+              p4: { sets: 2, reps: '10 pro Seite', step: advanced, restSec: 30 }
+      - title: Cool-down
+        minutesFrom: 55
+        minutesTo: 60
+        items:
+          - { ref: cooldown }
+
+  - weekday: tuesday
+    kind: balance
+    title: Gleichgewicht und Schnellkraft
+    durationMin: 50
+    blocks:
+      - title: Aufwärmen
+        minutesFrom: 0
+        minutesTo: 8
+        items:
+          - { ref: warmup }
+      - title: 'Block 1. Statisches Gleichgewicht nach Otago'
+        minutesFrom: 8
+        minutesTo: 18
+        items:
+          - exercise: tandem-stance
+            prescriptions:
+              p1: { sets: 2, seconds: 10, step: base, note: 'an einer Stütze', restSec: 15 }
+              p2: { sets: 2, seconds: 20, step: working, restSec: 15 }
+              p3: { sets: 2, seconds: 30, step: advanced, restSec: 15 }
+              p4:
+                {
+                  sets: 2,
+                  seconds: 30,
+                  step: advanced,
+                  note: 'Augen geschlossen oder auf einem Kissen',
+                  restSec: 15,
+                }
+          - exercise: single-leg-stand
+            prescriptions:
+              p1: { sets: 2, seconds: 10, step: base, note: 'Finger an der Stütze', restSec: 15 }
+              p2: { sets: 2, seconds: 20, step: working, restSec: 15 }
+              p3: { sets: 2, seconds: 30, step: working, restSec: 15 }
+              p4: { sets: 2, seconds: 30, step: advanced, note: 'mit Kopfdrehungen', restSec: 15 }
+      - title: 'Block 2. Schnellkraft'
+        minutesFrom: 18
+        minutesTo: 30
+        items:
+          - text: So führen Sie den Schnellkraftblock in Ihrer Phase aus
+            byPhase:
+              p1: 'Wochen 1–2: die Bewegungen nur in ruhigem Tempo kennenlernen, je 1 Satz, ohne Aufprall'
+              p2: 'Einstieg: 2 Sätze, schnelleres Tempo'
+              p3: 'Vollständiger Block: alle Übungen, Fersenfallen'
+              p4: 'Vollständiger Block mit Erschwerungen'
+          - exercise: fast-sit-to-stand
+            prescriptions:
+              p1: { sets: 1, reps: '6', step: base, note: 'in ruhigem Tempo', restSec: 60 }
+              p2: { sets: 2, reps: '6', step: working, restSec: 60 }
+              p3: { sets: 3, reps: '8', step: working, restSec: 60 }
+              p4: { sets: 3, reps: '8', step: advanced, restSec: 60 }
+          - exercise: step-up
+            prescriptions:
+              p1: { sets: 1, reps: '6 pro Bein', step: base, note: 'in ruhigem Tempo', restSec: 45 }
+              p2: { sets: 2, reps: '6 pro Bein, schnell', step: base, restSec: 45 }
+              p3: { sets: 3, reps: '6 pro Bein, schnell', step: working, restSec: 60 }
+              p4:
+                {
+                  sets: 3,
+                  reps: '6 pro Bein, schnell',
+                  step: advanced,
+                  load: 'Stufe 15–20 cm',
+                  restSec: 60,
+                }
+          - exercise: heel-drop
+            prescriptions:
+              p1:
+                {
+                  sets: 1,
+                  reps: '10',
+                  step: base,
+                  note: 'ohne Aufprall, nur heben und sanft absenken',
+                  restSec: 30,
+                }
+              p2: { sets: 2, reps: '10', step: base, restSec: 30 }
+              p3: { sets: 2, reps: '10', step: working, restSec: 30 }
+              p4:
+                {
+                  sets: 2,
+                  reps: '10',
+                  step: advanced,
+                  note: 'dazu Hüpfer 2 × 10, wenn die Knie nicht schmerzen',
+                  restSec: 45,
+                }
+      - title: 'Block 3. Dynamik, Reaktion, Doppelaufgaben'
+        minutesFrom: 30
+        minutesTo: 44
+        items:
+          - exercise: tandem-walk
+            prescriptions:
+              p1: { sets: 2, reps: '10 Schritte vorwärts', step: base, restSec: 20 }
+              p2:
+                {
+                  sets: 3,
+                  reps: '10 Schritte vorwärts und 10 rückwärts',
+                  step: working,
+                  restSec: 20,
+                }
+              p3:
+                {
+                  sets: 3,
+                  reps: '10 vorwärts und 10 rückwärts',
+                  step: working,
+                  note: 'dabei von 100 in Dreierschritten rückwärts zählen',
+                  restSec: 20,
+                }
+              p4:
+                {
+                  sets: 3,
+                  reps: '10 vorwärts und 10 rückwärts',
+                  step: advanced,
+                  note: 'mit einer Tasse, die Sie von einer Hand in die andere geben',
+                  restSec: 20,
+                }
+          - {
+              text: 'Auf den Zehen 10 Schritte, auf den Fersen 10 Schritte gehen, 2 Runden',
+              minutes: 2,
+            }
+          - {
+              text: 'Seitwärts im Nachstellschritt gehen, je 10 Schritte in jede Richtung, 2 Runden',
+              minutes: 2,
+            }
+          - {
+              text: 'Mit kleinen Schritten um 360 Grad drehen, je 2-mal in jede Richtung',
+              minutes: 1,
+            }
+          - {
+              text: 'Gewicht bis an die Grenze verlagern: nach vorn, hinten und zu den Seiten neigen, so weit Sie die Balance halten, zurückkommen. Je 8-mal.',
+              minutes: 2,
+            }
+          - exercise: reactive-step
+            prescriptions:
+              p1: { sets: 1, reps: '4 nach hinten', step: base, restSec: 20 }
+              p2: { sets: 1, reps: '6 nach hinten', step: base, restSec: 20 }
+              p3:
+                {
+                  sets: 1,
+                  reps: '6 in jede Richtung',
+                  step: working,
+                  note: 'nach hinten, vorn und zu den Seiten',
+                  restSec: 20,
+                }
+              p4:
+                {
+                  sets: 2,
+                  reps: '6 in jede Richtung',
+                  step: advanced,
+                  note: 'nach hinten, vorn und zu den Seiten',
+                  restSec: 20,
+                }
+          - {
+              text: 'Einen Gegenstand aus der Hocke oder Schrittstellung vom Boden aufheben, 8-mal',
+              minutes: 2,
+            }
+      - title: Cool-down
+        minutesFrom: 44
+        minutesTo: 50
+        items:
+          - { ref: cooldown }
+
+  - weekday: wednesday
+    kind: walk
+    title: Gehen und Rücken
+    durationMin: 45
+    note: 'Tag ohne Krafttraining: nur Gehen und der Rückenbaustein aus den täglichen Aufgaben'
+    blocks: []
+
+  - weekday: thursday
+    kind: strength
+    title: 'Kraft B: Beine, Schultern, Brust'
+    durationMin: 60
+    blocks:
+      - title: Aufwärmen
+        minutesFrom: 0
+        minutesTo: 8
+        items:
+          - { ref: warmup }
+      - title: Beine
+        minutesFrom: 8
+        minutesTo: 22
+        items:
+          - exercise: step-up
+            prescriptions:
+              p1:
+                {
+                  sets: 2,
+                  reps: '8 pro Bein',
+                  step: base,
+                  load: 'Stufe 10 cm, an einer Stütze',
+                  restSec: 60,
+                }
+              p2: { sets: 3, reps: '8 pro Bein', step: base, load: 'Stufe 10 cm', restSec: 60 }
+              p3:
+                {
+                  sets: 3,
+                  reps: '8–10 pro Bein',
+                  step: working,
+                  load: 'Stufe 15 cm ohne Stütze',
+                  restSec: 60,
+                }
+              p4:
+                {
+                  sets: 3,
+                  reps: '8 pro Bein',
+                  step: advanced,
+                  load: 'Stufe 15–20 cm, Kurzhanteln 3–5 kg',
+                  restSec: 90,
+                }
+          - exercise: split-squat
+            prescriptions:
+              p1: { sets: 2, reps: '8 pro Bein', step: base, restSec: 60 }
+              p2: { sets: 3, reps: '8 pro Bein', step: base, restSec: 60 }
+              p3: { sets: 3, reps: '8–10 pro Bein', step: working, restSec: 60 }
+              p4:
+                {
+                  sets: 3,
+                  reps: '8 pro Bein',
+                  step: advanced,
+                  load: 'Kurzhanteln 3–6 kg',
+                  restSec: 90,
+                }
+      - title: Schultern und Brust
+        minutesFrom: 22
+        minutesTo: 41
+        items:
+          - exercise: overhead-press
+            prescriptions:
+              p1:
+                {
+                  sets: 2,
+                  reps: '10',
+                  step: base,
+                  load: 'Kurzhanteln 2 kg, im Sitzen',
+                  restSec: 60,
+                }
+              p2:
+                {
+                  sets: 3,
+                  reps: '10',
+                  step: base,
+                  load: 'Kurzhanteln 3 kg, im Sitzen',
+                  restSec: 60,
+                }
+              p3:
+                {
+                  sets: 3,
+                  reps: '8–12',
+                  step: working,
+                  load: 'Kurzhanteln 3–5 kg, im Stehen',
+                  restSec: 60,
+                }
+              p4:
+                {
+                  sets: 3,
+                  reps: '8–10',
+                  step: advanced,
+                  load: 'Kurzhanteln 5–8 kg, im Stehen',
+                  restSec: 90,
+                }
+          - exercise: wall-pushup
+            prescriptions:
+              p1: { sets: 2, reps: '10', step: base, restSec: 60 }
+              p2:
+                { sets: 3, reps: '10', step: base, note: 'an der Wand oder am Tisch', restSec: 60 }
+              p3: { sets: 3, reps: '8–12', step: working, restSec: 60 }
+              p4: { sets: 3, reps: '8–10', step: advanced, restSec: 60 }
+          - exercise: overhead-band-pull-apart
+            prescriptions:
+              p1: { sets: 2, reps: '12', step: base, restSec: 45 }
+              p2: { sets: 3, reps: '10', step: base, restSec: 45 }
+              p3: { sets: 3, reps: '10–12', step: working, restSec: 45 }
+              p4: { sets: 3, reps: '10 mit Pause', step: advanced, restSec: 45 }
+      - title: Hüften und Haltung
+        minutesFrom: 41
+        minutesTo: 50
+        items:
+          - exercise: band-side-steps
+            prescriptions:
+              p1: { sets: 2, reps: '12 in Seitenlage', step: base, restSec: 30 }
+              p2: { sets: 2, reps: '15 in Seitenlage', step: base, restSec: 30 }
+              p3: { sets: 2, reps: '12–15', step: working, note: 'im Stehen mit Band', restSec: 30 }
+              p4:
+                {
+                  sets: 2,
+                  reps: '15 Schritte',
+                  step: advanced,
+                  note: 'in jede Richtung',
+                  restSec: 30,
+                }
+          - exercise: prone-y-raise
+            prescriptions:
+              p1: { sets: 2, reps: '10', step: base, restSec: 30 }
+              p2: { sets: 2, reps: '12', step: base, restSec: 30 }
+              p3: { sets: 2, reps: '12–15 mit Pause', step: working, restSec: 30 }
+              p4: { sets: 2, reps: '12', step: advanced, load: '0,5-Liter-Flaschen', restSec: 30 }
+      - title: Rumpf
+        minutesFrom: 50
+        minutesTo: 55
+        items:
+          - exercise: side-plank-knee
+            prescriptions:
+              p1: { sets: 2, seconds: 15, step: base, note: 'pro Seite', restSec: 30 }
+              p2: { sets: 3, seconds: 15, step: base, note: 'pro Seite', restSec: 30 }
+              p3: { sets: 3, seconds: 25, step: working, note: 'pro Seite', restSec: 30 }
+              p4: { sets: 3, seconds: 30, step: advanced, note: 'pro Seite', restSec: 30 }
+          - exercise: bird-dog
+            prescriptions:
+              p1: { sets: 2, reps: '6 pro Seite', step: base, restSec: 30 }
+              p2: { sets: 2, reps: '8 pro Seite', step: base, restSec: 30 }
+              p3: { sets: 2, reps: '8 pro Seite', step: working, restSec: 30 }
+              p4: { sets: 2, reps: '10 pro Seite', step: advanced, restSec: 30 }
+      - title: Cool-down
+        minutesFrom: 55
+        minutesTo: 60
+        items:
+          - { ref: cooldown }
+
+  - weekday: friday
+    kind: posture
+    title: Haltung und Beweglichkeit
+    durationMin: 45
+    blocks:
+      - title: Aufwärmen
+        minutesFrom: 0
+        minutesTo: 8
+        items:
+          - { ref: warmup }
+      - title: Rücken
+        minutesFrom: 8
+        minutesTo: 14
+        items:
+          - exercise: sinaki-back-extension
+            prescriptions:
+              p1: { sets: 1, reps: '10 × 5 Sekunden', step: base, restSec: 0 }
+              p2: { sets: 1, reps: '10 × 5 Sekunden', step: base, restSec: 0 }
+              p3:
+                {
+                  sets: 1,
+                  reps: '10 × 5 Sekunden',
+                  step: working,
+                  load: 'Rucksack 1 kg',
+                  restSec: 0,
+                }
+              p4:
+                {
+                  sets: 1,
+                  reps: '10 × 5 Sekunden',
+                  step: advanced,
+                  load: 'Rucksack 2 kg',
+                  restSec: 0,
+                }
+      - title: Brustwirbelsäule und Schultern
+        minutesFrom: 14
+        minutesTo: 26
+        items:
+          - exercise: thoracic-foam-roll
+            prescriptions:
+              p1: { sets: 1, reps: '10 mit 3 s Pause', step: base, restSec: 0 }
+              p2: { sets: 1, reps: '10 mit 3 s Pause', step: base, restSec: 0 }
+              p3: { sets: 1, reps: '10 mit 3 s Pause', step: working, restSec: 0 }
+              p4: { sets: 1, reps: '10 mit 3 s Pause', step: working, restSec: 0 }
+          - exercise: wall-angel
+            prescriptions:
+              p1: { sets: 1, reps: '10', step: base, restSec: 30 }
+              p2: { sets: 2, reps: '10', step: base, restSec: 30 }
+              p3: { sets: 2, reps: '10', step: working, restSec: 30 }
+              p4: { sets: 2, reps: '10 mit 3 s Pause', step: advanced, restSec: 30 }
+          - exercise: doorway-chest-stretch
+            prescriptions:
+              p1: { sets: 2, seconds: 20, step: base, restSec: 10 }
+              p2: { sets: 3, seconds: 30, step: working, restSec: 10 }
+              p3: { sets: 3, seconds: 30, step: working, restSec: 10 }
+              p4: { sets: 3, seconds: 30, step: advanced, restSec: 10 }
+          - exercise: chin-tuck
+            prescriptions:
+              p1: { sets: 1, reps: '10 × 5 Sekunden', step: base, restSec: 0 }
+              p2: { sets: 1, reps: '10 × 5 Sekunden', step: base, restSec: 0 }
+              p3: { sets: 1, reps: '10 × 5 Sekunden', step: working, restSec: 0 }
+              p4: { sets: 1, reps: '10 × 5 Sekunden', step: working, restSec: 0 }
+          - { text: 'Schulterblattkreisen im Sitzen, je 10-mal in jede Richtung', minutes: 1 }
+      - title: Becken, Hüften, Sprunggelenke
+        minutesFrom: 26
+        minutesTo: 38
+        items:
+          - exercise: hip-flexor-stretch
+            prescriptions:
+              p1: { sets: 2, seconds: 20, step: base, note: 'pro Seite', restSec: 10 }
+              p2: { sets: 3, seconds: 30, step: working, note: 'pro Seite', restSec: 10 }
+              p3: { sets: 3, seconds: 30, step: working, note: 'pro Seite', restSec: 10 }
+              p4: { sets: 3, seconds: 30, step: advanced, note: 'pro Seite', restSec: 10 }
+          - exercise: calf-stretch
+            prescriptions:
+              p1: { sets: 2, seconds: 20, step: base, note: 'pro Bein', restSec: 10 }
+              p2: { sets: 2, seconds: 30, step: working, note: 'pro Bein', restSec: 10 }
+              p3: { sets: 2, seconds: 30, step: working, note: 'pro Bein', restSec: 10 }
+              p4: { sets: 2, seconds: 30, step: advanced, note: 'pro Bein', restSec: 10 }
+          - exercise: clamshell
+            prescriptions:
+              p1: { sets: 1, reps: '15 pro Seite', step: base, restSec: 30 }
+              p2: { sets: 2, reps: '15 pro Seite', step: base, restSec: 30 }
+              p3: { sets: 2, reps: '15 pro Seite', step: working, restSec: 30 }
+              p4: { sets: 2, reps: '15 pro Seite', step: advanced, restSec: 30 }
+          - {
+              text: 'Sitz in 90/90-Position: Außen- und Innenrotation der Hüfte, 10 langsame Wechsel',
+              minutes: 2,
+            }
+          - {
+              text: 'Sprunggelenk: im Sitzen mit dem Fuß das Alphabet in die Luft schreiben, mit jedem Fuß einmal',
+              minutes: 2,
+            }
+          - exercise: cat-cow
+            prescriptions:
+              p1: { sets: 1, reps: '10 Durchgänge', step: base, note: 'langsam', restSec: 0 }
+              p2: { sets: 1, reps: '10 Durchgänge', step: base, note: 'langsam', restSec: 0 }
+              p3: { sets: 1, reps: '10 Durchgänge', step: working, note: 'langsam', restSec: 0 }
+              p4: { sets: 1, reps: '10 Durchgänge', step: working, note: 'langsam', restSec: 0 }
+      - title: Atmung
+        minutesFrom: 38
+        minutesTo: 45
+        items:
+          - exercise: diaphragm-breathing
+            prescriptions:
+              p1: { sets: 1, seconds: 300, step: base, restSec: 0 }
+              p2: { sets: 1, seconds: 300, step: base, restSec: 0 }
+              p3: { sets: 1, seconds: 300, step: working, restSec: 0 }
+              p4: { sets: 1, seconds: 300, step: working, restSec: 0 }
+          - {
+              text: 'Alle 4 Wochen den Test „Hinterkopf-Wand-Abstand“ machen und ins Tagebuch eintragen',
+              minutes: 2,
+            }
+
+  - weekday: saturday
+    kind: optional
+    title: Nach Wunsch
+    durationMin: 60
+    note: 'Eine von zwei Möglichkeiten: 60 Minuten spazieren gehen, etwas schneller als sonst, die letzten 10 Minuten langsam, oder den Dienstag wiederholen, ohne den Schnellkraftblock.'
+    blocks: []
+
+  - weekday: sunday
+    kind: rest
+    title: Ruhetag
+    durationMin: 0
+    note: 'Ein leichter Spaziergang von 20–30 Minuten und der Sinaki-Baustein.'
+    blocks: []

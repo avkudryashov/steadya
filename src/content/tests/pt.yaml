@@ -1,0 +1,69 @@
+tests:
+  - id: chair-stand-30s
+    image: ../../assets/exercises/c3-fast-sit-to-stand.png
+    imageAlt: Mulher se levanta da cadeira com um movimento rápido, braços cruzados sobre o peito
+    title: Teste de sentar e levantar da cadeira em 30 segundos
+    howTo: Cadeira encostada na parede, braços cruzados sobre o peito. Conte quantas vezes você se levanta completamente em 30 segundos.
+    unit: vezes
+    thresholdNote: Abaixo do valor de referência para a sua idade
+    thresholdsByAge:
+      - { ages: 60–64 anos, value: menos de 12 }
+      - { ages: 65–69 anos, value: menos de 11 }
+      - { ages: 70–79 anos, value: menos de 10 }
+      - { ages: 80–84 anos, value: menos de 9 }
+      - { ages: 85–89 anos, value: menos de 8 }
+      - { ages: 90 anos ou mais, value: menos de 4 }
+    meaning: Força das pernas, risco de quedas
+    direction: higherBetter
+  - id: tug
+    image: ../../assets/tests/tug.png
+    imageAlt: Mulher caminha de uma cadeira com braços até um cone laranja marcado por uma linha no chão
+    title: Timed Up and Go
+    howTo: Levante-se da cadeira, caminhe 3 metros, vire-se, volte e sente-se. Marque o tempo com um cronômetro.
+    unit: s
+    thresholdNote: 12 segundos ou mais
+    meaning: Mobilidade, risco de quedas
+    direction: lowerBetter
+  - id: single-leg
+    image: ../../assets/exercises/c2-single-leg-stand.png
+    imageAlt: Mulher em pé sobre uma perna, mãos na cintura, a outra perna levantada, com uma mesa ao lado para apoio
+    title: Teste de apoio unipodal
+    howTo: Mãos na cintura. Marque o tempo até o pé tocar o chão ou você se segurar no apoio; vale a melhor de três tentativas. Apoio (mesa ou encosto de cadeira) ao alcance do braço estendido.
+    unit: s
+    thresholdNote: Menos de 10 segundos
+    meaning: Equilíbrio estático
+    direction: higherBetter
+  - id: four-stage
+    image: ../../assets/exercises/c1-tandem-stance.png
+    imageAlt: Mulher em pé com os pés alinhados, calcanhar encostado na ponta do outro pé, dedos tocando de leve a mesa ao lado
+    title: Teste de equilíbrio em quatro estágios
+    howTo: Pés juntos, semitandem, tandem e uma perna só, 10 segundos cada. Anote quantos estágios você conseguiu manter. Apoio (mesa ou encosto de cadeira) ao alcance do braço estendido.
+    unit: estágios
+    thresholdNote: Não conseguir manter o tandem por 10 segundos
+    meaning: Evolução do equilíbrio
+    direction: higherBetter
+  - id: two-min-step
+    image: ../../assets/tests/two-min-step.png
+    imageAlt: Mulher marcha no lugar, levantando o joelho até uma marca na parede, braços dobrados nos cotovelos
+    title: Teste de marcha estacionária de 2 minutos
+    howTo: Levante os joelhos até a altura do meio da coxa. Conte quantas vezes o joelho direito sobe em 2 minutos.
+    unit: vezes
+    thresholdNote: Abaixo do valor de referência para a sua idade
+    thresholdsByAge:
+      - { ages: 60–64 anos, value: menos de 75 }
+      - { ages: 65–69 anos, value: menos de 73 }
+      - { ages: 70–79 anos, value: menos de 68 }
+      - { ages: 80–84 anos, value: menos de 60 }
+      - { ages: 85–89 anos, value: menos de 55 }
+      - { ages: 90 anos ou mais, value: menos de 44 }
+    meaning: Resistência
+    direction: higherBetter
+  - id: wall-posture
+    image: ../../assets/tests/wall-posture.png
+    imageAlt: Mulher de costas para a parede, com a nuca, as escápulas e os glúteos encostados nela, pés juntos
+    title: Postura na parede
+    howTo: Nuca, escápulas, glúteos e calcanhares encostados na parede. Meça a distância entre a nuca e a parede, sem forçar.
+    unit: cm
+    thresholdNote: Mais de 5 cm ou aumentando
+    meaning: Cifose torácica
+    direction: lowerBetter

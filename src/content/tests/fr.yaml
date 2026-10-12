@@ -1,0 +1,69 @@
+tests:
+  - id: chair-stand-30s
+    image: ../../assets/exercises/c3-fast-sit-to-stand.png
+    imageAlt: Une femme se lève d’une chaise d’un mouvement rapide, bras croisés sur la poitrine
+    title: Test du lever de chaise en 30 secondes
+    howTo: Chaise contre un mur, bras croisés sur la poitrine, compter les levers complets en 30 secondes.
+    unit: fois
+    thresholdNote: En dessous de la norme pour votre âge
+    thresholdsByAge:
+      - { ages: 60 à 64 ans, value: moins de 12 }
+      - { ages: 65 à 69 ans, value: moins de 11 }
+      - { ages: 70 à 79 ans, value: moins de 10 }
+      - { ages: 80 à 84 ans, value: moins de 9 }
+      - { ages: 85 à 89 ans, value: moins de 8 }
+      - { ages: 90 ans et plus, value: moins de 4 }
+    meaning: Force des jambes, risque de chute
+    direction: higherBetter
+  - id: tug
+    image: ../../assets/tests/tug.png
+    imageAlt: Une femme marche d’une chaise à accoudoirs vers un cône orange, marqué par une ligne au sol
+    title: Timed Up and Go
+    howTo: Se lever de la chaise, marcher 3 mètres, faire demi-tour, revenir, s’asseoir. Chronométrer.
+    unit: s
+    thresholdNote: 12 secondes ou plus
+    meaning: Mobilité, risque de chute
+    direction: lowerBetter
+  - id: single-leg
+    image: ../../assets/exercises/c2-single-leg-stand.png
+    imageAlt: Une femme tient sur une jambe, mains sur les hanches, l’autre jambe levée, une table à côté pour l’appui
+    title: Station unipodale
+    howTo: Mains sur les hanches, temps jusqu’à ce que le pied touche le sol ou l’appui, meilleur des trois essais. Un appui (table ou dossier de chaise) à portée de bras.
+    unit: s
+    thresholdNote: Moins de 10 secondes
+    meaning: Équilibre statique
+    direction: higherBetter
+  - id: four-stage
+    image: ../../assets/exercises/c1-tandem-stance.png
+    imageAlt: Une femme debout, les pieds placés talon contre orteils, les doigts effleurant la table à côté
+    title: Test d’équilibre en 4 étapes
+    howTo: Pieds joints, semi-tandem, tandem, sur une jambe, 10 secondes chacune. Noter le nombre d’étapes tenues. Un appui (table ou dossier de chaise) à portée de bras.
+    unit: étapes
+    thresholdNote: Ne pas tenir la position tandem 10 secondes
+    meaning: Progrès de l’équilibre
+    direction: higherBetter
+  - id: two-min-step
+    image: ../../assets/tests/two-min-step.png
+    imageAlt: Une femme marche sur place en levant le genou jusqu’à une marque sur le mur, coudes fléchis
+    title: Test de marche sur place de 2 minutes
+    howTo: Lever les genoux jusqu’à mi-cuisse, compter les montées du genou droit en 2 minutes.
+    unit: fois
+    thresholdNote: En dessous de la norme pour votre âge
+    thresholdsByAge:
+      - { ages: 60 à 64 ans, value: moins de 75 }
+      - { ages: 65 à 69 ans, value: moins de 73 }
+      - { ages: 70 à 79 ans, value: moins de 68 }
+      - { ages: 80 à 84 ans, value: moins de 60 }
+      - { ages: 85 à 89 ans, value: moins de 55 }
+      - { ages: 90 ans et plus, value: moins de 44 }
+    meaning: Endurance
+    direction: higherBetter
+  - id: wall-posture
+    image: ../../assets/tests/wall-posture.png
+    imageAlt: Une femme dos au mur, l’arrière de la tête, les omoplates et les fesses touchent le mur, pieds joints
+    title: Posture contre le mur
+    howTo: L’arrière de la tête, les omoplates, les fesses et les talons contre le mur. Mesurer la distance entre l’arrière de la tête et le mur, sans forcer.
+    unit: cm
+    thresholdNote: Plus de 5 cm, ou en augmentation
+    meaning: Cyphose thoracique
+    direction: lowerBetter

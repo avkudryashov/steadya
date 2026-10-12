@@ -1,0 +1,556 @@
+id: women-60-plus
+title: Stability, strength and posture after 60
+audience: women-60-plus
+weeks: 12
+phases:
+  - id: p1
+    weeks: [1, 2]
+    label: Weeks 1–2
+    goal: Learning the technique
+    strength: 2 sets, effort 5–6, basic or working level
+    balance: Only Otago and dynamic balance, no power work
+  - id: p2
+    weeks: [3, 4]
+    label: Weeks 3–4
+    goal: Getting into the working routine
+    strength: 3 sets, effort 6–7
+    balance: Add fast sit-to-stands and step-ups
+  - id: p3
+    weeks: [5, 8]
+    label: Weeks 5–8
+    goal: Increasing the load
+    strength: 3 sets, effort 7–8, working level
+    balance: Full power block, heel drops, hops
+  - id: p4
+    weeks: [9, 12]
+    label: Weeks 9–12
+    goal: Intensification; week 12 is a deload and test week
+    strength: 3 sets, effort 8, advanced level where you are ready
+    balance: 'Harder balance work: eyes closed, pillow, dual tasks'
+deloadWeeks: [4, 8, 12]
+warmup:
+  - { text: 'Walking in place or around the room, gradually speeding up', minutes: 2 }
+  - { text: 'Shoulder circles forward and backward, 10 each way', minutes: 1 }
+  - { text: 'Arm swings crisscross and up and down, 10 times', minutes: 1 }
+  - { text: 'Half squats with arms forward next to a support, 10 times', minutes: 1 }
+  - { text: 'Leg swings forward and back next to a support, 10 with each leg', minutes: 1 }
+  - { text: 'Hip circles, 8 in each direction', minutes: 1 }
+  - { text: 'Ankle circles standing on one leg next to a support, 8 with each foot', minutes: 1 }
+cooldown:
+  - { text: Slow walking, minutes: 2 }
+  - { text: 'Wall calf stretch, 30 seconds each leg', minutes: 1 }
+  - { text: 'Standing front-thigh stretch next to a support, 30 seconds each leg', minutes: 1 }
+  - { text: Diaphragmatic breathing, minutes: 1 }
+daily:
+  - text: Walk for 30 minutes or more at a pace where you can talk but not sing. Once a week, do part of the route uphill or on stairs.
+    exceptWeekdays: []
+    image: ../../../assets/daily/walk.png
+    imageAlt: A woman in a jacket walks briskly along a park path, elbows bent, eyes forward
+  - text: Sinaki module, 5 minutes, back extension lying face down, 10 holds of 5 seconds. From the second month, with a 1–2 kg backpack.
+    exceptWeekdays: [friday]
+    image: ../../../assets/exercises/d1-sinaki-back-extension.png
+    imageAlt: A woman lies face down on a mat with a thin pillow under her belly, chest and head slightly raised
+days:
+  - weekday: monday
+    kind: strength
+    title: 'Strength A: legs, back, grip'
+    durationMin: 60
+    blocks:
+      - title: Warm-up
+        minutesFrom: 0
+        minutesTo: 8
+        items:
+          - { ref: warmup }
+      - title: Legs and back
+        minutesFrom: 8
+        minutesTo: 29
+        items:
+          - exercise: chair-squat
+            prescriptions:
+              p1: { sets: 2, reps: '10', step: base, restSec: 60 }
+              p2: { sets: 3, reps: '10', step: working, restSec: 60 }
+              p3: { sets: 3, reps: '8–12', step: working, load: 4–6 kg dumbbell, restSec: 90 }
+              p4: { sets: 3, reps: '8–10', step: advanced, load: 8–12 kg dumbbell, restSec: 90 }
+          - exercise: romanian-deadlift
+            prescriptions:
+              p1: { sets: 2, reps: '10', step: base, restSec: 60 }
+              p2: { sets: 3, reps: '10', step: working, load: 3–4 kg dumbbells, restSec: 60 }
+              p3: { sets: 3, reps: '8–12', step: working, load: 4–6 kg dumbbells, restSec: 90 }
+              p4: { sets: 3, reps: '8–10', step: advanced, load: 6–10 kg dumbbells, restSec: 90 }
+          - exercise: dumbbell-row
+            prescriptions:
+              p1: { sets: 2, reps: '10 per side', step: base, load: 2–3 kg dumbbell, restSec: 60 }
+              p2: { sets: 3, reps: '10 per side', step: base, load: 3–4 kg dumbbell, restSec: 60 }
+              p3:
+                {
+                  sets: 3,
+                  reps: '8–12 per side',
+                  step: working,
+                  load: 4–6 kg dumbbell,
+                  restSec: 60,
+                }
+              p4:
+                {
+                  sets: 3,
+                  reps: '8–10 per side',
+                  step: advanced,
+                  load: 6–10 kg dumbbell,
+                  restSec: 90,
+                }
+      - title: Posture and calves
+        minutesFrom: 29
+        minutesTo: 46
+        items:
+          - exercise: band-pull-apart
+            prescriptions:
+              p1: { sets: 2, reps: '12', step: base, restSec: 45 }
+              p2: { sets: 2, reps: '15', step: base, restSec: 45 }
+              p3: { sets: 2, reps: '12–15', step: working, restSec: 45 }
+              p4: { sets: 2, reps: '12–15', step: advanced, restSec: 45 }
+          - exercise: calf-raise
+            prescriptions:
+              p1: { sets: 2, reps: '12', step: base, restSec: 45 }
+              p2: { sets: 3, reps: '12', step: base, restSec: 45 }
+              p3: { sets: 3, reps: '12–15', step: working, restSec: 45 }
+              p4: { sets: 3, reps: '12 per leg', step: advanced, restSec: 60 }
+          - exercise: glute-bridge
+            prescriptions:
+              p1: { sets: 2, reps: '12', step: base, restSec: 45 }
+              p2: { sets: 3, reps: '12', step: base, restSec: 45 }
+              p3: { sets: 3, reps: '10–15', step: working, restSec: 60 }
+              p4: { sets: 3, reps: '10 per leg', step: advanced, restSec: 60 }
+      - title: Grip and core
+        minutesFrom: 46
+        minutesTo: 55
+        items:
+          - exercise: farmers-carry
+            prescriptions:
+              p1: { sets: 2, seconds: 30, step: base, load: 3 kg dumbbells, restSec: 60 }
+              p2: { sets: 3, seconds: 30, step: base, load: 4 kg dumbbells, restSec: 60 }
+              p3: { sets: 3, seconds: 40, step: working, load: 5–6 kg dumbbells, restSec: 60 }
+              p4: { sets: 3, seconds: 45, step: advanced, load: 8–10 kg dumbbells, restSec: 90 }
+          - exercise: forearm-plank
+            prescriptions:
+              p1: { sets: 2, seconds: 20, step: base, restSec: 45 }
+              p2: { sets: 3, seconds: 20, step: base, restSec: 45 }
+              p3: { sets: 3, seconds: 30, step: working, restSec: 45 }
+              p4: { sets: 3, seconds: 40, step: advanced, restSec: 45 }
+          - exercise: dead-bug
+            prescriptions:
+              p1: { sets: 2, reps: '6 per side', step: base, restSec: 30 }
+              p2: { sets: 2, reps: '8 per side', step: base, restSec: 30 }
+              p3: { sets: 2, reps: '8 per side', step: working, restSec: 30 }
+              p4: { sets: 2, reps: '10 per side', step: advanced, restSec: 30 }
+      - title: Cool-down
+        minutesFrom: 55
+        minutesTo: 60
+        items:
+          - { ref: cooldown }
+
+  - weekday: tuesday
+    kind: balance
+    title: Balance and power
+    durationMin: 50
+    blocks:
+      - title: Warm-up
+        minutesFrom: 0
+        minutesTo: 8
+        items:
+          - { ref: warmup }
+      - title: 'Block 1. Otago static balance'
+        minutesFrom: 8
+        minutesTo: 18
+        items:
+          - exercise: tandem-stance
+            prescriptions:
+              p1: { sets: 2, seconds: 10, step: base, note: next to a support, restSec: 15 }
+              p2: { sets: 2, seconds: 20, step: working, restSec: 15 }
+              p3: { sets: 2, seconds: 30, step: advanced, restSec: 15 }
+              p4:
+                {
+                  sets: 2,
+                  seconds: 30,
+                  step: advanced,
+                  note: eyes closed or on a pillow,
+                  restSec: 15,
+                }
+          - exercise: single-leg-stand
+            prescriptions:
+              p1: { sets: 2, seconds: 10, step: base, note: fingertips on the support, restSec: 15 }
+              p2: { sets: 2, seconds: 20, step: working, restSec: 15 }
+              p3: { sets: 2, seconds: 30, step: working, restSec: 15 }
+              p4: { sets: 2, seconds: 30, step: advanced, note: with head turns, restSec: 15 }
+      - title: 'Block 2. Power'
+        minutesFrom: 18
+        minutesTo: 30
+        items:
+          - text: How to do the power block in your phase
+            byPhase:
+              p1: 'Weeks 1–2: just get to know the movements at a calm pace, 1 set of each, no impact'
+              p2: 'Getting started: 2 sets, faster pace'
+              p3: 'Full block: all exercises, heel drops'
+              p4: Full block with harder variations
+          - exercise: fast-sit-to-stand
+            prescriptions:
+              p1: { sets: 1, reps: '6', step: base, note: 'at a calm pace', restSec: 60 }
+              p2: { sets: 2, reps: '6', step: working, restSec: 60 }
+              p3: { sets: 3, reps: '8', step: working, restSec: 60 }
+              p4: { sets: 3, reps: '8', step: advanced, restSec: 60 }
+          - exercise: step-up
+            prescriptions:
+              p1: { sets: 1, reps: '6 per leg', step: base, note: 'at a calm pace', restSec: 45 }
+              p2: { sets: 2, reps: '6 per leg, fast', step: base, restSec: 45 }
+              p3: { sets: 3, reps: '6 per leg, fast', step: working, restSec: 60 }
+              p4:
+                {
+                  sets: 3,
+                  reps: '6 per leg, fast',
+                  step: advanced,
+                  load: 15–20 cm platform,
+                  restSec: 60,
+                }
+          - exercise: heel-drop
+            prescriptions:
+              p1:
+                {
+                  sets: 1,
+                  reps: '10',
+                  step: base,
+                  note: 'no impact, just rise and lower gently',
+                  restSec: 30,
+                }
+              p2: { sets: 2, reps: '10', step: base, restSec: 30 }
+              p3: { sets: 2, reps: '10', step: working, restSec: 30 }
+              p4:
+                {
+                  sets: 2,
+                  reps: '10',
+                  step: advanced,
+                  note: 'plus hops, 2 × 10, if your knees do not hurt',
+                  restSec: 45,
+                }
+      - title: 'Block 3. Dynamic balance, reaction, dual tasks'
+        minutesFrom: 30
+        minutesTo: 44
+        items:
+          - exercise: tandem-walk
+            prescriptions:
+              p1: { sets: 2, reps: '10 steps forward', step: base, restSec: 20 }
+              p2: { sets: 3, reps: '10 steps forward and 10 back', step: working, restSec: 20 }
+              p3:
+                {
+                  sets: 3,
+                  reps: '10 forward and 10 back',
+                  step: working,
+                  note: counting backward from 100 by 3s,
+                  restSec: 20,
+                }
+              p4:
+                {
+                  sets: 3,
+                  reps: '10 forward and 10 back',
+                  step: advanced,
+                  note: 'holding a cup, passing it from hand to hand',
+                  restSec: 20,
+                }
+          - { text: 'Walk 10 steps on your toes, 10 steps on your heels, 2 rounds', minutes: 2 }
+          - { text: 'Side-stepping, 10 steps in each direction, 2 rounds', minutes: 2 }
+          - { text: '360-degree turn in small steps, 2 times in each direction', minutes: 1 }
+          - {
+              text: 'Weight shifts to your limit: lean forward, back and to the sides as far as you can stay steady, then come back. 8 times each.',
+              minutes: 2,
+            }
+          - exercise: reactive-step
+            prescriptions:
+              p1: { sets: 1, reps: '4 backward', step: base, restSec: 20 }
+              p2: { sets: 1, reps: '6 backward', step: base, restSec: 20 }
+              p3:
+                {
+                  sets: 1,
+                  reps: '6 in each direction',
+                  step: working,
+                  note: 'backward, forward and to the sides',
+                  restSec: 20,
+                }
+              p4:
+                {
+                  sets: 2,
+                  reps: '6 in each direction',
+                  step: advanced,
+                  note: 'backward, forward and to the sides',
+                  restSec: 20,
+                }
+          - {
+              text: 'Pick up an object from the floor from a squat or a split stance, 8 times',
+              minutes: 2,
+            }
+      - title: Cool-down
+        minutesFrom: 44
+        minutesTo: 50
+        items:
+          - { ref: cooldown }
+
+  - weekday: wednesday
+    kind: walk
+    title: Walking and back
+    durationMin: 45
+    note: 'A day without strength work: only walking and the back module from your daily tasks'
+    blocks: []
+
+  - weekday: thursday
+    kind: strength
+    title: 'Strength B: legs, shoulders, chest'
+    durationMin: 60
+    blocks:
+      - title: Warm-up
+        minutesFrom: 0
+        minutesTo: 8
+        items:
+          - { ref: warmup }
+      - title: Legs
+        minutesFrom: 8
+        minutesTo: 22
+        items:
+          - exercise: step-up
+            prescriptions:
+              p1:
+                {
+                  sets: 2,
+                  reps: '8 per leg',
+                  step: base,
+                  load: '10 cm platform, next to a support',
+                  restSec: 60,
+                }
+              p2: { sets: 3, reps: '8 per leg', step: base, load: 10 cm platform, restSec: 60 }
+              p3:
+                {
+                  sets: 3,
+                  reps: '8–10 per leg',
+                  step: working,
+                  load: 15 cm platform without support,
+                  restSec: 60,
+                }
+              p4:
+                {
+                  sets: 3,
+                  reps: '8 per leg',
+                  step: advanced,
+                  load: '15–20 cm platform, 3–5 kg dumbbells',
+                  restSec: 90,
+                }
+          - exercise: split-squat
+            prescriptions:
+              p1: { sets: 2, reps: '8 per leg', step: base, restSec: 60 }
+              p2: { sets: 3, reps: '8 per leg', step: base, restSec: 60 }
+              p3: { sets: 3, reps: '8–10 per leg', step: working, restSec: 60 }
+              p4:
+                { sets: 3, reps: '8 per leg', step: advanced, load: 3–6 kg dumbbells, restSec: 90 }
+      - title: Shoulders and chest
+        minutesFrom: 22
+        minutesTo: 41
+        items:
+          - exercise: overhead-press
+            prescriptions:
+              p1: { sets: 2, reps: '10', step: base, load: '2 kg dumbbells, seated', restSec: 60 }
+              p2: { sets: 3, reps: '10', step: base, load: '3 kg dumbbells, seated', restSec: 60 }
+              p3:
+                {
+                  sets: 3,
+                  reps: '8–12',
+                  step: working,
+                  load: '3–5 kg dumbbells, standing',
+                  restSec: 60,
+                }
+              p4:
+                {
+                  sets: 3,
+                  reps: '8–10',
+                  step: advanced,
+                  load: '5–8 kg dumbbells, standing',
+                  restSec: 90,
+                }
+          - exercise: wall-pushup
+            prescriptions:
+              p1: { sets: 2, reps: '10', step: base, restSec: 60 }
+              p2: { sets: 3, reps: '10', step: base, note: against a wall or table, restSec: 60 }
+              p3: { sets: 3, reps: '8–12', step: working, restSec: 60 }
+              p4: { sets: 3, reps: '8–10', step: advanced, restSec: 60 }
+          - exercise: overhead-band-pull-apart
+            prescriptions:
+              p1: { sets: 2, reps: '12', step: base, restSec: 45 }
+              p2: { sets: 3, reps: '10', step: base, restSec: 45 }
+              p3: { sets: 3, reps: '10–12', step: working, restSec: 45 }
+              p4: { sets: 3, reps: '10 with a pause', step: advanced, restSec: 45 }
+      - title: Hips and posture
+        minutesFrom: 41
+        minutesTo: 50
+        items:
+          - exercise: band-side-steps
+            prescriptions:
+              p1: { sets: 2, reps: '12 lying on your side', step: base, restSec: 30 }
+              p2: { sets: 2, reps: '15 lying on your side', step: base, restSec: 30 }
+              p3:
+                { sets: 2, reps: '12–15', step: working, note: 'standing with a band', restSec: 30 }
+              p4:
+                {
+                  sets: 2,
+                  reps: '15 steps',
+                  step: advanced,
+                  note: 'in each direction',
+                  restSec: 30,
+                }
+          - exercise: prone-y-raise
+            prescriptions:
+              p1: { sets: 2, reps: '10', step: base, restSec: 30 }
+              p2: { sets: 2, reps: '12', step: base, restSec: 30 }
+              p3: { sets: 2, reps: '12–15 with a pause', step: working, restSec: 30 }
+              p4: { sets: 2, reps: '12', step: advanced, load: '0.5 L bottles', restSec: 30 }
+      - title: Core
+        minutesFrom: 50
+        minutesTo: 55
+        items:
+          - exercise: side-plank-knee
+            prescriptions:
+              p1: { sets: 2, seconds: 15, step: base, note: per side, restSec: 30 }
+              p2: { sets: 3, seconds: 15, step: base, note: per side, restSec: 30 }
+              p3: { sets: 3, seconds: 25, step: working, note: per side, restSec: 30 }
+              p4: { sets: 3, seconds: 30, step: advanced, note: per side, restSec: 30 }
+          - exercise: bird-dog
+            prescriptions:
+              p1: { sets: 2, reps: '6 per side', step: base, restSec: 30 }
+              p2: { sets: 2, reps: '8 per side', step: base, restSec: 30 }
+              p3: { sets: 2, reps: '8 per side', step: working, restSec: 30 }
+              p4: { sets: 2, reps: '10 per side', step: advanced, restSec: 30 }
+      - title: Cool-down
+        minutesFrom: 55
+        minutesTo: 60
+        items:
+          - { ref: cooldown }
+
+  - weekday: friday
+    kind: posture
+    title: Posture and mobility
+    durationMin: 45
+    blocks:
+      - title: Warm-up
+        minutesFrom: 0
+        minutesTo: 8
+        items:
+          - { ref: warmup }
+      - title: Back
+        minutesFrom: 8
+        minutesTo: 14
+        items:
+          - exercise: sinaki-back-extension
+            prescriptions:
+              p1: { sets: 1, reps: '10 holds of 5 seconds', step: base, restSec: 0 }
+              p2: { sets: 1, reps: '10 holds of 5 seconds', step: base, restSec: 0 }
+              p3:
+                {
+                  sets: 1,
+                  reps: '10 holds of 5 seconds',
+                  step: working,
+                  load: 1 kg backpack,
+                  restSec: 0,
+                }
+              p4:
+                {
+                  sets: 1,
+                  reps: '10 holds of 5 seconds',
+                  step: advanced,
+                  load: 2 kg backpack,
+                  restSec: 0,
+                }
+      - title: Upper back and shoulders
+        minutesFrom: 14
+        minutesTo: 26
+        items:
+          - exercise: thoracic-foam-roll
+            prescriptions:
+              p1: { sets: 1, reps: '10 with a 3 s pause', step: base, restSec: 0 }
+              p2: { sets: 1, reps: '10 with a 3 s pause', step: base, restSec: 0 }
+              p3: { sets: 1, reps: '10 with a 3 s pause', step: working, restSec: 0 }
+              p4: { sets: 1, reps: '10 with a 3 s pause', step: working, restSec: 0 }
+          - exercise: wall-angel
+            prescriptions:
+              p1: { sets: 1, reps: '10', step: base, restSec: 30 }
+              p2: { sets: 2, reps: '10', step: base, restSec: 30 }
+              p3: { sets: 2, reps: '10', step: working, restSec: 30 }
+              p4: { sets: 2, reps: '10 with a 3 s pause', step: advanced, restSec: 30 }
+          - exercise: doorway-chest-stretch
+            prescriptions:
+              p1: { sets: 2, seconds: 20, step: base, restSec: 10 }
+              p2: { sets: 3, seconds: 30, step: working, restSec: 10 }
+              p3: { sets: 3, seconds: 30, step: working, restSec: 10 }
+              p4: { sets: 3, seconds: 30, step: advanced, restSec: 10 }
+          - exercise: chin-tuck
+            prescriptions:
+              p1: { sets: 1, reps: '10 holds of 5 seconds', step: base, restSec: 0 }
+              p2: { sets: 1, reps: '10 holds of 5 seconds', step: base, restSec: 0 }
+              p3: { sets: 1, reps: '10 holds of 5 seconds', step: working, restSec: 0 }
+              p4: { sets: 1, reps: '10 holds of 5 seconds', step: working, restSec: 0 }
+          - { text: 'Seated shoulder blade circles, 10 in each direction', minutes: 1 }
+      - title: Pelvis, hips, ankles
+        minutesFrom: 26
+        minutesTo: 38
+        items:
+          - exercise: hip-flexor-stretch
+            prescriptions:
+              p1: { sets: 2, seconds: 20, step: base, note: per side, restSec: 10 }
+              p2: { sets: 3, seconds: 30, step: working, note: per side, restSec: 10 }
+              p3: { sets: 3, seconds: 30, step: working, note: per side, restSec: 10 }
+              p4: { sets: 3, seconds: 30, step: advanced, note: per side, restSec: 10 }
+          - exercise: calf-stretch
+            prescriptions:
+              p1: { sets: 2, seconds: 20, step: base, note: each leg, restSec: 10 }
+              p2: { sets: 2, seconds: 30, step: working, note: each leg, restSec: 10 }
+              p3: { sets: 2, seconds: 30, step: working, note: each leg, restSec: 10 }
+              p4: { sets: 2, seconds: 30, step: advanced, note: each leg, restSec: 10 }
+          - exercise: clamshell
+            prescriptions:
+              p1: { sets: 1, reps: '15 per side', step: base, restSec: 30 }
+              p2: { sets: 2, reps: '15 per side', step: base, restSec: 30 }
+              p3: { sets: 2, reps: '15 per side', step: working, restSec: 30 }
+              p4: { sets: 2, reps: '15 per side', step: advanced, restSec: 30 }
+          - {
+              text: 'Seated 90/90: external and internal hip rotation, 10 slow transitions',
+              minutes: 2,
+            }
+          - {
+              text: 'Ankles: sitting, trace the alphabet in the air with your foot, once with each foot',
+              minutes: 2,
+            }
+          - exercise: cat-cow
+            prescriptions:
+              p1: { sets: 1, reps: '10 cycles', step: base, note: slowly, restSec: 0 }
+              p2: { sets: 1, reps: '10 cycles', step: base, note: slowly, restSec: 0 }
+              p3: { sets: 1, reps: '10 cycles', step: working, note: slowly, restSec: 0 }
+              p4: { sets: 1, reps: '10 cycles', step: working, note: slowly, restSec: 0 }
+      - title: Breathing
+        minutesFrom: 38
+        minutesTo: 45
+        items:
+          - exercise: diaphragm-breathing
+            prescriptions:
+              p1: { sets: 1, seconds: 300, step: base, restSec: 0 }
+              p2: { sets: 1, seconds: 300, step: base, restSec: 0 }
+              p3: { sets: 1, seconds: 300, step: working, restSec: 0 }
+              p4: { sets: 1, seconds: 300, step: working, restSec: 0 }
+          - {
+              text: 'Every 4 weeks, do the wall posture test and write the result in your log',
+              minutes: 2,
+            }
+
+  - weekday: saturday
+    kind: optional
+    title: Optional
+    durationMin: 60
+    note: 'One of two options: a 60-minute walk at a faster pace than usual, with the last 10 minutes slow, or a repeat of Tuesday without the power block.'
+    blocks: []
+
+  - weekday: sunday
+    kind: rest
+    title: Rest
+    durationMin: 0
+    note: An easy 20–30-minute walk and the Sinaki module.
+    blocks: []

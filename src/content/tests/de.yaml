@@ -1,0 +1,69 @@
+tests:
+  - id: chair-stand-30s
+    image: ../../assets/exercises/c3-fast-sit-to-stand.png
+    imageAlt: Frau steht mit einer schnellen Bewegung vom Stuhl auf, die Arme vor der Brust verschränkt
+    title: 30-Sekunden-Chair-Stand-Test
+    howTo: Stuhl an der Wand, Arme vor der Brust verschränkt, die vollständigen Aufsteh-Wiederholungen in 30 Sekunden zählen.
+    unit: Mal
+    thresholdNote: Unter der Norm für Ihr Alter
+    thresholdsByAge:
+      - { ages: 60–64 Jahre, value: unter 12 }
+      - { ages: 65–69 Jahre, value: unter 11 }
+      - { ages: 70–79 Jahre, value: unter 10 }
+      - { ages: 80–84 Jahre, value: unter 9 }
+      - { ages: 85–89 Jahre, value: unter 8 }
+      - { ages: 90 Jahre und älter, value: unter 4 }
+    meaning: Beinkraft, Sturzrisiko
+    direction: higherBetter
+  - id: tug
+    image: ../../assets/tests/tug.png
+    imageAlt: Frau geht von einem Stuhl mit Armlehnen zu einem orangefarbenen Kegel, der mit einer Linie am Boden markiert ist
+    title: Timed Up and Go
+    howTo: Vom Stuhl aufstehen, 3 Meter gehen, umdrehen, zurückgehen, hinsetzen. Mit einer Stoppuhr messen.
+    unit: s
+    thresholdNote: 12 Sekunden und länger
+    meaning: Mobilität, Sturzrisiko
+    direction: lowerBetter
+  - id: single-leg
+    image: ../../assets/exercises/c2-single-leg-stand.png
+    imageAlt: Frau steht auf einem Bein, die Hände in die Hüften gestützt, das andere Bein angehoben, daneben ein Tisch zum Abstützen
+    title: Einbeinstand
+    howTo: Hände in die Hüften gestützt, die Zeit messen, bis Sie den Boden oder die Stütze berühren, der beste von drei Versuchen zählt. Eine Stütze (Tisch oder Stuhllehne) in Armlänge.
+    unit: s
+    thresholdNote: Weniger als 10 Sekunden
+    meaning: Statisches Gleichgewicht
+    direction: higherBetter
+  - id: four-stage
+    image: ../../assets/exercises/c1-tandem-stance.png
+    imageAlt: Frau steht mit den Füßen Ferse an Zehen hintereinander, die Finger berühren leicht einen Tisch daneben
+    title: 4-Stufen-Balance-Test
+    howTo: Füße geschlossen, Semi-Tandemstand, Tandemstand, Einbeinstand, jeweils 10 Sekunden. Die Zahl der gehaltenen Stufen notieren. Eine Stütze (Tisch oder Stuhllehne) in Armlänge.
+    unit: Stufen
+    thresholdNote: Tandemstand keine 10 Sekunden gehalten
+    meaning: Fortschritt beim Gleichgewicht
+    direction: higherBetter
+  - id: two-min-step
+    image: ../../assets/tests/two-min-step.png
+    imageAlt: Frau marschiert auf der Stelle und hebt das Knie bis zu einer Markierung an der Wand, die Arme in den Ellbogen gebeugt
+    title: 2-Minuten-Step-Test
+    howTo: Die Knie bis zur Mitte des Oberschenkels heben, die Hebungen des rechten Knies in 2 Minuten zählen.
+    unit: Mal
+    thresholdNote: Unter der Norm für Ihr Alter
+    thresholdsByAge:
+      - { ages: 60–64 Jahre, value: unter 75 }
+      - { ages: 65–69 Jahre, value: unter 73 }
+      - { ages: 70–79 Jahre, value: unter 68 }
+      - { ages: 80–84 Jahre, value: unter 60 }
+      - { ages: 85–89 Jahre, value: unter 55 }
+      - { ages: 90 Jahre und älter, value: unter 44 }
+    meaning: Ausdauer
+    direction: higherBetter
+  - id: wall-posture
+    image: ../../assets/tests/wall-posture.png
+    imageAlt: Frau steht mit dem Rücken zur Wand, Hinterkopf, Schulterblätter und Gesäß berühren die Wand, die Füße stehen nebeneinander
+    title: Hinterkopf-Wand-Abstand
+    howTo: Hinterkopf, Schulterblätter, Gesäß und Fersen an der Wand. Den Abstand vom Hinterkopf zur Wand ohne Anspannung messen.
+    unit: cm
+    thresholdNote: Mehr als 5 cm oder zunehmend
+    meaning: Rundrücken im Brustbereich (Brustkyphose)
+    direction: lowerBetter

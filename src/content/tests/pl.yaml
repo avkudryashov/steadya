@@ -1,0 +1,69 @@
+tests:
+  - id: chair-stand-30s
+    image: ../../assets/exercises/c3-fast-sit-to-stand.png
+    imageAlt: Kobieta szybkim ruchem wstaje z krzesła, ręce skrzyżowane na klatce piersiowej
+    title: 30-sekundowy test wstawania z krzesła
+    howTo: Krzesło przy ścianie, ręce skrzyżowane na klatce piersiowej, liczyć pełne wstania w ciągu 30 sekund.
+    unit: razy
+    thresholdNote: Poniżej normy dla danego wieku
+    thresholdsByAge:
+      - { ages: 60–64 lata, value: mniej niż 12 }
+      - { ages: 65–69 lat, value: mniej niż 11 }
+      - { ages: 70–79 lat, value: mniej niż 10 }
+      - { ages: 80–84 lata, value: mniej niż 9 }
+      - { ages: 85–89 lat, value: mniej niż 8 }
+      - { ages: 90 lat i więcej, value: mniej niż 4 }
+    meaning: Siła nóg, ryzyko upadków
+    direction: higherBetter
+  - id: tug
+    image: ../../assets/tests/tug.png
+    imageAlt: Kobieta idzie od krzesła z podłokietnikami do pomarańczowego pachołka oznaczonego linią na podłodze
+    title: Timed Up and Go
+    howTo: Wstać z krzesła, przejść 3 metry, zawrócić, wrócić i usiąść. Zmierzyć czas stoperem.
+    unit: s
+    thresholdNote: 12 sekund lub dłużej
+    meaning: Sprawność ruchowa, ryzyko upadków
+    direction: lowerBetter
+  - id: single-leg
+    image: ../../assets/exercises/c2-single-leg-stand.png
+    imageAlt: Kobieta stoi na jednej nodze, ręce na biodrach, druga noga uniesiona, obok stół do podparcia
+    title: Stanie na jednej nodze
+    howTo: Ręce na biodrach, czas do dotknięcia podłogi lub podparcia, najlepsza z trzech prób. Podparcie (stół lub oparcie krzesła) w zasięgu wyciągniętej ręki.
+    unit: s
+    thresholdNote: Mniej niż 10 sekund
+    meaning: Równowaga statyczna
+    direction: higherBetter
+  - id: four-stage
+    image: ../../assets/exercises/c1-tandem-stance.png
+    imageAlt: Kobieta stoi ze stopami ustawionymi jedna za drugą, pięta przy palcach drugiej stopy, palcami dłoni lekko dotyka stołu obok
+    title: Czteroetapowy test równowagi
+    howTo: Stopy złączone, półtandem, tandem, jedna noga, po 10 sekund każda pozycja. Zapisać liczbę utrzymanych etapów. Podparcie (stół lub oparcie krzesła) w zasięgu wyciągniętej ręki.
+    unit: etapów
+    thresholdNote: Nie udaje się utrzymać tandemu przez 10 sekund
+    meaning: Postępy w równowadze
+    direction: higherBetter
+  - id: two-min-step
+    image: ../../assets/tests/two-min-step.png
+    imageAlt: Kobieta maszeruje w miejscu, unosząc kolano do znacznika na ścianie, ręce zgięte w łokciach
+    title: 2-minutowy test marszu w miejscu
+    howTo: Unosić kolana do połowy wysokości uda, liczyć uniesienia prawego kolana w ciągu 2 minut.
+    unit: razy
+    thresholdNote: Poniżej normy dla danego wieku
+    thresholdsByAge:
+      - { ages: 60–64 lata, value: mniej niż 75 }
+      - { ages: 65–69 lat, value: mniej niż 73 }
+      - { ages: 70–79 lat, value: mniej niż 68 }
+      - { ages: 80–84 lata, value: mniej niż 60 }
+      - { ages: 85–89 lat, value: mniej niż 55 }
+      - { ages: 90 lat i więcej, value: mniej niż 44 }
+    meaning: Wytrzymałość
+    direction: higherBetter
+  - id: wall-posture
+    image: ../../assets/tests/wall-posture.png
+    imageAlt: Kobieta stoi plecami do ściany, potylica, łopatki i pośladki dotykają ściany, stopy obok siebie
+    title: Postawa przy ścianie
+    howTo: Potylica, łopatki, pośladki i pięty przy ścianie. Zmierzyć odległość od potylicy do ściany bez napinania się.
+    unit: cm
+    thresholdNote: Więcej niż 5 cm lub odległość rośnie
+    meaning: Kifoza piersiowa
+    direction: lowerBetter

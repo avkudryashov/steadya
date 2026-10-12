@@ -1,0 +1,532 @@
+id: women-60-plus
+title: Stabilność, siła i postawa po 60
+audience: women-60-plus
+weeks: 12
+phases:
+  - id: p1
+    weeks: [1, 2]
+    label: Tygodnie 1–2
+    goal: Opanowanie techniki
+    strength: 2 serie, wysiłek 5–6, poziom podstawowy lub średni
+    balance: Tylko Otago i dynamika, bez ćwiczeń mocy
+  - id: p2
+    weeks: [3, 4]
+    label: Tygodnie 3–4
+    goal: Wejście w tryb treningowy
+    strength: 3 serie, wysiłek 6–7
+    balance: Dodać szybkie wstawanie i wejścia na stopień
+  - id: p3
+    weeks: [5, 8]
+    label: Tygodnie 5–8
+    goal: Wzrost obciążenia
+    strength: 3 serie, wysiłek 7–8, poziom średni
+    balance: Pełny blok mocy, opadanie na pięty, podskoki
+  - id: p4
+    weeks: [9, 12]
+    label: Tygodnie 9–12
+    goal: Intensyfikacja, w 12. tygodniu odciążenie i testy
+    strength: 3 serie, wysiłek 8, poziom zaawansowany tam, gdzie jest Pani gotowa
+    balance: 'Utrudnienia równowagi: zamknięte oczy, poduszka, zadania podwójne'
+deloadWeeks: [4, 8, 12]
+warmup:
+  - { text: 'Marsz w miejscu lub po pokoju, stopniowo przyspieszając', minutes: 2 }
+  - { text: 'Krążenia barków do przodu i do tyłu, po 10 razy', minutes: 1 }
+  - { text: 'Wymachy rąk na krzyż oraz w górę i w dół, 10 razy', minutes: 1 }
+  - { text: 'Półprzysiady z rękami do przodu przy podparciu, 10 razy', minutes: 1 }
+  - { text: 'Wymachy nogą do przodu i do tyłu przy podparciu, po 10 razy każdą', minutes: 1 }
+  - { text: 'Krążenia bioder, po 8 razy w każdą stronę', minutes: 1 }
+  - { text: 'Krążenia stopą, stojąc na jednej nodze przy podparciu, po 8 razy każdą', minutes: 1 }
+cooldown:
+  - { text: Powolny marsz, minutes: 2 }
+  - { text: 'Rozciąganie łydek przy ścianie, 30 sekund każda noga', minutes: 1 }
+  - {
+      text: 'Rozciąganie przedniej strony uda na stojąco przy podparciu, 30 sekund każda noga',
+      minutes: 1,
+    }
+  - { text: Oddychanie przeponowe, minutes: 1 }
+daily:
+  - text: Marsz 30 minut lub dłużej w tempie, przy którym można mówić, ale nie śpiewać. Raz w tygodniu część trasy pod górkę lub po schodach.
+    exceptWeekdays: []
+    image: ../../../assets/daily/walk.png
+    imageAlt: Kobieta w kurtce idzie żwawo parkową alejką, ręce zgięte w łokciach, wzrok przed siebie
+  - text: Moduł Sinaki 5 minut, wyprost pleców w leżeniu, 10 razy po 5 sekund. Od drugiego miesiąca z plecakiem 1–2 kg.
+    exceptWeekdays: [friday]
+    image: ../../../assets/exercises/d1-sinaki-back-extension.png
+    imageAlt: Kobieta leży na brzuchu na macie z cienką poduszką pod brzuchem, lekko unosząc klatkę piersiową i głowę
+days:
+  - weekday: monday
+    kind: strength
+    title: 'Trening siłowy A: nogi, plecy, chwyt'
+    durationMin: 60
+    blocks:
+      - title: Rozgrzewka
+        minutesFrom: 0
+        minutesTo: 8
+        items:
+          - { ref: warmup }
+      - title: Nogi i plecy
+        minutesFrom: 8
+        minutesTo: 29
+        items:
+          - exercise: chair-squat
+            prescriptions:
+              p1: { sets: 2, reps: '10', step: base, restSec: 60 }
+              p2: { sets: 3, reps: '10', step: working, restSec: 60 }
+              p3: { sets: 3, reps: '8–12', step: working, load: hantel 4–6 kg, restSec: 90 }
+              p4: { sets: 3, reps: '8–10', step: advanced, load: hantel 8–12 kg, restSec: 90 }
+          - exercise: romanian-deadlift
+            prescriptions:
+              p1: { sets: 2, reps: '10', step: base, restSec: 60 }
+              p2: { sets: 3, reps: '10', step: working, load: hantle 3–4 kg, restSec: 60 }
+              p3: { sets: 3, reps: '8–12', step: working, load: hantle 4–6 kg, restSec: 90 }
+              p4: { sets: 3, reps: '8–10', step: advanced, load: hantle 6–10 kg, restSec: 90 }
+          - exercise: dumbbell-row
+            prescriptions:
+              p1: { sets: 2, reps: '10 na stronę', step: base, load: hantel 2–3 kg, restSec: 60 }
+              p2: { sets: 3, reps: '10 na stronę', step: base, load: hantel 3–4 kg, restSec: 60 }
+              p3:
+                { sets: 3, reps: '8–12 na stronę', step: working, load: hantel 4–6 kg, restSec: 60 }
+              p4:
+                {
+                  sets: 3,
+                  reps: '8–10 na stronę',
+                  step: advanced,
+                  load: hantel 6–10 kg,
+                  restSec: 90,
+                }
+      - title: Postawa i łydki
+        minutesFrom: 29
+        minutesTo: 46
+        items:
+          - exercise: band-pull-apart
+            prescriptions:
+              p1: { sets: 2, reps: '12', step: base, restSec: 45 }
+              p2: { sets: 2, reps: '15', step: base, restSec: 45 }
+              p3: { sets: 2, reps: '12–15', step: working, restSec: 45 }
+              p4: { sets: 2, reps: '12–15', step: advanced, restSec: 45 }
+          - exercise: calf-raise
+            prescriptions:
+              p1: { sets: 2, reps: '12', step: base, restSec: 45 }
+              p2: { sets: 3, reps: '12', step: base, restSec: 45 }
+              p3: { sets: 3, reps: '12–15', step: working, restSec: 45 }
+              p4: { sets: 3, reps: '12 na nogę', step: advanced, restSec: 60 }
+          - exercise: glute-bridge
+            prescriptions:
+              p1: { sets: 2, reps: '12', step: base, restSec: 45 }
+              p2: { sets: 3, reps: '12', step: base, restSec: 45 }
+              p3: { sets: 3, reps: '10–15', step: working, restSec: 60 }
+              p4: { sets: 3, reps: '10 na nogę', step: advanced, restSec: 60 }
+      - title: Chwyt i tułów
+        minutesFrom: 46
+        minutesTo: 55
+        items:
+          - exercise: farmers-carry
+            prescriptions:
+              p1: { sets: 2, seconds: 30, step: base, load: hantle 3 kg, restSec: 60 }
+              p2: { sets: 3, seconds: 30, step: base, load: hantle 4 kg, restSec: 60 }
+              p3: { sets: 3, seconds: 40, step: working, load: hantle 5–6 kg, restSec: 60 }
+              p4: { sets: 3, seconds: 45, step: advanced, load: hantle 8–10 kg, restSec: 90 }
+          - exercise: forearm-plank
+            prescriptions:
+              p1: { sets: 2, seconds: 20, step: base, restSec: 45 }
+              p2: { sets: 3, seconds: 20, step: base, restSec: 45 }
+              p3: { sets: 3, seconds: 30, step: working, restSec: 45 }
+              p4: { sets: 3, seconds: 40, step: advanced, restSec: 45 }
+          - exercise: dead-bug
+            prescriptions:
+              p1: { sets: 2, reps: '6 na stronę', step: base, restSec: 30 }
+              p2: { sets: 2, reps: '8 na stronę', step: base, restSec: 30 }
+              p3: { sets: 2, reps: '8 na stronę', step: working, restSec: 30 }
+              p4: { sets: 2, reps: '10 na stronę', step: advanced, restSec: 30 }
+      - title: Wyciszenie
+        minutesFrom: 55
+        minutesTo: 60
+        items:
+          - { ref: cooldown }
+
+  - weekday: tuesday
+    kind: balance
+    title: Równowaga i moc
+    durationMin: 50
+    blocks:
+      - title: Rozgrzewka
+        minutesFrom: 0
+        minutesTo: 8
+        items:
+          - { ref: warmup }
+      - title: 'Blok 1. Równowaga statyczna według Otago'
+        minutesFrom: 8
+        minutesTo: 18
+        items:
+          - exercise: tandem-stance
+            prescriptions:
+              p1: { sets: 2, seconds: 10, step: base, note: przy podparciu, restSec: 15 }
+              p2: { sets: 2, seconds: 20, step: working, restSec: 15 }
+              p3: { sets: 2, seconds: 30, step: advanced, restSec: 15 }
+              p4:
+                {
+                  sets: 2,
+                  seconds: 30,
+                  step: advanced,
+                  note: oczy zamknięte lub na poduszce,
+                  restSec: 15,
+                }
+          - exercise: single-leg-stand
+            prescriptions:
+              p1: { sets: 2, seconds: 10, step: base, note: palce dłoni na podparciu, restSec: 15 }
+              p2: { sets: 2, seconds: 20, step: working, restSec: 15 }
+              p3: { sets: 2, seconds: 30, step: working, restSec: 15 }
+              p4: { sets: 2, seconds: 30, step: advanced, note: obroty głowy, restSec: 15 }
+      - title: 'Blok 2. Moc'
+        minutesFrom: 18
+        minutesTo: 30
+        items:
+          - text: Jak wykonywać blok mocy w Pani fazie
+            byPhase:
+              p1: 'Tygodnie 1–2: tylko poznawanie ruchów w spokojnym tempie, 1 seria każdego, bez uderzeń'
+              p2: 'Początek: 2 serie, szybsze tempo'
+              p3: 'Pełny blok: wszystkie ćwiczenia, opadanie na pięty'
+              p4: Pełny blok z utrudnieniami
+          - exercise: fast-sit-to-stand
+            prescriptions:
+              p1: { sets: 1, reps: '6', step: base, note: 'w spokojnym tempie', restSec: 60 }
+              p2: { sets: 2, reps: '6', step: working, restSec: 60 }
+              p3: { sets: 3, reps: '8', step: working, restSec: 60 }
+              p4: { sets: 3, reps: '8', step: advanced, restSec: 60 }
+          - exercise: step-up
+            prescriptions:
+              p1:
+                { sets: 1, reps: '6 na nogę', step: base, note: 'w spokojnym tempie', restSec: 45 }
+              p2: { sets: 2, reps: '6 na nogę, szybko', step: base, restSec: 45 }
+              p3: { sets: 3, reps: '6 na nogę, szybko', step: working, restSec: 60 }
+              p4:
+                {
+                  sets: 3,
+                  reps: '6 na nogę, szybko',
+                  step: advanced,
+                  load: stopień 15–20 cm,
+                  restSec: 60,
+                }
+          - exercise: heel-drop
+            prescriptions:
+              p1:
+                {
+                  sets: 1,
+                  reps: '10',
+                  step: base,
+                  note: 'bez uderzenia, tylko wspięcie i miękkie opuszczenie',
+                  restSec: 30,
+                }
+              p2: { sets: 2, reps: '10', step: base, restSec: 30 }
+              p3: { sets: 2, reps: '10', step: working, restSec: 30 }
+              p4:
+                {
+                  sets: 2,
+                  reps: '10',
+                  step: advanced,
+                  note: 'do tego podskoki 2 × 10, jeśli kolana nie bolą',
+                  restSec: 45,
+                }
+      - title: 'Blok 3. Dynamika, reakcja, zadania podwójne'
+        minutesFrom: 30
+        minutesTo: 44
+        items:
+          - exercise: tandem-walk
+            prescriptions:
+              p1: { sets: 2, reps: '10 kroków do przodu', step: base, restSec: 20 }
+              p2: { sets: 3, reps: '10 kroków do przodu i 10 do tyłu', step: working, restSec: 20 }
+              p3:
+                {
+                  sets: 3,
+                  reps: '10 do przodu i 10 do tyłu',
+                  step: working,
+                  note: odliczając wstecz od 100 co 3,
+                  restSec: 20,
+                }
+              p4:
+                {
+                  sets: 3,
+                  reps: '10 do przodu i 10 do tyłu',
+                  step: advanced,
+                  note: 'z kubkiem w dłoni, przekładając go z ręki do ręki',
+                  restSec: 20,
+                }
+          - { text: 'Chodzenie na palcach 10 kroków, na piętach 10 kroków, 2 rundy', minutes: 2 }
+          - {
+              text: 'Chodzenie bokiem krokiem dostawnym, po 10 kroków w każdą stronę, 2 rundy',
+              minutes: 2,
+            }
+          - { text: 'Obrót o 360 stopni krok po kroku, po 2 razy w każdą stronę', minutes: 1 }
+          - {
+              text: 'Przenoszenie ciężaru ciała do granicy: pochylić się do przodu, do tyłu i na boki, na ile da się utrzymać równowagę, wrócić. Po 8 razy.',
+              minutes: 2,
+            }
+          - exercise: reactive-step
+            prescriptions:
+              p1: { sets: 1, reps: '4 do tyłu', step: base, restSec: 20 }
+              p2: { sets: 1, reps: '6 do tyłu', step: base, restSec: 20 }
+              p3:
+                {
+                  sets: 1,
+                  reps: '6 w każdym kierunku',
+                  step: working,
+                  note: 'do tyłu, do przodu i na boki',
+                  restSec: 20,
+                }
+              p4:
+                {
+                  sets: 2,
+                  reps: '6 w każdym kierunku',
+                  step: advanced,
+                  note: 'do tyłu, do przodu i na boki',
+                  restSec: 20,
+                }
+          - { text: 'Podnoszenie przedmiotu z podłogi z przysiadu lub wykroku, 8 razy', minutes: 2 }
+      - title: Wyciszenie
+        minutesFrom: 44
+        minutesTo: 50
+        items:
+          - { ref: cooldown }
+
+  - weekday: wednesday
+    kind: walk
+    title: Marsz i plecy
+    durationMin: 45
+    note: 'Dzień bez obciążeń siłowych: tylko marsz i moduł na plecy z zadań codziennych'
+    blocks: []
+
+  - weekday: thursday
+    kind: strength
+    title: 'Trening siłowy B: nogi, barki, klatka piersiowa'
+    durationMin: 60
+    blocks:
+      - title: Rozgrzewka
+        minutesFrom: 0
+        minutesTo: 8
+        items:
+          - { ref: warmup }
+      - title: Nogi
+        minutesFrom: 8
+        minutesTo: 22
+        items:
+          - exercise: step-up
+            prescriptions:
+              p1:
+                {
+                  sets: 2,
+                  reps: '8 na nogę',
+                  step: base,
+                  load: 'stopień 10 cm, przy podparciu',
+                  restSec: 60,
+                }
+              p2: { sets: 3, reps: '8 na nogę', step: base, load: stopień 10 cm, restSec: 60 }
+              p3:
+                {
+                  sets: 3,
+                  reps: '8–10 na nogę',
+                  step: working,
+                  load: stopień 15 cm bez podparcia,
+                  restSec: 60,
+                }
+              p4:
+                {
+                  sets: 3,
+                  reps: '8 na nogę',
+                  step: advanced,
+                  load: 'stopień 15–20 cm, hantle 3–5 kg',
+                  restSec: 90,
+                }
+          - exercise: split-squat
+            prescriptions:
+              p1: { sets: 2, reps: '8 na nogę', step: base, restSec: 60 }
+              p2: { sets: 3, reps: '8 na nogę', step: base, restSec: 60 }
+              p3: { sets: 3, reps: '8–10 na nogę', step: working, restSec: 60 }
+              p4: { sets: 3, reps: '8 na nogę', step: advanced, load: hantle 3–6 kg, restSec: 90 }
+      - title: Barki i klatka piersiowa
+        minutesFrom: 22
+        minutesTo: 41
+        items:
+          - exercise: overhead-press
+            prescriptions:
+              p1: { sets: 2, reps: '10', step: base, load: 'hantle 2 kg, na siedząco', restSec: 60 }
+              p2: { sets: 3, reps: '10', step: base, load: 'hantle 3 kg, na siedząco', restSec: 60 }
+              p3:
+                {
+                  sets: 3,
+                  reps: '8–12',
+                  step: working,
+                  load: 'hantle 3–5 kg, na stojąco',
+                  restSec: 60,
+                }
+              p4:
+                {
+                  sets: 3,
+                  reps: '8–10',
+                  step: advanced,
+                  load: 'hantle 5–8 kg, na stojąco',
+                  restSec: 90,
+                }
+          - exercise: wall-pushup
+            prescriptions:
+              p1: { sets: 2, reps: '10', step: base, restSec: 60 }
+              p2: { sets: 3, reps: '10', step: base, note: przy ścianie lub o stół, restSec: 60 }
+              p3: { sets: 3, reps: '8–12', step: working, restSec: 60 }
+              p4: { sets: 3, reps: '8–10', step: advanced, restSec: 60 }
+          - exercise: overhead-band-pull-apart
+            prescriptions:
+              p1: { sets: 2, reps: '12', step: base, restSec: 45 }
+              p2: { sets: 3, reps: '10', step: base, restSec: 45 }
+              p3: { sets: 3, reps: '10–12', step: working, restSec: 45 }
+              p4: { sets: 3, reps: '10 z pauzą', step: advanced, restSec: 45 }
+      - title: Biodra i postawa
+        minutesFrom: 41
+        minutesTo: 50
+        items:
+          - exercise: band-side-steps
+            prescriptions:
+              p1: { sets: 2, reps: '12 w leżeniu na boku', step: base, restSec: 30 }
+              p2: { sets: 2, reps: '15 w leżeniu na boku', step: base, restSec: 30 }
+              p3: { sets: 2, reps: '12–15', step: working, note: 'na stojąco z taśmą', restSec: 30 }
+              p4:
+                { sets: 2, reps: '15 kroków', step: advanced, note: 'w każdą stronę', restSec: 30 }
+          - exercise: prone-y-raise
+            prescriptions:
+              p1: { sets: 2, reps: '10', step: base, restSec: 30 }
+              p2: { sets: 2, reps: '12', step: base, restSec: 30 }
+              p3: { sets: 2, reps: '12–15 z pauzą', step: working, restSec: 30 }
+              p4: { sets: 2, reps: '12', step: advanced, load: 'butelki 0,5 l', restSec: 30 }
+      - title: Tułów
+        minutesFrom: 50
+        minutesTo: 55
+        items:
+          - exercise: side-plank-knee
+            prescriptions:
+              p1: { sets: 2, seconds: 15, step: base, note: na stronę, restSec: 30 }
+              p2: { sets: 3, seconds: 15, step: base, note: na stronę, restSec: 30 }
+              p3: { sets: 3, seconds: 25, step: working, note: na stronę, restSec: 30 }
+              p4: { sets: 3, seconds: 30, step: advanced, note: na stronę, restSec: 30 }
+          - exercise: bird-dog
+            prescriptions:
+              p1: { sets: 2, reps: '6 na stronę', step: base, restSec: 30 }
+              p2: { sets: 2, reps: '8 na stronę', step: base, restSec: 30 }
+              p3: { sets: 2, reps: '8 na stronę', step: working, restSec: 30 }
+              p4: { sets: 2, reps: '10 na stronę', step: advanced, restSec: 30 }
+      - title: Wyciszenie
+        minutesFrom: 55
+        minutesTo: 60
+        items:
+          - { ref: cooldown }
+
+  - weekday: friday
+    kind: posture
+    title: Postawa i ruchomość
+    durationMin: 45
+    blocks:
+      - title: Rozgrzewka
+        minutesFrom: 0
+        minutesTo: 8
+        items:
+          - { ref: warmup }
+      - title: Plecy
+        minutesFrom: 8
+        minutesTo: 14
+        items:
+          - exercise: sinaki-back-extension
+            prescriptions:
+              p1: { sets: 1, reps: '10 po 5 sekund', step: base, restSec: 0 }
+              p2: { sets: 1, reps: '10 po 5 sekund', step: base, restSec: 0 }
+              p3: { sets: 1, reps: '10 po 5 sekund', step: working, load: plecak 1 kg, restSec: 0 }
+              p4: { sets: 1, reps: '10 po 5 sekund', step: advanced, load: plecak 2 kg, restSec: 0 }
+      - title: Odcinek piersiowy i barki
+        minutesFrom: 14
+        minutesTo: 26
+        items:
+          - exercise: thoracic-foam-roll
+            prescriptions:
+              p1: { sets: 1, reps: '10 z pauzą 3 s', step: base, restSec: 0 }
+              p2: { sets: 1, reps: '10 z pauzą 3 s', step: base, restSec: 0 }
+              p3: { sets: 1, reps: '10 z pauzą 3 s', step: working, restSec: 0 }
+              p4: { sets: 1, reps: '10 z pauzą 3 s', step: working, restSec: 0 }
+          - exercise: wall-angel
+            prescriptions:
+              p1: { sets: 1, reps: '10', step: base, restSec: 30 }
+              p2: { sets: 2, reps: '10', step: base, restSec: 30 }
+              p3: { sets: 2, reps: '10', step: working, restSec: 30 }
+              p4: { sets: 2, reps: '10 z pauzą 3 s', step: advanced, restSec: 30 }
+          - exercise: doorway-chest-stretch
+            prescriptions:
+              p1: { sets: 2, seconds: 20, step: base, restSec: 10 }
+              p2: { sets: 3, seconds: 30, step: working, restSec: 10 }
+              p3: { sets: 3, seconds: 30, step: working, restSec: 10 }
+              p4: { sets: 3, seconds: 30, step: advanced, restSec: 10 }
+          - exercise: chin-tuck
+            prescriptions:
+              p1: { sets: 1, reps: '10 po 5 sekund', step: base, restSec: 0 }
+              p2: { sets: 1, reps: '10 po 5 sekund', step: base, restSec: 0 }
+              p3: { sets: 1, reps: '10 po 5 sekund', step: working, restSec: 0 }
+              p4: { sets: 1, reps: '10 po 5 sekund', step: working, restSec: 0 }
+          - { text: 'Krążenia łopatek na siedząco, po 10 w każdą stronę', minutes: 1 }
+      - title: Miednica, biodra, stawy skokowe
+        minutesFrom: 26
+        minutesTo: 38
+        items:
+          - exercise: hip-flexor-stretch
+            prescriptions:
+              p1: { sets: 2, seconds: 20, step: base, note: na stronę, restSec: 10 }
+              p2: { sets: 3, seconds: 30, step: working, note: na stronę, restSec: 10 }
+              p3: { sets: 3, seconds: 30, step: working, note: na stronę, restSec: 10 }
+              p4: { sets: 3, seconds: 30, step: advanced, note: na stronę, restSec: 10 }
+          - exercise: calf-stretch
+            prescriptions:
+              p1: { sets: 2, seconds: 20, step: base, note: każda noga, restSec: 10 }
+              p2: { sets: 2, seconds: 30, step: working, note: każda noga, restSec: 10 }
+              p3: { sets: 2, seconds: 30, step: working, note: każda noga, restSec: 10 }
+              p4: { sets: 2, seconds: 30, step: advanced, note: każda noga, restSec: 10 }
+          - exercise: clamshell
+            prescriptions:
+              p1: { sets: 1, reps: '15 na stronę', step: base, restSec: 30 }
+              p2: { sets: 2, reps: '15 na stronę', step: base, restSec: 30 }
+              p3: { sets: 2, reps: '15 na stronę', step: working, restSec: 30 }
+              p4: { sets: 2, reps: '15 na stronę', step: advanced, restSec: 30 }
+          - {
+              text: 'Siad 90/90: rotacja zewnętrzna i wewnętrzna biodra, 10 powolnych przejść',
+              minutes: 2,
+            }
+          - {
+              text: 'Stawy skokowe: na siedząco narysować stopą w powietrzu alfabet, po 1 razie każdą stopą',
+              minutes: 2,
+            }
+          - exercise: cat-cow
+            prescriptions:
+              p1: { sets: 1, reps: '10 cykli', step: base, note: powoli, restSec: 0 }
+              p2: { sets: 1, reps: '10 cykli', step: base, note: powoli, restSec: 0 }
+              p3: { sets: 1, reps: '10 cykli', step: working, note: powoli, restSec: 0 }
+              p4: { sets: 1, reps: '10 cykli', step: working, note: powoli, restSec: 0 }
+      - title: Oddychanie
+        minutesFrom: 38
+        minutesTo: 45
+        items:
+          - exercise: diaphragm-breathing
+            prescriptions:
+              p1: { sets: 1, seconds: 300, step: base, restSec: 0 }
+              p2: { sets: 1, seconds: 300, step: base, restSec: 0 }
+              p3: { sets: 1, seconds: 300, step: working, restSec: 0 }
+              p4: { sets: 1, seconds: 300, step: working, restSec: 0 }
+          - {
+              text: 'Raz na 4 tygodnie test „postawa przy ścianie”, zapisać w dzienniczku',
+              minutes: 2,
+            }
+
+  - weekday: saturday
+    kind: optional
+    title: Dla chętnych
+    durationMin: 60
+    note: 'Jedna z dwóch opcji: spacer 60 minut w tempie szybszym niż zwykle, ostatnie 10 minut powoli, albo powtórka wtorku bez bloku mocy.'
+    blocks: []
+
+  - weekday: sunday
+    kind: rest
+    title: Odpoczynek
+    durationMin: 0
+    note: Lekki spacer 20–30 minut i moduł Sinaki.
+    blocks: []

@@ -1,0 +1,69 @@
+tests:
+  - id: chair-stand-30s
+    image: ../../assets/exercises/c3-fast-sit-to-stand.png
+    imageAlt: A woman stands up from a chair in a quick movement, arms crossed over her chest
+    title: 30-Second Chair Stand Test
+    howTo: Chair against a wall, arms crossed over your chest; count the full stands you complete in 30 seconds.
+    unit: stands
+    thresholdNote: Below the norm for your age
+    thresholdsByAge:
+      - { ages: 60–64 years, value: fewer than 12 }
+      - { ages: 65–69 years, value: fewer than 11 }
+      - { ages: 70–79 years, value: fewer than 10 }
+      - { ages: 80–84 years, value: fewer than 9 }
+      - { ages: 85–89 years, value: fewer than 8 }
+      - { ages: 90 years and over, value: fewer than 4 }
+    meaning: Leg strength, fall risk
+    direction: higherBetter
+  - id: tug
+    image: ../../assets/tests/tug.png
+    imageAlt: A woman walks from a chair with armrests toward an orange cone marked by a line on the floor
+    title: Timed Up and Go
+    howTo: Stand up from a chair, walk 3 meters, turn around, walk back and sit down. Time it with a stopwatch.
+    unit: s
+    thresholdNote: 12 seconds or longer
+    meaning: Mobility, fall risk
+    direction: lowerBetter
+  - id: single-leg
+    image: ../../assets/exercises/c2-single-leg-stand.png
+    imageAlt: A woman stands on one leg with her hands on her hips, the other leg raised, a table beside her for support
+    title: Single-Leg Stance Test
+    howTo: Hands on hips; time until your foot touches the floor or you reach for the support; take the best of three tries. Keep a support (a table or the back of a chair) within arm's reach.
+    unit: s
+    thresholdNote: Less than 10 seconds
+    meaning: Static balance
+    direction: higherBetter
+  - id: four-stage
+    image: ../../assets/exercises/c1-tandem-stance.png
+    imageAlt: A woman stands with her feet heel to toe, fingers lightly touching a table beside her
+    title: 4-Stage Balance Test
+    howTo: Feet together, semi-tandem, tandem, one leg, 10 seconds each. Write down how many stages you held. Keep a support (a table or the back of a chair) within arm's reach.
+    unit: stages
+    thresholdNote: Cannot hold the tandem stance for 10 seconds
+    meaning: Balance progress
+    direction: higherBetter
+  - id: two-min-step
+    image: ../../assets/tests/two-min-step.png
+    imageAlt: A woman steps in place, raising her knee to a mark on the wall, elbows bent
+    title: 2-Minute Step Test
+    howTo: Raise each knee to mid-thigh height; count how many times the right knee comes up in 2 minutes.
+    unit: steps
+    thresholdNote: Below the norm for your age
+    thresholdsByAge:
+      - { ages: 60–64 years, value: fewer than 75 }
+      - { ages: 65–69 years, value: fewer than 73 }
+      - { ages: 70–79 years, value: fewer than 68 }
+      - { ages: 80–84 years, value: fewer than 60 }
+      - { ages: 85–89 years, value: fewer than 55 }
+      - { ages: 90 years and over, value: fewer than 44 }
+    meaning: Endurance
+    direction: higherBetter
+  - id: wall-posture
+    image: ../../assets/tests/wall-posture.png
+    imageAlt: A woman stands with her back to a wall, the back of her head, shoulder blades and buttocks touching the wall, feet close to it
+    title: Wall posture test (occiput-to-wall distance)
+    howTo: Back of the head, shoulder blades, buttocks and heels against the wall. Measure the distance from the back of your head to the wall without straining.
+    unit: cm
+    thresholdNote: More than 5 cm, or increasing
+    meaning: Thoracic kyphosis
+    direction: lowerBetter
