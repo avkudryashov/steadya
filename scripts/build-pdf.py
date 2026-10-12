@@ -15,27 +15,30 @@ import sys
 
 from dist_server import DIST, serve_dist
 
-PDF_DIR = DIST / "ru" / "pdf"
-
-# маршрут, имя файла, ожидаемое число страниц (None: число не фиксировано,
-# лист с картинками может занять больше одной страницы).
+# маршрут без языка, имя файла, ожидаемое число страниц (None: число не
+# фиксировано, лист с картинками может занять больше одной страницы).
 # Печатаются настоящие страницы дня и тестов (не отдельные print-листы: с
 # S4 печатный вид это то же самое, что на экране, через `@media print`).
 ROUTES = [
-    ("/ru/day/monday/", "day-monday.pdf", None),
-    ("/ru/day/tuesday/", "day-tuesday.pdf", None),
-    ("/ru/day/wednesday/", "day-wednesday.pdf", None),
-    ("/ru/day/thursday/", "day-thursday.pdf", None),
-    ("/ru/day/friday/", "day-friday.pdf", None),
-    ("/ru/day/saturday/", "day-saturday.pdf", None),
-    ("/ru/day/sunday/", "day-sunday.pdf", None),
-    ("/ru/tests/", "tests.pdf", None),
-    ("/ru/print/diary/", "diary.pdf", 1),
+    ("day/monday/", "day-monday.pdf", None),
+    ("day/tuesday/", "day-tuesday.pdf", None),
+    ("day/wednesday/", "day-wednesday.pdf", None),
+    ("day/thursday/", "day-thursday.pdf", None),
+    ("day/friday/", "day-friday.pdf", None),
+    ("day/saturday/", "day-saturday.pdf", None),
+    ("day/sunday/", "day-sunday.pdf", None),
+    ("tests/", "tests.pdf", None),
+    ("print/diary/", "diary.pdf", 1),
 ]
 
 # сводный файл: маршрут и имя, число страниц не фиксируем константой, а
 # сверяем с суммой страниц отдельных файлов выше (см. main()).
-ALL_ROUTE = ("/ru/print/all/", "program.pdf")
+ALL_ROUTE = ("print/all/", "program.pdf")
+
+
+def built_langs() -> list[str]:
+    """Языки, которые попали в сборку: у каждого есть свои страницы дней."""
+    return sorted(d.name for d in DIST.iterdir() if (d / "day").is_dir())
 
 
 def count_pages(data: bytes) -> int:
@@ -61,7 +64,6 @@ def main() -> int:
         )
         return 1
 
-    PDF_DIR.mkdir(parents=True, exist_ok=True)
     rows: list[tuple[str, int, float]] = []
     problems: list[str] = []
 
@@ -73,9 +75,11 @@ def main() -> int:
             return 1
         page = browser.new_page()
 
-        def render(route: str, filename: str) -> int:
-            out = PDF_DIR / filename
-            page.goto(base + route, wait_until="networkidle")
+        def render(lang: str, route: str, filename: str) -> int:
+            pdf_dir = DIST / lang / "pdf"
+            pdf_dir.mkdir(parents=True, exist_ok=True)
+            out = pdf_dir / filename
+            page.goto(f"{base}/{lang}/{route}", wait_until="networkidle")
             # `loading="lazy"` бережёт трафик в браузере, но
             # headless-печать не проходит через настоящий скролл, так
             # что картинки ниже первого экрана без этого никогда не
@@ -102,31 +106,34 @@ def main() -> int:
             data = out.read_bytes()
             pages = count_pages(data)
             size_kb = len(data) / 1024
-            rows.append((filename, pages, size_kb))
+            rows.append((f"{lang}/{filename}", pages, size_kb))
             return pages
 
-        pages_by_file: dict[str, int] = {}
-        for route, filename, expected_pages in ROUTES:
-            pages = render(route, filename)
-            pages_by_file[filename] = pages
-            if expected_pages is not None and pages != expected_pages:
-                problems.append(
-                    f"{filename}: ожидалось страниц {expected_pages}, получено {pages}"
-                )
+        for lang in built_langs():
+            pages_by_file: dict[str, int] = {}
+            for route, filename, expected_pages in ROUTES:
+                pages = render(lang, route, filename)
+                pages_by_file[filename] = pages
+                if expected_pages is not None and pages != expected_pages:
+                    problems.append(
+                        f"{lang}/{filename}: ожидалось страниц {expected_pages}, "
+                        f"получено {pages}"
+                    )
 
-        all_route, all_filename = ALL_ROUTE
-        all_pages = render(all_route, all_filename)
-        individual_sum = sum(pages_by_file.values())
-        if abs(all_pages - individual_sum) > len(ROUTES):
-            problems.append(
-                f"{all_filename}: сумма страниц отдельных файлов {individual_sum}, "
-                f"а в сводном файле {all_pages}, разница больше страницы на раздел"
-            )
+            all_route, all_filename = ALL_ROUTE
+            all_pages = render(lang, all_route, all_filename)
+            individual_sum = sum(pages_by_file.values())
+            if abs(all_pages - individual_sum) > len(ROUTES):
+                problems.append(
+                    f"{lang}/{all_filename}: сумма страниц отдельных файлов "
+                    f"{individual_sum}, а в сводном файле {all_pages}, "
+                    "разница больше страницы на раздел"
+                )
         browser.close()
 
-    print(f"{'файл':<18}{'страниц':>10}{'кб':>10}")
+    print(f"{'файл':<21}{'страниц':>10}{'кб':>10}")
     for filename, pages, size_kb in rows:
-        print(f"{filename:<18}{pages:>10}{size_kb:>9.1f}")
+        print(f"{filename:<21}{pages:>10}{size_kb:>9.1f}")
 
     if problems:
         print()
@@ -134,7 +141,7 @@ def main() -> int:
             print(f"ошибка: {problem}", file=sys.stderr)
         return 1
 
-    print(f"\nPDF готовы: {len(rows)} файлов в {PDF_DIR}")
+    print(f"\nPDF готовы: {len(rows)} файлов в {DIST}/<язык>/pdf")
     return 0
 
 

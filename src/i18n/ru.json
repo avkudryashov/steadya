@@ -122,5 +122,6 @@
   "print.pdf_diary": "Скачать дневник недели (PDF)",
   "print.pdf_all": "Скачать всю программу (PDF)",
   "tests.norms_source": "Пороги по возрасту для вставаний со стула и шага на месте взяты из норм Senior Fitness Test для женщин.",
-  "tests.norms_link": "Rikli и Jones, 2013"
+  "tests.norms_link": "Rikli и Jones, 2013",
+  "nav.language": "Язык"
 }

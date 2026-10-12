@@ -1,11 +1,22 @@
 ---
-import type { Lang } from '@/i18n/locales';
+import { BUILT_LOCALES, LOCALE_NAMES, type Lang } from '@/i18n/locales';
 import { t } from '@/i18n/t';
 import { localeUrl } from '@/lib/urls';
 interface Props {
   lang: Lang;
 }
 const { lang } = Astro.props;
+
+// Та же страница на другом языке: меняется только первый сегмент после base.
+const base = import.meta.env.BASE_URL.endsWith('/')
+  ? import.meta.env.BASE_URL
+  : `${import.meta.env.BASE_URL}/`;
+const rest = Astro.url.pathname.slice(base.length).split('/').slice(1).join('/');
+const others = BUILT_LOCALES.filter((l) => l !== lang).map((l) => ({
+  lang: l,
+  name: LOCALE_NAMES[l],
+  href: `${base}${l}/${rest}`,
+}));
 ---
 
 <header class="site-header">
@@ -14,8 +25,35 @@ const { lang } = Astro.props;
       {t(lang, 'site.name')}
     </a>
     <p class="tagline">{t(lang, 'site.tagline')}</p>
+    {others.length > 0 && (
+      <details class="lang">
+        <summary aria-label={t(lang, 'nav.language')}>{LOCALE_NAMES[lang]}</summary>
+        <ul>
+          {others.map((o) => (
+            <li>
+              <a href={o.href} hreflang={o.lang} lang={o.lang} data-lang={o.lang}>
+                {o.name}
+              </a>
+            </li>
+          ))}
+        </ul>
+      </details>
+    )}
   </div>
 </header>
+
+<script is:inline>
+  // Выбор запоминается, чтобы корень сайта больше не подставлял язык системы.
+  document.querySelectorAll('.lang a[data-lang]').forEach((a) => {
+    a.addEventListener('click', () => {
+      try {
+        localStorage.setItem('steadya.lang', a.dataset.lang);
+      } catch {
+        /* приватный режим: выбор просто не запомнится */
+      }
+    });
+  });
+</script>
 
 <style>
   .site-header {
@@ -35,6 +73,37 @@ const { lang } = Astro.props;
     font-size: var(--fs-1);
     font-weight: 600;
     text-decoration: none;
+    color: var(--ink);
+  }
+  .lang {
+    margin-inline-start: auto;
+    position: relative;
+    font-size: var(--fs-small);
+  }
+  .lang summary {
+    cursor: pointer;
+    min-height: var(--tap);
+    display: flex;
+    align-items: center;
+    color: var(--ink);
+  }
+  .lang ul {
+    position: absolute;
+    inset-inline-end: 0;
+    z-index: 10;
+    margin: 0;
+    padding: var(--space-2) 0;
+    list-style: none;
+    background: var(--surface);
+    border: 1px solid var(--muted);
+    border-radius: 6px;
+    min-width: 12rem;
+  }
+  .lang a {
+    display: flex;
+    align-items: center;
+    min-height: var(--tap);
+    padding-inline: var(--space-4);
     color: var(--ink);
   }
   .tagline {

@@ -12,7 +12,7 @@ export default defineConfig({
   trailingSlash: 'always',
   integrations: [sitemap()],
   i18n: {
-    locales: ['ru', 'en', 'es'],
+    locales: ['ru', 'en', 'es', 'fr', 'it', 'de', 'pl', 'pt', 'uk'],
     defaultLocale: 'ru',
     routing: {
       prefixDefaultLocale: true,

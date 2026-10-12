@@ -1,6 +1,20 @@
-export const LOCALES = ['ru', 'en', 'es'] as const;
+export const LOCALES = ['ru', 'en', 'es', 'fr', 'it', 'de', 'pl', 'pt', 'uk'] as const;
 export type Lang = (typeof LOCALES)[number];
 export const DEFAULT_LOCALE: Lang = 'ru';
+
+// Название языка на нём самом: человек ищет в переключателе свой язык,
+// а не его перевод на текущий.
+export const LOCALE_NAMES: Record<Lang, string> = {
+  ru: 'Русский',
+  en: 'English',
+  es: 'Español',
+  fr: 'Français',
+  it: 'Italiano',
+  de: 'Deutsch',
+  pl: 'Polski',
+  pt: 'Português',
+  uk: 'Українська',
+};
 
 export function isLang(x: string): x is Lang {
   return (LOCALES as readonly string[]).includes(x);

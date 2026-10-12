@@ -14,7 +14,8 @@ describe('locales', () => {
   });
   it('isLang', () => {
     expect(isLang('ru')).toBe(true);
-    expect(isLang('de')).toBe(false);
+    expect(isLang('de')).toBe(true);
+    expect(isLang('xx')).toBe(false);
   });
 });
 
