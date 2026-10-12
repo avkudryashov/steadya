@@ -258,7 +258,7 @@ days:
               text: 'Ходьба боком приставным шагом, по 10 шагов в каждую сторону, 2 круга',
               minutes: 2,
             }
-          - { text: Поворот на 360 градусов шагами, по 2 раза в каждую сторону, minutes: 1 }
+          - { text: 'Поворот на 360 градусов шагами, по 2 раза в каждую сторону', minutes: 1 }
           - {
               text: 'Перенос веса до края: наклониться вперёд, назад, в стороны, насколько удержишь, вернуться. По 8 раз.',
               minutes: 2,
@@ -384,7 +384,7 @@ days:
               p1: { sets: 2, reps: '10', step: base, restSec: 30 }
               p2: { sets: 2, reps: '12', step: base, restSec: 30 }
               p3: { sets: 2, reps: '12–15 с паузой', step: working, restSec: 30 }
-              p4: { sets: 2, reps: '12', step: advanced, load: 'бутылки 0, 5 л', restSec: 30 }
+              p4: { sets: 2, reps: '12', step: advanced, load: 'бутылки 0,5 л', restSec: 30 }
       - title: Корпус
         minutesFrom: 50
         minutesTo: 55
