@@ -17,7 +17,7 @@
 
 - `SITE_URL` (по умолчанию `https://steadya.app`)
 - `BASE_PATH` (по умолчанию `/`)
-- `PUBLIC_LOCALES` (по умолчанию `ru`)
+- `PUBLIC_LOCALES` (по умолчанию `ru`; в CI собираются все: `en,es,fr,it,de,pl,pt,uk`)
 
 ## Публикация
 

@@ -19,28 +19,39 @@ from playwright.sync_api import sync_playwright
 
 from dist_server import DIST, serve_dist
 
+# маршруты без языка: проверяются на каждом собранном языке, длинные слова
+# в немецком или польском ломают вёрстку там, где русский помещается.
 ROUTES = [
-    "/ru/",
-    "/ru/day/monday/",
-    "/ru/day/tuesday/",
-    "/ru/day/wednesday/",
-    "/ru/day/thursday/",
-    "/ru/day/friday/",
-    "/ru/day/saturday/",
-    "/ru/day/sunday/",
-    "/ru/exercises/",
-    "/ru/exercise/chair-squat/",
-    "/ru/exercise/step-up/",
-    "/ru/program/",
-    "/ru/tests/",
-    "/ru/more/",
-    "/ru/safety/",
-    "/ru/nutrition/",
-    "/ru/equipment/",
-    "/ru/about/",
-    "/ru/print/diary/",
-    "/ru/print/all/",
+    "",
+    "day/monday/",
+    "day/tuesday/",
+    "day/wednesday/",
+    "day/thursday/",
+    "day/friday/",
+    "day/saturday/",
+    "day/sunday/",
+    "exercises/",
+    "exercise/chair-squat/",
+    "exercise/step-up/",
+    "program/",
+    "tests/",
+    "more/",
+    "safety/",
+    "nutrition/",
+    "equipment/",
+    "about/",
+    "print/diary/",
+    "print/all/",
 ]
+
+
+
+def built_langs() -> list[str]:
+    """Языки в собранном dist; для dev-сервера только русский."""
+    if not DIST.is_dir():
+        return ["ru"]
+    return sorted(d.name for d in DIST.iterdir() if (d / "day").is_dir())
+
 
 WIDTHS = [320, 390, 768, 1024, 1440, 2400]
 
@@ -82,11 +93,12 @@ def main() -> int:
 
 def check(base: str) -> int:
     problems = 0
+    routes = [f"/{lang}/{route}" for lang in built_langs() for route in ROUTES]
     with sync_playwright() as p:
         browser = p.chromium.launch()
         for width in WIDTHS:
             page = browser.new_page(viewport={"width": width, "height": 900})
-            for route in ROUTES:
+            for route in routes:
                 page.goto(base + route, wait_until="networkidle")
                 result = page.evaluate(PROBE)
                 if result["docScroll"] > result["viewport"] + 1:
@@ -106,7 +118,7 @@ def check(base: str) -> int:
     if problems:
         print(f"\nНайдено проблем: {problems}")
         return 1
-    print(f"Прокрутки нет: {len(ROUTES)} маршрутов × {len(WIDTHS)} ширин, всё чисто")
+    print(f"Прокрутки нет: {len(routes)} маршрутов × {len(WIDTHS)} ширин, всё чисто")
     return 0
 
 

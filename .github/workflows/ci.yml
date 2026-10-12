@@ -18,6 +18,7 @@ env:
   # остаётся только SITE_URL, а BASE_PATH становится "/".
   SITE_URL: https://avkudryashov.github.io
   BASE_PATH: /steadya/
+  PUBLIC_LOCALES: en,es,fr,it,de,pl,pt,uk
 
 jobs:
   verify:

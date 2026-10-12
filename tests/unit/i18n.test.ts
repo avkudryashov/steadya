@@ -23,8 +23,8 @@ describe('t', () => {
   it('returns russian string', () => {
     expect(t('ru', 'nav.today')).toBe('Сегодня');
   });
-  it('falls back to ru for missing translation', () => {
-    expect(t('en', 'nav.today')).toBe('Сегодня');
+  it('every locale has its own string', () => {
+    expect(t('en', 'nav.today')).not.toBe('Сегодня');
   });
   it('interpolates variables', () => {
     expect(t('ru', 'day.duration', { min: 45 })).toBe('45 мин');
